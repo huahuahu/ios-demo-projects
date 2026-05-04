@@ -19,6 +19,8 @@ Use this layout unless the demo has a strong reason to differ:
 demo-name/
   README.md
   project.yml
+  .xcodebuildmcp/
+    config.yaml
   DemoName/
   DemoNameTests/
   scripts/
@@ -38,8 +40,9 @@ Use XcodeGen for new scaffolded projects. Generate and keep `.xcodeproj` when th
 6. Add focused tests when the demo has logic or behavior worth verifying.
 7. Add `docs/`, `scripts/`, `samples/`, or `prompts/` only when they support the demo's purpose.
 8. Run `xcodegen generate` from the demo directory.
-9. Use XcodeBuildMCP where available to discover schemes, build, test, run, launch, capture logs, or inspect simulator state.
-10. Fall back to direct `xcodebuild` and `xcrun simctl` commands when MCP tools are unavailable.
+9. Add `.xcodebuildmcp/config.yaml` with project, scheme, simulator, and workflow defaults.
+10. Use XcodeBuildMCP where available to discover schemes, build, test, run, launch, capture logs, or inspect simulator state.
+11. Fall back to direct `xcodebuild` and `xcrun simctl` commands when MCP tools are unavailable.
 
 ## XcodeGen Pattern
 
@@ -99,6 +102,28 @@ Prefer XcodeBuildMCP for:
 
 Use direct `xcodebuild`, `xcrun simctl`, `log show`, and `log stream` as reproducible fallback commands or raw evidence sources.
 
+## XcodeBuildMCP Config
+
+After generating the Xcode project, write `.xcodebuildmcp/config.yaml` inside the demo directory. Use the generated project and scheme names, and choose an available simulator from XcodeBuildMCP simulator discovery.
+
+```yaml
+schemaVersion: 1
+enabledWorkflows:
+  - simulator
+  - debugging
+  - logging
+  - ui-automation
+  - utilities
+debug: true
+sentryDisabled: false
+sessionDefaults:
+  projectPath: DemoName.xcodeproj
+  scheme: DemoName
+  simulatorName: iPhone 17 Pro Max
+```
+
+Include `simulatorId` when a stable device ID has been selected for the local machine. Otherwise prefer `simulatorName` so the demo remains easier to reuse on another machine.
+
 ## Blog-Friendly README
 
 Every demo README should answer:
@@ -121,7 +146,7 @@ cd demo-name
 xcodegen generate
 xcodebuildmcp project-discovery discover-projects
 xcodebuildmcp project-discovery list-schemes --project-path DemoName.xcodeproj
-xcodebuildmcp simulator test --project-path DemoName.xcodeproj --scheme DemoName
+xcodebuildmcp simulator test
 ```
 
 If XcodeBuildMCP is unavailable, fall back to `xcodebuild` with an explicit destination such as `platform=iOS Simulator,name=iPhone 16 Pro,OS=latest`. If validation fails, inspect the logs and report the specific blocker.
