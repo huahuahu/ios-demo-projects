@@ -1,0 +1,4 @@
+interface:
+  display_name: "XcodeBuildMCP Log Research"
+  short_description: "Create and extend this repo's XcodeBuildMCP log research demos"
+  default_prompt: "Create an XcodeBuildMCP log research demo"

@@ -1,0 +1,15 @@
+schemaVersion: 1
+enabledWorkflows:
+  - simulator
+  - debugging
+  - logging
+  - ui-automation
+  - utilities
+  - xcode-ide
+debug: true
+sentryDisabled: false
+sessionDefaults:
+  projectPath: LogResearchDemo.xcodeproj
+  scheme: LogResearchDemo
+  simulatorId: F8AFBC61-0935-4C51-826E-E03D6DCD3D71
+  simulatorName: iPhone 17 Pro Max
