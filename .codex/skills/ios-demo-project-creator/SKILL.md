@@ -50,10 +50,10 @@ name: DemoName
 options:
   bundleIdPrefix: com.tigerguo.demo
   deploymentTarget:
-    iOS: "17.0"
+    iOS: "26.0"
 settings:
   base:
-    SWIFT_VERSION: "5.0"
+    SWIFT_VERSION: "6.0"
 targets:
   DemoName:
     type: application
@@ -112,25 +112,6 @@ Every demo README should answer:
 
 Keep README concise. Put deeper notes in `docs/`.
 
-## Optional Log Research Pattern
-
-For demos that research AI/Xcode logs, add:
-
-```text
-scripts/collect_logs.sh
-docs/log-sources.md
-prompts/analyze-xcode-logs.md
-samples/sample-log-notes.md
-```
-
-The collection script should create `artifacts/logs/<timestamp>/`; write raw build/test output, simulator inventory, `.xcresult` summaries, and a short `summary.md`; and use a destination that disambiguates duplicate simulator names:
-
-```bash
-DESTINATION='platform=iOS Simulator,name=iPhone 16 Pro,OS=latest'
-```
-
-Ignore generated artifacts in `.gitignore`.
-
 ## Validation
 
 After creating or changing a demo:
@@ -138,8 +119,9 @@ After creating or changing a demo:
 ```bash
 cd demo-name
 xcodegen generate
-xcodebuild -project DemoName.xcodeproj -scheme DemoName -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=latest' test
+xcodebuildmcp project-discovery discover-projects
+xcodebuildmcp project-discovery list-schemes --project-path DemoName.xcodeproj
+xcodebuildmcp simulator test --project-path DemoName.xcodeproj --scheme DemoName
 ```
 
-If validation fails, inspect the logs and report the specific blocker. Exit code `70` often means the simulator destination is ambiguous or unavailable.
-
+If XcodeBuildMCP is unavailable, fall back to `xcodebuild` with an explicit destination such as `platform=iOS Simulator,name=iPhone 16 Pro,OS=latest`. If validation fails, inspect the logs and report the specific blocker.
