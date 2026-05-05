@@ -1,0 +1,16 @@
+title: iOS Blog
+description: iOS 相关文章列表，收录这个仓库中的实验文章、调查记录和实现说明。
+baseurl: /ios-demo-projects
+url: https://huahuahu.github.io
+markdown: kramdown
+permalink: pretty
+collections:
+  articles:
+    output: true
+    permalink: /:name/
+defaults:
+  - scope:
+      path: ""
+      type: articles
+    values:
+      layout: article

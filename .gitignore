@@ -3,3 +3,4 @@
 **/*.xcresult/
 *.xcuserdata/
 
+simulator-log-capture/SimulatorLogCapture.xcodeproj/project.xcworkspace/xcuserdata/tigerguo.xcuserdatad/UserInterfaceState.xcuserstate

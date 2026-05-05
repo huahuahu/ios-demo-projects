@@ -1,0 +1,25 @@
+---
+layout: default
+page_class: article-page
+---
+<article class="hero article-hero">
+  <p class="eyebrow">{{ page.category | default: 'Article' }}</p>
+  <h1>{{ page.title }}</h1>
+  {% if page.description %}
+    <p class="lead">{{ page.description }}</p>
+  {% endif %}
+  <div class="actions">
+    {% if page.demo_url %}
+      <a class="button button-primary" href="{{ page.demo_url }}">查看 Demo</a>
+    {% endif %}
+    {% if page.result_url %}
+      <a class="button" href="{{ page.result_url }}">查看原始结果</a>
+    {% endif %}
+  </div>
+</article>
+
+<section class="section">
+  <article class="card article-card article-body">
+    {{ content }}
+  </article>
+</section>

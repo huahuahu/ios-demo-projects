@@ -1,22 +1,28 @@
-# 在 Agentic Coding 中捕获 iOS Simulator 日志
-
-> Investigation：一次关于 `print`、`os_log`、`Logger` 在 iOS Simulator 中如何被 Console、Xcode Console 和 `simctl log stream` 捕获的实验记录。
-
-这篇文章记录一次最小 SwiftUI demo 的实验：点击按钮后分别用 `print`、`os_log` 和 `Logger` 输出日志，再观察 agent 能否通过不同方式拿到这些日志。
-
-- Demo：[`simulator-log-capture`](../../simulator-log-capture/README.md)
-- 原始结果：[`simctl-log-stream.txt`](../../simulator-log-capture/result/simctl-log-stream.txt)
-- Demo app：`SimulatorLogCapture`
-- Simulator：`iPhone 17 Pro Max`，iOS 26.4
-- Bundle ID：`com.huahuahu.demo.SimulatorLogCapture`
+---
+title: 在 Agentic Coding 中捕获 iOS Simulator 日志
+description: 一次关于 print、os_log、Logger 在 iOS Simulator 中如何被 Console、Xcode Console 和 simctl log stream 捕获的实验记录。
+summary: 用一个最小 SwiftUI demo 调查 print、os_log、Logger 在 Console、Xcode Console 和 simctl log stream 中的捕获表现，并给出适合自动化的命令方案。
+category: Investigation
+tag: iOS Logs
+date: 2026-05-05
+demo_url: https://github.com/huahuahu/ios-demo-projects/tree/main/simulator-log-capture
+result_url: https://github.com/huahuahu/ios-demo-projects/blob/main/simulator-log-capture/result/simctl-log-stream.txt
+---
 
 ## 实验问题
 
 在 agentic coding 场景里，agent 通常不能直接盯着 Xcode Console。如果 app 只是在 Simulator 中运行，哪种日志方式最容易被自动化工具捕获？
 
+## 实验环境
+
+- Demo：`SimulatorLogCapture`
+- Simulator：`iPhone 17 Pro Max`，iOS 26.4
+- Bundle ID：`com.huahuahu.demo.SimulatorLogCapture`
+- 日志按钮：`Print Logs`
+
 ## Demo 做了什么
 
-Demo 刻意保持简单：一个 SwiftUI 页面，一个按钮。点击 `Print Logs` 按钮时，同时触发三种日志输出。
+Demo 刻意保持简单：一个 SwiftUI 页面，一个按钮。点击按钮时，同时触发三种日志输出。
 
 ```swift
 Button("Print Logs") {
@@ -34,13 +40,13 @@ Button("Print Logs") {
 
 Console app 可以选择 booted simulator 并按进程名过滤。它适合人工观察，但不适合 agent 自动化记录结论。
 
-![Console app showing simulator logs](./assets/console-app.png)
+![Console app showing simulator logs]({{ '/simulator-log-capture/assets/console-app.png' | relative_url }})
 
 ### Xcode Console
 
 从 Xcode 运行 app 时，debug console 能看到运行期输出。这个方式对开发者最直接，但 agent 如果运行在终端中，通常不能稳定读取这个 UI 面板。
 
-![Xcode console showing app logs](./assets/xcode-console.png)
+![Xcode console showing app logs]({{ '/simulator-log-capture/assets/xcode-console.png' | relative_url }})
 
 ### simctl log stream
 
@@ -90,8 +96,6 @@ xcrun simctl spawn F8AFBC61-0935-4C51-826E-E03D6DCD3D71 \
 
 ## 推荐命令
 
-如果只有一个 simulator booted：
-
 ```bash
 xcrun simctl spawn booted log stream \
   --level info \
@@ -99,11 +103,4 @@ xcrun simctl spawn booted log stream \
   --style compact
 ```
 
-如果有多个 simulator booted，建议把 `booted` 换成 demo 配置里的 simulator UUID：
-
-```bash
-xcrun simctl spawn F8AFBC61-0935-4C51-826E-E03D6DCD3D71 log stream \
-  --level info \
-  --predicate 'process == "SimulatorLogCapture"' \
-  --style compact
-```
+如果有多个 simulator booted，建议把 `booted` 换成 demo 配置里的 simulator UUID。
