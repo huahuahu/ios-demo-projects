@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog</title>
+    <meta
+      name="description"
+      content="iOS 相关文章首页，用于发布和索引这个仓库中的文章。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">GitHub Pages</p>
+        <h1>Blog</h1>
+        <p class="lead">
+          这里是仓库中的文章首页。页面按文章组织，而不是按 demo 组织；每篇文章可以再指向对应代码、截图或实验项目。
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href="https://github.com/huahuahu/ios-demo-projects/tree/main/blog">
+            查看文章目录
+          </a>
+          <a class="button" href="https://github.com/huahuahu/ios-demo-projects">
+            查看仓库
+          </a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>文章列表</h2>
+          <p>当前 `blog/` 目录还没有实际文章文件。后续新增文章时，补充对应页面并在这里添加入口。</p>
+        </div>
+
+        <article class="card empty-state">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Draft</p>
+              <h3>还没有已发布文章</h3>
+            </div>
+            <span class="tag">待添加</span>
+          </div>
+
+          <p>
+            建议每篇文章使用单独目录，例如 `blog/simulator-log-capture/index.html`，文章内部再链接到对应 demo 目录和源码说明。
+          </p>
+        </article>
+      </section>
+
+      <section class="section grid">
+        <article class="info-card">
+          <h2>推荐结构</h2>
+          <pre><code>blog/
+  index.html
+  styles.css
+  article-slug/
+    index.html
+    assets/</code></pre>
+        </article>
+
+        <article class="info-card">
+          <h2>维护方式</h2>
+          <ul class="compact-list">
+            <li>一篇文章一个目录，URL 稳定</li>
+            <li>文章页面里再链接对应 demo 或源码目录</li>
+            <li>首页只做文章索引，不承担 demo 导航</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

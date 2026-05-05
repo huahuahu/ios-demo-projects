@@ -28,6 +28,16 @@ demo-name/
 
 博客文章引用 demo 时，建议直接链接到具体 demo 目录，而不是仓库根目录。这样读者可以更快找到和文章相关的代码。
 
+## GitHub Pages
+
+仓库已经包含 GitHub Pages 部署工作流：`.github/workflows/pages.yml`。
+
+- 静态站点内容位于 `blog/`
+- 推送到 `main` 后会自动触发部署
+- 首次启用时，在 GitHub 仓库设置的 Pages 页面确认 source 使用 GitHub Actions
+
+如果网站定位是文章站，建议把 `blog/` 作为 Pages root，并让每篇文章放在 `blog/<slug>/index.html`，文章内部再链接对应 demo 或源码。
+
 ## 维护原则
 
 - demo 应尽量小而完整，聚焦一个明确主题。
