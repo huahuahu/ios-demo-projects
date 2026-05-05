@@ -123,6 +123,12 @@ h3 {
   background: var(--primary-strong);
 }
 
+.back-link {
+  display: inline-flex;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
 .section {
   margin-top: 28px;
 }

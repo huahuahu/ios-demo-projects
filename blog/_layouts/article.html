@@ -3,6 +3,7 @@ layout: default
 page_class: article-page
 ---
 <article class="hero article-hero">
+  <a class="back-link" href="{{ '/' | relative_url }}">← 返回首页</a>
   <p class="eyebrow">{{ page.category | default: 'Article' }}</p>
   <h1>{{ page.title }}</h1>
   {% if page.description %}
