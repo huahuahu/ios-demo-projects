@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在 Agentic Coding 中捕获 iOS Simulator 日志</title>
+    <meta
+      name="description"
+      content="一次关于 print、os_log、Logger 在 iOS Simulator 中如何被 Console、Xcode Console 和 simctl log stream 捕获的实验记录。"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="page article-page">
+      <article class="hero article-hero">
+        <p class="eyebrow">Investigation</p>
+        <h1>在 Agentic Coding 中捕获 iOS Simulator 日志</h1>
+        <p class="lead">
+          这篇文章记录一次最小 SwiftUI demo 的实验：点击按钮后分别用
+          <code>print</code>、<code>os_log</code> 和 <code>Logger</code>
+          输出日志，再观察 agent 能否通过不同方式拿到这些日志。
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href="../../simulator-log-capture/README.md">
+            查看 Demo
+          </a>
+          <a class="button" href="../../simulator-log-capture/result/simctl-log-stream.txt">
+            查看原始结果
+          </a>
+        </div>
+      </article>
+
+      <section class="section grid">
+        <article class="info-card">
+          <h2>实验问题</h2>
+          <p>
+            在 agentic coding 场景里，agent 通常不能直接盯着 Xcode Console。
+            如果 app 只是在 Simulator 中运行，哪种日志方式最容易被自动化工具捕获？
+          </p>
+        </article>
+
+        <article class="info-card">
+          <h2>实验环境</h2>
+          <ul class="compact-list">
+            <li>Demo：<code>SimulatorLogCapture</code></li>
+            <li>Simulator：<code>iPhone 17 Pro Max</code>，iOS 26.4</li>
+            <li>Bundle ID：<code>com.huahuahu.demo.SimulatorLogCapture</code></li>
+            <li>日志按钮：<code>Print Logs</code></li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="section">
+        <article class="card article-card">
+          <h2>Demo 做了什么</h2>
+          <p>
+            Demo 刻意保持简单：一个 SwiftUI 页面，一个按钮。点击按钮时，同时触发三种日志输出。
+          </p>
+          <pre><code>Button("Print Logs") {
+    print("print log from SimulatorLogCapture")
+    os_log("os_log from SimulatorLogCapture")
+    logger.info("Logger log from SimulatorLogCapture")
+}</code></pre>
+          <p>
+            代码在 <code>simulator-log-capture/SimulatorLogCapture/ContentView.swift</code>。
+            项目由 XcodeGen 生成，并带有 <code>.xcodebuildmcp/config.yaml</code>
+            方便 agent 使用固定的 scheme 和 simulator。
+          </p>
+        </article>
+      </section>
+
+      <section class="section">
+        <article class="card article-card">
+          <h2>三种观察方式</h2>
+          <div class="result-list">
+            <div>
+              <h3>Console app</h3>
+              <p>
+                Console app 可以选择 booted simulator 并按进程名过滤。它适合人工观察，
+                但不适合 agent 自动化记录结论。
+              </p>
+              <img src="./assets/console-app.png" alt="Console app showing simulator logs" />
+            </div>
+            <div>
+              <h3>Xcode Console</h3>
+              <p>
+                从 Xcode 运行 app 时，debug console 能看到运行期输出。这个方式对开发者最直接，
+                但 agent 如果运行在终端中，通常不能稳定读取这个 UI 面板。
+              </p>
+              <img src="./assets/xcode-console.png" alt="Xcode console showing app logs" />
+            </div>
+            <div>
+              <h3>simctl log stream</h3>
+              <p>
+                终端方式最适合 agentic coding，因为命令输出可以被保存、过滤和回写到结果文件。
+                本机 Xcode 的 <code>simctl</code> 没有直接的 <code>log</code> 子命令，
+                所以实际可用命令是通过 <code>simctl spawn</code> 在模拟器环境中执行
+                <code>log stream</code>。
+              </p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="section">
+        <article class="card article-card">
+          <h2>关键发现：需要 <code>--level info</code></h2>
+          <p>
+            第一次只用默认 <code>log stream</code> 时，能捕获到 <code>os_log</code>，
+            但没有看到 <code>Logger.info</code>。重新加上 <code>--level info</code> 后，
+            <code>Logger.info</code> 才出现在结果里。
+          </p>
+          <pre><code>xcrun simctl spawn F8AFBC61-0935-4C51-826E-E03D6DCD3D71 \
+  log stream \
+  --level info \
+  --predicate 'process == "SimulatorLogCapture"' \
+  --style compact</code></pre>
+          <p>这次捕获到的自定义日志是：</p>
+          <pre><code>2026-05-05 11:15:11.384 Df SimulatorLogCapture[...] (SimulatorLogCapture.debug.dylib) os_log from SimulatorLogCapture
+2026-05-05 11:15:11.384 I  SimulatorLogCapture[...] [com.huahuahu.demo.SimulatorLogCapture:Button] Logger log from SimulatorLogCapture</code></pre>
+        </article>
+      </section>
+
+      <section class="section grid">
+        <article class="info-card">
+          <h2>结论</h2>
+          <ul class="compact-list">
+            <li><code>simctl spawn ... log stream</code> 是本次 agent 自动化最可复现的方式。</li>
+            <li>想捕获 <code>Logger.info</code>，命令里应加 <code>--level info</code>。</li>
+            <li><code>os_log</code> 在默认流里已经可见。</li>
+            <li>本次 <code>print</code> 没有在 <code>simctl log stream</code> 结果中作为统一日志出现。</li>
+          </ul>
+        </article>
+
+        <article class="info-card">
+          <h2>推荐命令</h2>
+          <pre><code>xcrun simctl spawn booted log stream \
+  --level info \
+  --predicate 'process == "SimulatorLogCapture"' \
+  --style compact</code></pre>
+          <p>
+            如果有多个 simulator booted，建议把 <code>booted</code> 换成 demo 配置里的 simulator UUID。
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

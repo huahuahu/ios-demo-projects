@@ -31,20 +31,20 @@
       <section class="section">
         <div class="section-heading">
           <h2>文章列表</h2>
-          <p>当前 `blog/` 目录还没有实际文章文件。后续新增文章时，补充对应页面并在这里添加入口。</p>
+          <p>当前文章围绕仓库中的 iOS demo 实验展开，记录可复现的调查过程和结论。</p>
         </div>
 
-        <article class="card empty-state">
+        <article class="card">
           <div class="card-header">
             <div>
-              <p class="card-kicker">Draft</p>
-              <h3>还没有已发布文章</h3>
+              <p class="card-kicker">Investigation</p>
+              <h3><a href="./simulator-log-capture/index.md">在 Agentic Coding 中捕获 iOS Simulator 日志</a></h3>
             </div>
-            <span class="tag">待添加</span>
+            <span class="tag">iOS Logs</span>
           </div>
 
           <p>
-            建议每篇文章使用单独目录，例如 `blog/simulator-log-capture/index.html`，文章内部再链接到对应 demo 目录和源码说明。
+            用一个最小 SwiftUI demo 调查 <code>print</code>、<code>os_log</code>、<code>Logger</code> 在 Console、Xcode Console 和 <code>simctl log stream</code> 中的捕获表现。
           </p>
         </article>
       </section>
