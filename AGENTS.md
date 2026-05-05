@@ -4,7 +4,7 @@ This repository stores iOS demo projects referenced by blog posts.
 
 ## XcodeBuildMCP
 
-XcodeBuildMCP is configured for this machine through Codex global MCP settings:
+XcodeBuildMCP is configured for this machine through project based MCP settings:
 
 ```toml
 [mcp_servers.xcodebuildmcp]

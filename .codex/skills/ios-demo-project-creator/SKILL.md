@@ -32,97 +32,46 @@ Use XcodeGen for new scaffolded projects. Generate and keep `.xcodeproj` when th
 
 ## Creation Workflow
 
-1. Pick a short kebab-case directory name that describes the demo topic.
+1. Infer the demo project name from the user's input. Use a short kebab-case directory name and a PascalCase `{DemoName}` app/scheme name derived from the same topic.
 2. Create a standalone directory under the repo root.
 3. Add `README.md` with the demo goal, corresponding blog topic, setup, run, and test commands.
-4. Add `project.yml` with one iOS app target and one test target unless the user requests another structure.
+4. Add `project.yml` from `templates/project.yml` by copying the template and using plain string replacement for `{DemoName}`, `{BundleIdPrefix}`, `{DeploymentTarget}`, `{SwiftVersion}`, and `{DevelopmentTeam}`.
 5. Add the smallest SwiftUI or UIKit implementation that demonstrates the topic.
 6. Add focused tests when the demo has logic or behavior worth verifying.
 7. Add `docs/`, `scripts/`, `samples/`, or `prompts/` only when they support the demo's purpose.
 8. Run `xcodegen generate` from the demo directory.
-9. Add `.xcodebuildmcp/config.yaml` with project, scheme, simulator, and workflow defaults.
+9. Add `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml` by copying the template and using plain string replacement for `{DemoName}`.
 10. Use XcodeBuildMCP where available to discover schemes, build, test, run, launch, capture logs, or inspect simulator state.
-11. Fall back to direct `xcodebuild` and `xcrun simctl` commands when MCP tools are unavailable.
+11. For verification, use XcodeBuildMCP MCP tools rather than command-line `xcodebuildmcp` commands.
 
 ## XcodeGen Pattern
 
-Keep `project.yml` simple and explicit:
+Start from `templates/project.yml` and replace placeholders:
 
-```yaml
-name: DemoName
-options:
-  bundleIdPrefix: com.tigerguo.demo
-  deploymentTarget:
-    iOS: "26.0"
-settings:
-  base:
-    SWIFT_VERSION: "6.0"
-targets:
-  DemoName:
-    type: application
-    platform: iOS
-    sources:
-      - DemoName
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.tigerguo.demo.DemoName
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
-    scheme:
-      testTargets:
-        - DemoNameTests
-  DemoNameTests:
-    type: bundle.unit-test
-    platform: iOS
-    sources:
-      - DemoNameTests
-    dependencies:
-      - target: DemoName
-```
+- `{DemoName}`: PascalCase app and scheme name, for example `ButtonStyleResearch`
+- `{BundleIdPrefix}`: hardcode to `com.huahuahu.demo`
+- `{DeploymentTarget}`: hardcode to `26.0`
+- `{SwiftVersion}`: hardcode to `6.0`
+- `{DevelopmentTeam}`: Apple development team id. Set to an empty string for local simulator demos
 
-Adjust deployment target, bundle id, app type, and dependencies to fit the demo.
+The template enables generated Info.plist files for both the app and test targets with `GENERATE_INFOPLIST_FILE: YES`. Adjust deployment target, bundle id, app type, settings, and dependencies to fit the demo.
 
 ## XcodeBuildMCP First
 
-The repo-level MCP server should be:
-
-```toml
-[mcp_servers.xcodebuildmcp]
-command = "xcodebuildmcp"
-args = ["mcp"]
-```
 
 Prefer XcodeBuildMCP for:
 
-- project discovery
-- scheme listing
-- simulator listing and booting
+- project discovery and session defaults
 - simulator build/test/run
 - app launch with logs
 - simulator or device log capture
 
-Use direct `xcodebuild`, `xcrun simctl`, `log show`, and `log stream` as reproducible fallback commands or raw evidence sources.
+Use direct `xcodebuild`, `xcrun simctl` only when MCP tools are unavailable or for non-verification fallback evidence.
 
 ## XcodeBuildMCP Config
 
-After generating the Xcode project, write `.xcodebuildmcp/config.yaml` inside the demo directory. Use the generated project and scheme names, and choose an available simulator from XcodeBuildMCP simulator discovery.
+After generating the Xcode project, write `.xcodebuildmcp/config.yaml` inside the demo directory from `templates/xcodebuildmcp-config.yaml`. Replace `{DemoName}` with the inferred PascalCase demo name before using it.
 
-```yaml
-schemaVersion: 1
-enabledWorkflows:
-  - simulator
-  - debugging
-  - logging
-  - ui-automation
-  - utilities
-debug: true
-sentryDisabled: false
-sessionDefaults:
-  projectPath: DemoName.xcodeproj
-  scheme: DemoName
-  simulatorName: iPhone 17 Pro Max
-```
-
-Include `simulatorId` when a stable device ID has been selected for the local machine. Otherwise prefer `simulatorName` so the demo remains easier to reuse on another machine.
 
 ## Blog-Friendly README
 
@@ -144,9 +93,10 @@ After creating or changing a demo:
 ```bash
 cd demo-name
 xcodegen generate
-xcodebuildmcp project-discovery discover-projects
-xcodebuildmcp project-discovery list-schemes --project-path DemoName.xcodeproj
-xcodebuildmcp simulator test
 ```
 
-If XcodeBuildMCP is unavailable, fall back to `xcodebuild` with an explicit destination such as `platform=iOS Simulator,name=iPhone 16 Pro,OS=latest`. If validation fails, inspect the logs and report the specific blocker.
+Then use XcodeBuildMCP MCP tools, not command-line `xcodebuildmcp`, to validate:
+
+1. `test_sim` to verify can test on the simulator
+
+If XcodeBuildMCP MCP tools are unavailable, fall back to `xcodebuild` with an explicit destination such as `platform=iOS Simulator,name=iPhone 16 Pro,OS=latest`. If validation fails, inspect the logs and report the specific blocker.

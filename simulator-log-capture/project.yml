@@ -1,0 +1,37 @@
+name: "SimulatorLogCapture"
+options:
+  bundleIdPrefix: "com.huahuahu.demo"
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: ""
+targets:
+  "SimulatorLogCapture":
+    type: application
+    platform: iOS
+    sources:
+      - "SimulatorLogCapture"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "com.huahuahu.demo.SimulatorLogCapture"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
+    scheme:
+      testTargets:
+        - "SimulatorLogCaptureTests"
+  "SimulatorLogCaptureTests":
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - "SimulatorLogCaptureTests"
+    dependencies:
+      - target: "SimulatorLogCapture"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "com.huahuahu.demo.SimulatorLogCaptureTests"

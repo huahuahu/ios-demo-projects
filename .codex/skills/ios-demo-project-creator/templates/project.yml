@@ -1,0 +1,37 @@
+name: "{DemoName}"
+options:
+  bundleIdPrefix: "{BundleIdPrefix}"
+  deploymentTarget:
+    iOS: "{DeploymentTarget}"
+settings:
+  base:
+    SWIFT_VERSION: "{SwiftVersion}"
+    DEVELOPMENT_TEAM: "{DevelopmentTeam}"
+targets:
+  "{DemoName}":
+    type: application
+    platform: iOS
+    sources:
+      - "{DemoName}"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "{BundleIdPrefix}.{DemoName}"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
+    scheme:
+      testTargets:
+        - "{DemoName}Tests"
+  "{DemoName}Tests":
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - "{DemoName}Tests"
+    dependencies:
+      - target: "{DemoName}"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "{BundleIdPrefix}.{DemoName}Tests"

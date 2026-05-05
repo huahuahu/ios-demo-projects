@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0653F6516F9ECE6A1C3952D4 /* SimulatorLogCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27762FB16040D20BB90FB7DF /* SimulatorLogCaptureTests.swift */; };
+		8E3DE20A85A45B4572D76264 /* SimulatorLogCaptureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F92929CC2F7F60E8EAC065E /* SimulatorLogCaptureApp.swift */; };
+		C97BF0007ABEE47269C1516C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDBFC815D62C0F3AB7E00E5 /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B6360F4BE2F35422B1395A78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9E95F4D568930670D3AB502F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B345870D92F75207ED587A61;
+			remoteInfo = SimulatorLogCapture;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1F92929CC2F7F60E8EAC065E /* SimulatorLogCaptureApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorLogCaptureApp.swift; sourceTree = "<group>"; };
+		27762FB16040D20BB90FB7DF /* SimulatorLogCaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorLogCaptureTests.swift; sourceTree = "<group>"; };
+		750C1BB994A4F64E5E326656 /* SimulatorLogCaptureTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SimulatorLogCaptureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDDBFC815D62C0F3AB7E00E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DE1672771037A08AB5C8A8D8 /* SimulatorLogCapture.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SimulatorLogCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		5A18A8367E5B680336E8C573 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DE1672771037A08AB5C8A8D8 /* SimulatorLogCapture.app */,
+				750C1BB994A4F64E5E326656 /* SimulatorLogCaptureTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B77ADD4AB14D139CFC3CD8FD /* SimulatorLogCaptureTests */ = {
+			isa = PBXGroup;
+			children = (
+				27762FB16040D20BB90FB7DF /* SimulatorLogCaptureTests.swift */,
+			);
+			path = SimulatorLogCaptureTests;
+			sourceTree = "<group>";
+		};
+		EB83D0F8ADB0F688B88EABEC /* SimulatorLogCapture */ = {
+			isa = PBXGroup;
+			children = (
+				BDDBFC815D62C0F3AB7E00E5 /* ContentView.swift */,
+				1F92929CC2F7F60E8EAC065E /* SimulatorLogCaptureApp.swift */,
+			);
+			path = SimulatorLogCapture;
+			sourceTree = "<group>";
+		};
+		EBD07CBD9CDD0E3561EABBE4 = {
+			isa = PBXGroup;
+			children = (
+				EB83D0F8ADB0F688B88EABEC /* SimulatorLogCapture */,
+				B77ADD4AB14D139CFC3CD8FD /* SimulatorLogCaptureTests */,
+				5A18A8367E5B680336E8C573 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6EEAB3E20B5D60C086FB79EB /* SimulatorLogCaptureTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 119319A969CCEB0F3F6C0A98 /* Build configuration list for PBXNativeTarget "SimulatorLogCaptureTests" */;
+			buildPhases = (
+				1653E33AC93693E39ED587D7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2EE88F8F4C9CECAB3669268F /* PBXTargetDependency */,
+			);
+			name = SimulatorLogCaptureTests;
+			packageProductDependencies = (
+			);
+			productName = SimulatorLogCaptureTests;
+			productReference = 750C1BB994A4F64E5E326656 /* SimulatorLogCaptureTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B345870D92F75207ED587A61 /* SimulatorLogCapture */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73C74AEAB4AD840AEC0D580B /* Build configuration list for PBXNativeTarget "SimulatorLogCapture" */;
+			buildPhases = (
+				2133CE279AF79C0A30419F38 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SimulatorLogCapture;
+			packageProductDependencies = (
+			);
+			productName = SimulatorLogCapture;
+			productReference = DE1672771037A08AB5C8A8D8 /* SimulatorLogCapture.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9E95F4D568930670D3AB502F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					6EEAB3E20B5D60C086FB79EB = {
+						DevelopmentTeam = "";
+					};
+					B345870D92F75207ED587A61 = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = 50614525212EB49A60836AA4 /* Build configuration list for PBXProject "SimulatorLogCapture" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = EBD07CBD9CDD0E3561EABBE4;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 5A18A8367E5B680336E8C573 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B345870D92F75207ED587A61 /* SimulatorLogCapture */,
+				6EEAB3E20B5D60C086FB79EB /* SimulatorLogCaptureTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1653E33AC93693E39ED587D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0653F6516F9ECE6A1C3952D4 /* SimulatorLogCaptureTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2133CE279AF79C0A30419F38 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C97BF0007ABEE47269C1516C /* ContentView.swift in Sources */,
+				8E3DE20A85A45B4572D76264 /* SimulatorLogCaptureApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2EE88F8F4C9CECAB3669268F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B345870D92F75207ED587A61 /* SimulatorLogCapture */;
+			targetProxy = B6360F4BE2F35422B1395A78 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1D761B90EA09DCD2DF577677 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		4D96C24A02B9F7C4992D50EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		62DF1223C0F6B8EC6E6C136C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SimulatorLogCaptureTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimulatorLogCapture.app/SimulatorLogCapture";
+			};
+			name = Debug;
+		};
+		984260590A124D219DF48E52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SimulatorLogCapture;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C184E2C3490ADEF2DE0AC035 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SimulatorLogCaptureTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimulatorLogCapture.app/SimulatorLogCapture";
+			};
+			name = Release;
+		};
+		D20DBBA5BE8DC1DA29639EA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SimulatorLogCapture;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		119319A969CCEB0F3F6C0A98 /* Build configuration list for PBXNativeTarget "SimulatorLogCaptureTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62DF1223C0F6B8EC6E6C136C /* Debug */,
+				C184E2C3490ADEF2DE0AC035 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		50614525212EB49A60836AA4 /* Build configuration list for PBXProject "SimulatorLogCapture" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D761B90EA09DCD2DF577677 /* Debug */,
+				4D96C24A02B9F7C4992D50EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		73C74AEAB4AD840AEC0D580B /* Build configuration list for PBXNativeTarget "SimulatorLogCapture" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D20DBBA5BE8DC1DA29639EA5 /* Debug */,
+				984260590A124D219DF48E52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9E95F4D568930670D3AB502F /* Project object */;
+}
