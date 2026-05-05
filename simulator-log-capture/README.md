@@ -29,7 +29,7 @@ Run `SimulatorLogCapture` from Xcode and check the debug console after tapping `
 ### simctl log stream
 
 ```bash
-xcrun simctl log stream booted --predicate 'process == "SimulatorLogCapture"'
+xcrun simctl log stream booted --level info --predicate 'process == "SimulatorLogCapture"'
 ```
 
 ## Requirements

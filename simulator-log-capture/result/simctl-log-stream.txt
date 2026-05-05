@@ -1,0 +1,139 @@
+# simctl log stream result
+
+Date: 2026-05-05
+Device: iPhone 17 Pro Max
+Simulator ID: F8AFBC61-0935-4C51-826E-E03D6DCD3D71
+Bundle ID: com.huahuahu.demo.SimulatorLogCapture
+
+README command under test:
+xcrun simctl log stream booted --predicate 'process == "SimulatorLogCapture"'
+
+Direct command result:
+Unrecognized subcommand: log
+usage: simctl [--set <path>] [--profiles <path>] <subcommand> ...
+       simctl help [subcommand]
+Command line utility to control the Simulator
+
+For subcommands that require a <device> argument, you may specify a device UDID
+or the special "booted" string which will cause simctl to pick a booted device.
+If multiple devices are booted when the "booted" device is selected, simctl
+will choose one of them.
+
+Subcommands:
+	addmedia            Add photos, live photos, videos, or contacts to the library of a device.
+	appinfo             Show information about an installed application.
+	boot                Boot a device or device pair.
+	clone               Clone an existing device.
+	create              Create a new device.
+	delete              Delete specified devices, unavailable devices, or all devices.
+	diagnose            Collect diagnostic information and logs.
+	erase               Erase a device's contents and settings.
+	get_app_container   Print the path of the installed app's container
+	getenv              Print an environment variable from a running device.
+	help                Prints the usage for a given subcommand.
+	icloud_sync         Trigger iCloud sync on a device.
+	install             Install an app on a device.
+	install_app_data    Install an xcappdata package to a device, replacing the current contents of the container.
+	io                  Set up a device IO operation.
+	keychain            Manipulate a device's keychain
+	launch              Launch an application by identifier on a device.
+	list                List available devices, device types, runtimes, or device pairs.
+	listapps            Show the installed applications.
+	location            Control a device's simulated location
+	logverbose          enable or disable verbose logging for a device
+	openurl             Open a URL in a device.
+	pair                Create a new watch and phone pair.
+	pair_activate       Set a given pair as active.
+
+Working command used for capture on this Xcode:
+xcrun simctl spawn F8AFBC61-0935-4C51-826E-E03D6DCD3D71 log stream --predicate 'process == "SimulatorLogCapture"' --style compact
+
+Install/launch output:
+com.huahuahu.demo.SimulatorLogCapture: 62561
+
+Captured stream output after tapping Print Logs:
+getpwuid_r did not find a match for uid 501
+Filtering the log data using "process == "SimulatorLogCapture""
+Timestamp               Ty Process[PID:TID]
+2026-05-05 10:59:07.306 A  SimulatorLogCapture[62561:245b70] (RunningBoardServices) didChangeInheritances
+2026-05-05 10:59:08.187 Df SimulatorLogCapture[62561:245b39] [com.apple.BackBoard:Display] [FBSDisplaySource 1-1] silently connecting raw configuration: <FBSDisplayConfiguration: 0x101524a00; Main; mode: "440x956@3x 60Hz p3 SDR">
+2026-05-05 10:59:09.037 Df SimulatorLogCapture[62561:245b39] (libMobileGestalt.dylib) Property isp[camera-front] found {length = 4, bytes = 0x01000000}
+2026-05-05 10:59:09.038 A  SimulatorLogCapture[62561:245b39] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-05-05 10:59:09.050 A  SimulatorLogCapture[62561:245b39] (libsystem_containermanager.dylib) container_system_group_path_for_identifier
+2026-05-05 10:59:09.050 Df SimulatorLogCapture[62561:245b39] [com.apple.containermanager:xpc] Requesting container lookup; class = 13, identifier = (null), group_identifier = systemgroup.com.apple.configurationprofiles, create = 1, temp = 0, euid = 501, uid = 501
+2026-05-05 10:59:09.050 A  SimulatorLogCapture[62561:245b39] (libsystem_containermanager.dylib) container_query_t
+2026-05-05 10:59:09.050 Df SimulatorLogCapture[62561:245b39] [com.apple.containermanager:xpc] Query; euid = 501, uid = 501, class = 13, identifier = [(null)](0), flags = 900000003
+2026-05-05 10:59:09.053 Df SimulatorLogCapture[62561:245b39] [com.apple.containermanager:unspecified] _container_query_get_result_at_index: success
+2026-05-05 10:59:09.053 A  SimulatorLogCapture[62561:245b39] (libsystem_containermanager.dylib) container_copy_object
+2026-05-05 10:59:09.053 Df SimulatorLogCapture[62561:245b39] [com.apple.containermanager:unspecified] container_system_group_path_for_identifier: success
+2026-05-05 10:59:09.053 Df SimulatorLogCapture[62561:245b39] [com.apple.ManagedConfiguration:MC] Got system group container path from MCM for systemgroup.com.apple.configurationprofiles: /Users/tigerguo/Library/Developer/CoreSimulator/Devices/F8AFBC61-0935-4C51-826E-E03D6DCD3D71/data/Containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
+2026-05-05 10:59:09.158 Df SimulatorLogCapture[62561:245b39] (SimulatorLogCapture.debug.dylib) os_log from SimulatorLogCapture
+button 1 of group 1 of group 1 of group 1 of group 1 of group 1 of group 1 of window iPhone 17 Pro Max – iOS 26.4 of application process Simulator
+Child process terminated with signal 15: Terminated
+
+--- Retest: actual Print Logs button tap ---
+Button Accessibility bounds: x=-529 y=784 width=76 height=20
+Tap point: x=-491 y=794
+Relaunch output:
+com.huahuahu.demo.SimulatorLogCapture: 62850
+
+Captured stream output after verified Print Logs tap:
+button 1 of group 1 of group 1 of group 1 of group 1 of group 1 of group 1 of window iPhone 17 Pro Max – iOS 26.4 of application process Simulator
+Child process terminated with signal 15: Terminated
+
+--- Retest: Accessibility AXPress on Print Logs button ---
+Method: click button 1 of app content accessibility hierarchy
+Relaunch output:
+com.huahuahu.demo.SimulatorLogCapture: 63066
+button 1 of group 1 of group 1 of group 1 of group 1 of group 1 of group 1 of window iPhone 17 Pro Max – iOS 26.4 of application process Simulator
+
+Captured stream output after AXPress:
+getpwuid_r did not find a match for uid 501
+Filtering the log data using "process == "SimulatorLogCapture""
+Timestamp               Ty Process[PID:TID]
+2026-05-05 11:02:41.735 Df SimulatorLogCapture[63066:2482de] (libMobileGestalt.dylib) Property isp[camera-front] found {length = 4, bytes = 0x01000000}
+2026-05-05 11:02:41.737 A  SimulatorLogCapture[63066:2482de] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-05-05 11:02:41.756 A  SimulatorLogCapture[63066:2482de] (libsystem_containermanager.dylib) container_system_group_path_for_identifier
+2026-05-05 11:02:41.756 Df SimulatorLogCapture[63066:2482de] [com.apple.containermanager:xpc] Requesting container lookup; class = 13, identifier = (null), group_identifier = systemgroup.com.apple.configurationprofiles, create = 1, temp = 0, euid = 501, uid = 501
+2026-05-05 11:02:41.756 A  SimulatorLogCapture[63066:2482de] (libsystem_containermanager.dylib) container_query_t
+2026-05-05 11:02:41.756 Df SimulatorLogCapture[63066:2482de] [com.apple.containermanager:xpc] Query; euid = 501, uid = 501, class = 13, identifier = [(null)](0), flags = 900000003
+2026-05-05 11:02:41.759 Df SimulatorLogCapture[63066:2482de] [com.apple.containermanager:unspecified] _container_query_get_result_at_index: success
+2026-05-05 11:02:41.759 A  SimulatorLogCapture[63066:2482de] (libsystem_containermanager.dylib) container_copy_object
+2026-05-05 11:02:41.759 Df SimulatorLogCapture[63066:2482de] [com.apple.containermanager:unspecified] container_system_group_path_for_identifier: success
+2026-05-05 11:02:41.759 Df SimulatorLogCapture[63066:2482de] [com.apple.ManagedConfiguration:MC] Got system group container path from MCM for systemgroup.com.apple.configurationprofiles: /Users/tigerguo/Library/Developer/CoreSimulator/Devices/F8AFBC61-0935-4C51-826E-E03D6DCD3D71/data/Containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
+2026-05-05 11:02:41.867 Df SimulatorLogCapture[63066:2482de] (SimulatorLogCapture.debug.dylib) os_log from SimulatorLogCapture
+Child process terminated with signal 15: Terminated
+
+Filtered custom log lines:
+14:2026-05-05 11:02:41.867 Df SimulatorLogCapture[63066:2482de] (SimulatorLogCapture.debug.dylib) os_log from SimulatorLogCapture
+
+--- Retest: log stream with --level info ---
+Command: xcrun simctl spawn F8AFBC61-0935-4C51-826E-E03D6DCD3D71 log stream --level info --predicate 'process == "SimulatorLogCapture"' --style compact
+Relaunch output:
+com.huahuahu.demo.SimulatorLogCapture: 66262
+button 1 of group 1 of group 1 of group 1 of group 1 of group 1 of group 1 of window iPhone 17 Pro Max – iOS 26.4 of application process Simulator
+
+Captured stream output with --level info after Print Logs tap:
+getpwuid_r did not find a match for uid 501
+Filtering the log data using "process == "SimulatorLogCapture""
+Timestamp               Ty Process[PID:TID]
+2026-05-05 11:15:11.171 Df SimulatorLogCapture[66262:253b06] (libMobileGestalt.dylib) Property isp[camera-front] found {length = 4, bytes = 0x01000000}
+2026-05-05 11:15:11.172 A  SimulatorLogCapture[66262:253b06] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-05-05 11:15:11.186 A  SimulatorLogCapture[66262:253b06] (libsystem_containermanager.dylib) container_system_group_path_for_identifier
+2026-05-05 11:15:11.186 Df SimulatorLogCapture[66262:253b06] [com.apple.containermanager:xpc] Requesting container lookup; class = 13, identifier = (null), group_identifier = systemgroup.com.apple.configurationprofiles, create = 1, temp = 0, euid = 501, uid = 501
+2026-05-05 11:15:11.186 A  SimulatorLogCapture[66262:253b06] (libsystem_containermanager.dylib) container_query_t
+2026-05-05 11:15:11.186 Df SimulatorLogCapture[66262:253b06] [com.apple.containermanager:xpc] Query; euid = 501, uid = 501, class = 13, identifier = [(null)](0), flags = 900000003
+2026-05-05 11:15:11.243 Df SimulatorLogCapture[66262:253b06] [com.apple.containermanager:unspecified] _container_query_get_result_at_index: success
+2026-05-05 11:15:11.243 A  SimulatorLogCapture[66262:253b06] (libsystem_containermanager.dylib) container_copy_object
+2026-05-05 11:15:11.243 Df SimulatorLogCapture[66262:253b06] [com.apple.containermanager:unspecified] container_system_group_path_for_identifier: success
+2026-05-05 11:15:11.243 Df SimulatorLogCapture[66262:253b06] [com.apple.ManagedConfiguration:MC] Got system group container path from MCM for systemgroup.com.apple.configurationprofiles: /Users/tigerguo/Library/Developer/CoreSimulator/Devices/F8AFBC61-0935-4C51-826E-E03D6DCD3D71/data/Containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
+2026-05-05 11:15:11.257 I  SimulatorLogCapture[66262:253b06] [com.apple.ManagedConfiguration:MC] Reading from private effective user settings.
+2026-05-05 11:15:11.342 I  SimulatorLogCapture[66262:253b06] [com.apple.Accessibility:AXRuntimeNotifications] Attempting to send notification:  (1001) <private>
+2026-05-05 11:15:11.343 I  SimulatorLogCapture[66262:253b06] [com.apple.Accessibility:AXRuntimeNotifications] Did post notification. notification:  (1001) error:0 data:<private>
+2026-05-05 11:15:11.384 Df SimulatorLogCapture[66262:253b06] (SimulatorLogCapture.debug.dylib) os_log from SimulatorLogCapture
+2026-05-05 11:15:11.384 I  SimulatorLogCapture[66262:253b06] [com.huahuahu.demo.SimulatorLogCapture:Button] Logger log from SimulatorLogCapture
+Child process terminated with signal 15: Terminated
+
+Filtered custom log lines with --level info:
+17:2026-05-05 11:15:11.384 Df SimulatorLogCapture[66262:253b06] (SimulatorLogCapture.debug.dylib) os_log from SimulatorLogCapture
+18:2026-05-05 11:15:11.384 I  SimulatorLogCapture[66262:253b06] [com.huahuahu.demo.SimulatorLogCapture:Button] Logger log from SimulatorLogCapture
