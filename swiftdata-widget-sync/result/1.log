@@ -1,0 +1,137 @@
+App insert button tapped
+Set SwiftData context author to App
+Inserting note from App: App note 2026-05-07 21:33:41.721
+Queued operation log: insertNote, author=App, target=App note 2026-05-07 21:33:41.721, count=1
+Inserted note and saved shared store: App note 2026-05-07 21:33:41.721
+Requested widget timeline reload after insert
+App insert succeeded: App note 2026-05-07 21:33:41.721
+Fetched 1 note(s) from shared store
+Fetched 1 operation log(s)
+Refreshed visible notes: 1 note(s), operation logs: 1, reason: Inserted App note 2026-05-07 21:33:41.721
+Last operation changed: App became active -> Inserted App note 2026-05-07 21:33:41.721
+Received NSPersistentStoreRemoteChange notification
+Processing SwiftData transaction history
+No stored history token found
+History token exists before fetch: false
+Fetched 1 history transaction(s)
+Transaction id=1, store=0994F47E-9231-41ED-8300-71D886675DE1, author=App, bundle=com.huahuahu.demo.SwiftDataResearch, process=SwiftDataResearch, timestamp=2026-05-07T13:33:41Z, changes=2
+Summarized history changes: notes +1 ~0 -0, operation logs 1
+Saved latest history token
+Processed history: History: 1 transaction(s), notes +1 ~0 -0, ops 1
+Requested widget timeline reload after processing history
+Refreshing notes after history processing: History: 1 transaction(s), notes +1 ~0 -0, ops 1
+Fetched 1 note(s) from shared store
+Fetched 1 operation log(s)
+Refreshed visible notes: 1 note(s), operation logs: 1, reason: none
+App update latest button tapped
+Set SwiftData context author to App
+Fetched 1 note(s) from shared store
+Updating latest note from App: App note 2026-05-07 21:33:41.721, current revision 1
+Queued operation log: updateLatestNote, author=App, target=App note 2026-05-07 21:33:41.721, count=1
+Saved shared store after update from App
+Requested widget timeline reload after update
+App update latest succeeded
+Fetched 1 note(s) from shared store
+Fetched 2 operation log(s)
+Refreshed visible notes: 1 note(s), operation logs: 2, reason: Updated latest note from App
+Last operation changed: Inserted App note 2026-05-07 21:33:41.721 -> Updated latest note from App
+Received NSPersistentStoreRemoteChange notification
+Processing SwiftData transaction history
+History token exists before fetch: true
+Fetched 1 history transaction(s)
+Transaction id=2, store=0994F47E-9231-41ED-8300-71D886675DE1, author=App, bundle=com.huahuahu.demo.SwiftDataResearch, process=SwiftDataResearch, timestamp=2026-05-07T13:33:49Z, changes=2
+Summarized history changes: notes +0 ~1 -0, operation logs 1
+Saved latest history token
+Deleted history before previous token
+Processed history: History: 1 transaction(s), notes +0 ~1 -0, ops 1
+Requested widget timeline reload after processing history
+Refreshing notes after history processing: History: 1 transaction(s), notes +0 ~1 -0, ops 1
+Fetched 1 note(s) from shared store
+Fetched 2 operation log(s)
+Refreshed visible notes: 1 note(s), operation logs: 2, reason: none
+Received NSPersistentStoreRemoteChange notification
+Processing SwiftData transaction history
+History token exists before fetch: true
+Fetched 2 history transaction(s)
+Transaction id=3, store=0994F47E-9231-41ED-8300-71D886675DE1, author=Widget, bundle=com.huahuahu.demo.SwiftDataResearch.Widget, process=SwiftDataResearchWidget, timestamp=2026-05-07T13:33:54Z, changes=2
+Transaction id=4, store=0994F47E-9231-41ED-8300-71D886675DE1, author=Widget, bundle=com.huahuahu.demo.SwiftDataResearch.Widget, process=SwiftDataResearchWidget, timestamp=2026-05-07T13:33:58Z, changes=2
+Summarized history changes: notes +1 ~1 -0, operation logs 2
+Saved latest history token
+Deleted history before previous token
+Processed history: History: 2 transaction(s), notes +1 ~1 -0, ops 2
+Requested widget timeline reload after processing history
+Refreshing notes after history processing: History: 2 transaction(s), notes +1 ~1 -0, ops 2
+Fetched 2 note(s) from shared store
+Fetched 4 operation log(s)
+Refreshed visible notes: 2 note(s), operation logs: 4, reason: none
+Received NSPersistentStoreRemoteChange notification
+Processing SwiftData transaction history
+History token exists before fetch: true
+Fetched 0 history transaction(s)
+Summarized history changes: notes +0 ~0 -0, operation logs 0
+No new history token to save
+Deleted history before previous token
+Processed history: Store change notification received, no new history
+Refreshing notes after history processing: Store change notification received, no new history
+Fetched 2 note(s) from shared store
+Fetched 4 operation log(s)
+Refreshed visible notes: 2 note(s), operation logs: 4, reason: none
+App became active; refreshing notes
+Fetched 2 note(s) from shared store
+Fetched 4 operation log(s)
+Refreshed visible notes: 2 note(s), operation logs: 4, reason: App became active
+Last operation changed: Updated latest note from App -> App became active
+App update latest button tapped
+Set SwiftData context author to App
+Fetched 2 note(s) from shared store
+Updating latest note from App: Widget note 2026-05-07 21:33:58.016, current revision 1
+Queued operation log: updateLatestNote, author=App, target=Widget note 2026-05-07 21:33:58.016, count=1
+Saved shared store after update from App
+Requested widget timeline reload after update
+App update latest succeeded
+Fetched 2 note(s) from shared store
+Fetched 5 operation log(s)
+Refreshed visible notes: 2 note(s), operation logs: 5, reason: Updated latest note from App
+Last operation changed: App became active -> Updated latest note from App
+Received NSPersistentStoreRemoteChange notification
+Processing SwiftData transaction history
+History token exists before fetch: true
+Fetched 1 history transaction(s)
+Transaction id=5, store=0994F47E-9231-41ED-8300-71D886675DE1, author=App, bundle=com.huahuahu.demo.SwiftDataResearch, process=SwiftDataResearch, timestamp=2026-05-07T13:34:05Z, changes=2
+Summarized history changes: notes +0 ~1 -0, operation logs 1
+Saved latest history token
+Deleted history before previous token
+Processed history: History: 1 transaction(s), notes +0 ~1 -0, ops 1
+Requested widget timeline reload after processing history
+Refreshing notes after history processing: History: 1 transaction(s), notes +0 ~1 -0, ops 1
+Fetched 2 note(s) from shared store
+Fetched 5 operation log(s)
+Refreshed visible notes: 2 note(s), operation logs: 5, reason: none
+App became active; refreshing notes
+Fetched 2 note(s) from shared store
+Fetched 5 operation log(s)
+Refreshed visible notes: 2 note(s), operation logs: 5, reason: App became active
+Last operation changed: Updated latest note from App -> App became active
+Deleting selected notes from app list: 1 note(s)
+Set SwiftData context author to App
+Queued operation log: deleteSelectedNotes, author=App, target=Widget note 2026-05-07 21:33:58.016, count=1
+Saved shared store after deleting selected notes
+Requested widget timeline reload after deleting selected notes
+Fetched 1 note(s) from shared store
+Fetched 6 operation log(s)
+Refreshed visible notes: 1 note(s), operation logs: 6, reason: Deleted 1 note(s)
+Last operation changed: App became active -> Deleted 1 note(s)
+Received NSPersistentStoreRemoteChange notification
+Processing SwiftData transaction history
+History token exists before fetch: true
+Fetched 1 history transaction(s)
+Transaction id=6, store=0994F47E-9231-41ED-8300-71D886675DE1, author=App, bundle=com.huahuahu.demo.SwiftDataResearch, process=SwiftDataResearch, timestamp=2026-05-07T13:34:15Z, changes=2
+Summarized history changes: notes +0 ~0 -1, operation logs 1
+Saved latest history token
+Deleted history before previous token
+Processed history: History: 1 transaction(s), notes +0 ~0 -1, ops 1
+Requested widget timeline reload after processing history
+Refreshing notes after history processing: History: 1 transaction(s), notes +0 ~0 -1, ops 1
+Fetched 1 note(s) from shared store
+Fetched 6 operation log(s)
+Refreshed visible notes: 1 note(s), operation logs: 6, reason: none
