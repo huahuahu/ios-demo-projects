@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17A9656DEADF7A33A50FD75A /* NavigationRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5FAF53434EA22AB3A36805 /* NavigationRoute.swift */; };
+		313B3036CA0BE5F1D42E7D41 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18C1780C675E0228EAEB9F1 /* Router.swift */; };
+		4993BC961FCFE28B669AE62F /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E68FFFAB566B4D0AC3C7978 /* RouterTests.swift */; };
 		539B08A8536DCAF575FBCB10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58571AD4D90863198D2BFBCE /* ContentView.swift */; };
+		626F4CB90DF8631A66D3598E /* NavigationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0806550FD8716ABE313C6397 /* NavigationTypes.swift */; };
 		70403937CD38C54FBEC2BF3F /* SwiftUINavigationHandlingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E867C1849994A0E40C5F25 /* SwiftUINavigationHandlingApp.swift */; };
-		90B02589A9319DB3AB9F4991 /* NavigationRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECEF46C2604F22A3A60CA9B /* NavigationRouterTests.swift */; };
-		9767F9FA328D9CCF6C3A36ED /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584A5C28583C8D95A5AB602D /* NavigationRouter.swift */; };
+		99A3765BCCCEF37E8F31EB03 /* DeepLinkParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66997FDA14C622BCA63F584E /* DeepLinkParser.swift */; };
 		E7402C17AF8D1D117342B6BB /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B269F94E57F7CCD8954140 /* DemoData.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,13 +27,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0806550FD8716ABE313C6397 /* NavigationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTypes.swift; sourceTree = "<group>"; };
 		170F4A47321FA982C2DC270D /* SwiftUINavigationHandling.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SwiftUINavigationHandling.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E68FFFAB566B4D0AC3C7978 /* RouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		557F729FF0343D20D88E0DAE /* SwiftUINavigationHandlingTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SwiftUINavigationHandlingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		584A5C28583C8D95A5AB602D /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		58571AD4D90863198D2BFBCE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		5ECEF46C2604F22A3A60CA9B /* NavigationRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouterTests.swift; sourceTree = "<group>"; };
-		6B5FAF53434EA22AB3A36805 /* NavigationRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRoute.swift; sourceTree = "<group>"; };
+		66997FDA14C622BCA63F584E /* DeepLinkParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkParser.swift; sourceTree = "<group>"; };
 		82B269F94E57F7CCD8954140 /* DemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
+		B18C1780C675E0228EAEB9F1 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		C1E867C1849994A0E40C5F25 /* SwiftUINavigationHandlingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUINavigationHandlingApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,9 +43,10 @@
 			isa = PBXGroup;
 			children = (
 				58571AD4D90863198D2BFBCE /* ContentView.swift */,
+				66997FDA14C622BCA63F584E /* DeepLinkParser.swift */,
 				82B269F94E57F7CCD8954140 /* DemoData.swift */,
-				6B5FAF53434EA22AB3A36805 /* NavigationRoute.swift */,
-				584A5C28583C8D95A5AB602D /* NavigationRouter.swift */,
+				0806550FD8716ABE313C6397 /* NavigationTypes.swift */,
+				B18C1780C675E0228EAEB9F1 /* Router.swift */,
 				C1E867C1849994A0E40C5F25 /* SwiftUINavigationHandlingApp.swift */,
 			);
 			path = SwiftUINavigationHandling;
@@ -70,7 +73,7 @@
 		D3D9C957DA36121E2C20A8F2 /* SwiftUINavigationHandlingTests */ = {
 			isa = PBXGroup;
 			children = (
-				5ECEF46C2604F22A3A60CA9B /* NavigationRouterTests.swift */,
+				4E68FFFAB566B4D0AC3C7978 /* RouterTests.swift */,
 			);
 			path = SwiftUINavigationHandlingTests;
 			sourceTree = "<group>";
@@ -156,9 +159,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				539B08A8536DCAF575FBCB10 /* ContentView.swift in Sources */,
+				99A3765BCCCEF37E8F31EB03 /* DeepLinkParser.swift in Sources */,
 				E7402C17AF8D1D117342B6BB /* DemoData.swift in Sources */,
-				17A9656DEADF7A33A50FD75A /* NavigationRoute.swift in Sources */,
-				9767F9FA328D9CCF6C3A36ED /* NavigationRouter.swift in Sources */,
+				626F4CB90DF8631A66D3598E /* NavigationTypes.swift in Sources */,
+				313B3036CA0BE5F1D42E7D41 /* Router.swift in Sources */,
 				70403937CD38C54FBEC2BF3F /* SwiftUINavigationHandlingApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,7 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90B02589A9319DB3AB9F4991 /* NavigationRouterTests.swift in Sources */,
+				4993BC961FCFE28B669AE62F /* RouterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +347,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleURLTypes = "[{\"CFBundleURLName\":\"SwiftUINavigationHandling\",\"CFBundleURLSchemes\":[\"swiftuinavigationhandling\"]}]";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -363,6 +368,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleURLTypes = "[{\"CFBundleURLName\":\"SwiftUINavigationHandling\",\"CFBundleURLSchemes\":[\"swiftuinavigationhandling\"]}]";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -15,6 +15,12 @@ struct DemoMessage: Identifiable, Hashable, Sendable {
     let preview: String
 }
 
+struct DemoSetting: Identifiable, Hashable, Sendable {
+    let id: String
+    let title: String
+    let detail: String
+}
+
 enum DemoData {
     static let collections: [DemoCollection] = [
         DemoCollection(id: "priority", title: "Priority", symbolName: "flag.fill", messageIDs: [101, 102]),
@@ -60,6 +66,19 @@ enum DemoData {
         )
     ]
 
+    static let settings: [DemoSetting] = [
+        DemoSetting(
+            id: "account",
+            title: "Account",
+            detail: "Account settings live on the Settings tab path."
+        ),
+        DemoSetting(
+            id: "notifications",
+            title: "Notifications",
+            detail: "Deep links can switch tabs before pushing this detail view."
+        )
+    ]
+
     static func collection(id: String) -> DemoCollection? {
         collections.first { $0.id == id }
     }
@@ -70,5 +89,9 @@ enum DemoData {
 
     static func messages(in collectionID: String) -> [DemoMessage] {
         messages.filter { $0.collectionID == collectionID }
+    }
+
+    static func setting(id: String) -> DemoSetting? {
+        settings.first { $0.id == id }
     }
 }

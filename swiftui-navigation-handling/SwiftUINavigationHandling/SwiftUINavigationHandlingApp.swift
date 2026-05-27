@@ -6,5 +6,6 @@ struct SwiftUINavigationHandlingApp: App {
         WindowGroup {
             ContentView()
         }
+        .handlesExternalEvents(matching: ["*"])
     }
 }
