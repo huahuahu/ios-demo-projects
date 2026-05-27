@@ -1,0 +1,37 @@
+name: "SwiftUINavigationHandling"
+options:
+  bundleIdPrefix: "com.huahuahu.demo"
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: ""
+targets:
+  "SwiftUINavigationHandling":
+    type: application
+    platform: iOS
+    sources:
+      - "SwiftUINavigationHandling"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "com.huahuahu.demo.SwiftUINavigationHandling"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
+    scheme:
+      testTargets:
+        - "SwiftUINavigationHandlingTests"
+  "SwiftUINavigationHandlingTests":
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - "SwiftUINavigationHandlingTests"
+    dependencies:
+      - target: "SwiftUINavigationHandling"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "com.huahuahu.demo.SwiftUINavigationHandlingTests"
