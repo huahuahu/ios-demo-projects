@@ -23,7 +23,7 @@ SwiftUI 的 `NavigationStack`、`sheet`、`fullScreenCover` 单独看都不复�
 
 ## 最终模型
 
-核心结论：**root router 管 tab 和 root presentation；每一个 presented layer 自己再拥有一份本地导航状态。**
+核心结论：**`Route` 只描述页面身份；root router 管 tab 和 root presentation；每一个 presented layer 自己再拥有一份本地导航状态。**
 
 `Router` 只持有 app 根层的状态：当前 tab、每个 tab 的 path，以及 root sheet / root full-screen cover。
 
@@ -45,7 +45,7 @@ final class Router {
 @Observable
 final class PresentationNode: Identifiable {
     let id = UUID()
-    let route: PresentationRoute
+    let route: Route
     var path: [Route]
     var sheet: PresentationNode?
     var fullScreen: PresentationNode?
@@ -53,6 +53,8 @@ final class PresentationNode: Identifiable {
 ```
 
 这回答了一个关键问题：presented view 是否也需要一个 Route？需要，但更准确地说，**每个 presented layer 需要一个 node**。`route` 只描述这一层的根页面；`path/sheet/fullScreen` 描述这一层内部继续发生的导航。
+
+这里不要把页面拆成 `SheetRoute` / `FullScreenRoute` / push-only `Route`。真实 app 里同一个页面很可能今天从 sheet 打开，明天从 push 打开。页面身份应该是一份统一的 `Route`；push、sheet、cover 是承载这个 route 的上下文。
 
 下面这张图是这个 demo 的状态结构：
 
@@ -72,6 +74,9 @@ enum Route: Hashable, Identifiable, Sendable {
     case message(Int)
     case composer(replyTo: Int?)
     case settingsDetail(String)
+    case filters
+    case onboarding
+    case messagePreview(Int)
 }
 ```
 
@@ -108,7 +113,9 @@ Root 层的 `sheet` 和 `fullScreenCover` 直接绑定到 `Router`：
 }
 ```
 
-这里 root sheet / cover 的值不是 `SheetRoute` 或 `FullScreenRoute` 本身，而是 `PresentationNode`。这样从第一层 modal 开始，就已经具备继续 push 和继续 present 的能力。
+这里 root sheet / cover 的值不是另一套 sheet-only route enum，而是 `PresentationNode`。这样从第一层 modal 开始，就已经具备继续 push 和继续 present 的能力。
+
+所以 `router.presentSheet(.filters)` 和 `router.push(.filters, on: .inbox)` 可以使用同一个 `.filters` route。差异不在 route 本身，而在它被写进了 `router.sheet` 还是某个 tab 的 path。
 
 ## Case 3：Presented view 内部 push
 
@@ -120,7 +127,7 @@ Demo 给每个 `PresentationNodeView` 包一层自己的 `NavigationStack`：
 NavigationStack(path: $node.path) {
     PresentedRootView(node: node, dismiss: dismiss)
         .navigationDestination(for: Route.self) { route in
-            DestinationView(route: route)
+            DestinationView(route: route, context: .presented(node: node, dismiss: nil))
         }
 }
 ```
@@ -142,6 +149,8 @@ Button("Push Behind Sheet") {
 ```
 
 这两个动作要分开建模。一个是 modal-local navigation，一个是 root app navigation。
+
+为了让同一个页面既能被 push 又能被 present，demo 里给 destination 带了一个 `RouteContext`。页面组件不需要知道自己最初是 sheet 还是 push，只要通过 context 把后续动作发到正确的位置：root tab path、当前 node path、root sheet，或当前 node 的 child sheet。
 
 ## Case 4：Presented view 再 present
 
@@ -254,7 +263,9 @@ Parser 的责任到 `AppDeepLink` 为止；是否需要 dismiss presentation、�
 
 `rootPresentationCreatesPresentationNode` 验证 root sheet 和 root cover 都创建 `PresentationNode`，并且初始 node path 为空。
 
-这个测试防止后续重构又退回到只存 `SheetRoute` 的模型。
+这个测试防止后续重构又退回到只存一个裸 route、没有本地 path 和 child presentation 的模型。
+
+`routeIdentityIsIndependentFromPresentationStyle` 额外验证同一个 `.filters` 既可以在 tab path 里，也可以作为 sheet node 的根 route。这个测试直接覆盖“任意页面可能被 present，也可能被 push”的建模约束。
 
 ### 测 presented 内部 push
 
@@ -273,7 +284,7 @@ filterSheet.presentSheet(.composer(replyTo: nil))
 filterSheet.dismissSheet()
 
 #expect(router.sheet === filterSheet)
-#expect(router.sheet?.route == .sheet(.filters))
+#expect(router.sheet?.route == .filters)
 #expect(filterSheet.sheet == nil)
 ```
 
@@ -314,11 +325,12 @@ xcodebuild clean test \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=latest'
 ```
 
-本次验证结果：Swift Testing 发现并通过了 `RouterTests` 里的 12 个 case，包括 nested sheet close 的回归测试。
+本次验证结果：Swift Testing 发现并通过了 `RouterTests` 里的 13 个 case，包括 route identity 和 nested sheet close 的回归测试。
 
 ## 这次学到的规则
 
 - Tab path 要按 tab 拆开，root router 负责选择目标 tab 并更新对应 path。
+- `Route` 表示页面身份，不表示 push/sheet/cover。展示方式应该由 path 或 presentation slot 决定。
 - Root-level sheet / cover 可以放在全局 router，但值最好是 presentation node，而不是单薄的 route enum。
 - Presented view 内部 push 应该写当前 node 的 `path`，不要默认污染背后的 tab stack。
 - Nested present 不要靠 `nestedSheet` 字段硬编码层级，用递归 `PresentationNode` 表达 tree。

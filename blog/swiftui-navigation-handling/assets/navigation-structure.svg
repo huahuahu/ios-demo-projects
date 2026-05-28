@@ -30,7 +30,7 @@
 
   <rect class="bg" width="1120" height="780" rx="28" />
   <text class="title" x="56" y="62">SwiftUI Navigation Handling 结构</text>
-  <text class="text" x="56" y="92">Root Router 管全局导航；每个 PresentationNode 管自己的本地 stack 和下一层 modal。</text>
+  <text class="text" x="56" y="92">Route 表示页面；Root Router 管全局导航；每个 PresentationNode 管本地 stack 和下一层 modal。</text>
 
   <rect class="panel" x="56" y="126" width="420" height="250" rx="18" />
   <text class="label" x="86" y="166">Router</text>
@@ -54,13 +54,13 @@
 
   <rect class="node-alt" x="590" y="292" width="260" height="128" rx="16" />
   <text class="label" x="620" y="328">Root Sheet Node</text>
-  <text class="text" x="620" y="356">route: .sheet(.filters)</text>
+  <text class="text" x="620" y="356">route: .filters</text>
   <text class="text" x="620" y="382">path: [Route]</text>
   <text class="tiny" x="620" y="406">sheet / fullScreen child</text>
 
   <rect class="node-warn" x="590" y="478" width="260" height="128" rx="16" />
   <text class="label" x="620" y="514">Child Sheet Node</text>
-  <text class="text" x="620" y="542">route: .sheet(.composer)</text>
+  <text class="text" x="620" y="542">route: .composer</text>
   <text class="text" x="620" y="568">path: [Route]</text>
   <text class="tiny" x="620" y="592">dismiss 只清 parent.sheet</text>
 
@@ -88,5 +88,5 @@
 
   <path class="edge-muted" d="M850 542 C870 542 870 542 884 542" />
 
-  <text class="tiny" x="56" y="724">关键规则：关闭 nested sheet 时只清父 node 的 sheet，所以会回到 Filter sheet，而不是回到 root。</text>
+  <text class="tiny" x="56" y="724">关键规则：Route 不区分 push/sheet/cover；关闭 nested sheet 时只清父 node 的 sheet，所以会回到 Filter sheet。</text>
 </svg>

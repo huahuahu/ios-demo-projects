@@ -1,6 +1,6 @@
 import Foundation
-import Testing
 @testable import SwiftUINavigationHandling
+import Testing
 
 @MainActor
 struct RouterTests {
@@ -23,10 +23,22 @@ struct RouterTests {
         let sheet = try #require(router.sheet)
         let cover = try #require(router.fullScreen)
 
-        #expect(sheet.route == .sheet(.filters))
-        #expect(cover.route == .fullScreen(.onboarding))
+        #expect(sheet.route == .filters)
+        #expect(cover.route == .onboarding)
         #expect(sheet.path.isEmpty)
         #expect(cover.path.isEmpty)
+    }
+
+    @Test func routeIdentityIsIndependentFromPresentationStyle() throws {
+        let router = Router()
+
+        router.push(.filters, on: .inbox)
+        router.presentSheet(.filters)
+
+        let sheet = try #require(router.sheet)
+
+        #expect(router.inboxPath == [.filters])
+        #expect(sheet.route == .filters)
     }
 
     @Test func presentedNodeCanPushInsideItsOwnNavigationStack() throws {
@@ -42,15 +54,15 @@ struct RouterTests {
     }
 
     @Test func presentedNodeCanPresentNestedSheet() throws {
-        let rootSheet = PresentationNode(route: .sheet(.filters), path: [.message(301)])
+        let rootSheet = PresentationNode(route: .filters, path: [.message(301)])
 
         rootSheet.presentSheet(.composer(replyTo: 301))
         let nestedSheet = try #require(rootSheet.sheet)
         nestedSheet.push(.composer(replyTo: 301))
 
-        #expect(rootSheet.route == .sheet(.filters))
+        #expect(rootSheet.route == .filters)
         #expect(rootSheet.path == [.message(301)])
-        #expect(nestedSheet.route == .sheet(.composer(replyTo: 301)))
+        #expect(nestedSheet.route == .composer(replyTo: 301))
         #expect(nestedSheet.path == [.composer(replyTo: 301)])
     }
 
@@ -61,30 +73,30 @@ struct RouterTests {
 
         // 这是 nested present 的关键回归：关闭 child sheet 后仍然停留在 parent Filter sheet。
         filterSheet.presentSheet(.composer(replyTo: nil))
-        #expect(filterSheet.sheet?.route == .sheet(.composer(replyTo: nil)))
+        #expect(filterSheet.sheet?.route == .composer(replyTo: nil))
 
         filterSheet.dismissSheet()
 
         #expect(router.sheet === filterSheet)
-        #expect(router.sheet?.route == .sheet(.filters))
+        #expect(router.sheet?.route == .filters)
         #expect(filterSheet.sheet == nil)
     }
 
     @Test func presentedNodeCanPresentNestedFullScreenCover() throws {
-        let rootCover = PresentationNode(route: .fullScreen(.onboarding), path: [.settingsDetail("account")])
+        let rootCover = PresentationNode(route: .onboarding, path: [.settingsDetail("account")])
 
         rootCover.presentFullScreen(.messagePreview(101))
         let nestedCover = try #require(rootCover.fullScreen)
         nestedCover.push(.message(101))
 
-        #expect(rootCover.route == .fullScreen(.onboarding))
+        #expect(rootCover.route == .onboarding)
         #expect(rootCover.path == [.settingsDetail("account")])
-        #expect(nestedCover.route == .fullScreen(.messagePreview(101)))
+        #expect(nestedCover.route == .messagePreview(101))
         #expect(nestedCover.path == [.message(101)])
     }
 
     @Test func presentationNodesCanNestMultipleLevels() throws {
-        let rootSheet = PresentationNode(route: .sheet(.filters))
+        let rootSheet = PresentationNode(route: .filters)
         rootSheet.presentSheet(.composer(replyTo: nil))
 
         let childSheet = try #require(rootSheet.sheet)
@@ -93,9 +105,9 @@ struct RouterTests {
         let grandchildCover = try #require(childSheet.fullScreen)
         grandchildCover.push(.message(101))
 
-        #expect(rootSheet.route == .sheet(.filters))
-        #expect(childSheet.route == .sheet(.composer(replyTo: nil)))
-        #expect(grandchildCover.route == .fullScreen(.messagePreview(101)))
+        #expect(rootSheet.route == .filters)
+        #expect(childSheet.route == .composer(replyTo: nil))
+        #expect(grandchildCover.route == .messagePreview(101))
         #expect(grandchildCover.path == [.message(101)])
     }
 
@@ -140,7 +152,7 @@ struct RouterTests {
 
         router.push(.message(message.id), on: .inbox)
 
-        #expect(sheet.route == .sheet(.filters))
+        #expect(sheet.route == .filters)
         #expect(router.inboxPath == [.message(message.id)])
     }
 

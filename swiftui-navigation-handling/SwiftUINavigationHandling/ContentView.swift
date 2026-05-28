@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    // Router 放在 app 根部，然后通过 environment 下发；子视图只发导航意图，不自己保存全局状态。
+    /// Router 放在 app 根部，然后通过 environment 下发；子视图只发导航意图，不自己保存全局状态。
     @State private var router = Router()
 
     var body: some View {
@@ -33,7 +33,7 @@ private struct RootView: View {
                 InboxView()
                     .navigationTitle(AppTab.inbox.title)
                     .navigationDestination(for: Route.self) { route in
-                        DestinationView(route: route)
+                        DestinationView(route: route, context: .root(tab: .inbox))
                     }
             }
             .tabItem {
@@ -45,7 +45,7 @@ private struct RootView: View {
                 SettingsView()
                     .navigationTitle(AppTab.settings.title)
                     .navigationDestination(for: Route.self) { route in
-                        DestinationView(route: route)
+                        DestinationView(route: route, context: .root(tab: .settings))
                     }
             }
             .tabItem {
@@ -58,13 +58,13 @@ private struct RootView: View {
             PresentationNodeView(node: node) {
                 router.dismissSheet()
             }
-                .environment(router)
+            .environment(router)
         }
         .fullScreenCover(item: $router.fullScreen, onDismiss: router.applyDeferredDeepLinkIfReady) { node in
             PresentationNodeView(node: node) {
                 router.dismissFullScreen()
             }
-                .environment(router)
+            .environment(router)
         }
     }
 }
@@ -179,19 +179,98 @@ private struct SettingsView: View {
     }
 }
 
+private enum RouteContext {
+    // Route 只表示页面；context 表示这个页面里的后续 push/present 应该落到 root 还是当前 presented node。
+    case root(tab: AppTab)
+    case presented(node: PresentationNode, dismiss: (() -> Void)?)
+}
+
+@MainActor
+private extension RouteContext {
+    var presentationNode: PresentationNode? {
+        switch self {
+        case .root:
+            nil
+        case let .presented(node, _):
+            node
+        }
+    }
+
+    var dismissAction: (() -> Void)? {
+        switch self {
+        case .root:
+            nil
+        case let .presented(_, dismiss):
+            dismiss
+        }
+    }
+
+    func push(_ route: Route, router: Router) {
+        switch self {
+        case let .root(tab):
+            router.push(route, on: tab)
+        case let .presented(node, _):
+            node.push(route)
+        }
+    }
+
+    func presentSheet(_ route: Route, router: Router) {
+        switch self {
+        case .root:
+            router.presentSheet(route)
+        case let .presented(node, _):
+            node.presentSheet(route)
+        }
+    }
+
+    func presentFullScreen(_ route: Route, router: Router) {
+        switch self {
+        case .root:
+            router.presentFullScreen(route)
+        case let .presented(node, _):
+            node.presentFullScreen(route)
+        }
+    }
+
+    func pop(router: Router) {
+        switch self {
+        case let .root(tab):
+            router.pop(on: tab)
+        case let .presented(node, _):
+            node.pop()
+        }
+    }
+
+    func popToRoot(router: Router) {
+        switch self {
+        case let .root(tab):
+            router.popToRoot(on: tab)
+        case let .presented(node, _):
+            node.popToRoot()
+        }
+    }
+}
+
 private struct DestinationView: View {
     let route: Route
+    let context: RouteContext
 
     var body: some View {
         switch route {
-        case .collection(let id):
-            CollectionView(collectionID: id)
-        case .message(let id):
-            MessageDetailView(messageID: id)
-        case .composer(let replyTo):
-            ComposerPushView(replyTo: replyTo)
-        case .settingsDetail(let id):
-            SettingsDetailView(settingID: id)
+        case let .collection(id):
+            CollectionView(collectionID: id, context: context)
+        case let .message(id):
+            MessageDetailView(messageID: id, context: context)
+        case let .composer(replyTo):
+            ComposerView(replyTo: replyTo, context: context)
+        case let .settingsDetail(id):
+            SettingsDetailView(settingID: id, context: context)
+        case .filters:
+            FiltersView(context: context)
+        case .onboarding:
+            OnboardingView(context: context)
+        case let .messagePreview(id):
+            MessagePreviewView(messageID: id, context: context)
         }
     }
 }
@@ -199,6 +278,7 @@ private struct DestinationView: View {
 private struct CollectionView: View {
     @Environment(Router.self) private var router
     let collectionID: String
+    let context: RouteContext
 
     private var collection: DemoCollection? {
         DemoData.collection(id: collectionID)
@@ -214,22 +294,39 @@ private struct CollectionView: View {
         }
         .navigationTitle(collection?.title ?? "Collection")
         .toolbar {
+            if let dismiss = context.dismissAction {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Close") {
+                        dismiss()
+                    }
+                }
+            }
+
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("Back") {
-                    router.pop(on: .inbox)
+                    pop()
                 }
 
                 Button("Root") {
-                    router.popToRoot(on: .inbox)
+                    popToRoot()
                 }
             }
         }
+    }
+
+    private func pop() {
+        context.pop(router: router)
+    }
+
+    private func popToRoot() {
+        context.popToRoot(router: router)
     }
 }
 
 private struct MessageDetailView: View {
     @Environment(Router.self) private var router
     let messageID: Int
+    let context: RouteContext
 
     private var message: DemoMessage? {
         DemoData.message(id: messageID)
@@ -247,13 +344,13 @@ private struct MessageDetailView: View {
 
                 Section("Actions") {
                     Button {
-                        router.push(.composer(replyTo: message.id), on: .inbox)
+                        push(.composer(replyTo: message.id))
                     } label: {
                         Label("Push Reply", systemImage: "arrowshape.turn.up.left")
                     }
 
                     Button {
-                        router.presentSheet(.composer(replyTo: message.id))
+                        presentSheet(.composer(replyTo: message.id))
                     } label: {
                         Label("Sheet Reply", systemImage: "square.and.pencil")
                     }
@@ -264,27 +361,58 @@ private struct MessageDetailView: View {
         }
         .navigationTitle(message?.title ?? "Message")
         .toolbar {
+            if let dismiss = context.dismissAction {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Close") {
+                        dismiss()
+                    }
+                }
+            }
+
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Root") {
-                    router.popToRoot(on: .inbox)
+                    popToRoot()
                 }
             }
         }
     }
+
+    private func push(_ route: Route) {
+        context.push(route, router: router)
+    }
+
+    private func presentSheet(_ route: Route) {
+        context.presentSheet(route, router: router)
+    }
+
+    private func popToRoot() {
+        context.popToRoot(router: router)
+    }
 }
 
-private struct ComposerPushView: View {
+private struct ComposerView: View {
     let replyTo: Int?
+    let context: RouteContext
 
     var body: some View {
-        ComposerForm(replyTo: replyTo, sendAction: nil)
-            .navigationTitle("Compose")
+        ComposerForm(replyTo: replyTo, sendAction: context.dismissAction)
+            .navigationTitle(context.dismissAction == nil ? "Compose" : "Compose Sheet")
+            .toolbar {
+                if let dismiss = context.dismissAction {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Close") {
+                            dismiss()
+                        }
+                    }
+                }
+            }
     }
 }
 
 private struct SettingsDetailView: View {
     @Environment(Router.self) private var router
     let settingID: String
+    let context: RouteContext
 
     private var setting: DemoSetting? {
         DemoData.setting(id: settingID)
@@ -304,20 +432,33 @@ private struct SettingsDetailView: View {
 
             Section("Actions") {
                 Button {
-                    router.presentSheet(.filters)
+                    presentSheet(.filters)
                 } label: {
                     Label("Show Sheet", systemImage: "slider.horizontal.3")
                 }
             }
         }
         .navigationTitle(setting?.title ?? "Settings")
+        .toolbar {
+            if let dismiss = context.dismissAction {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Close") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+
+    private func presentSheet(_ route: Route) {
+        context.presentSheet(route, router: router)
     }
 }
 
 private struct PresentationNodeView: View {
     @Environment(Router.self) private var router
     @Bindable var node: PresentationNode
-    // 当前层的关闭动作：root 层清 Router，nested 层清父 node。
+    /// 当前层的关闭动作：root 层清 Router，nested 层清父 node。
     let dismiss: () -> Void
 
     var body: some View {
@@ -325,7 +466,7 @@ private struct PresentationNodeView: View {
         NavigationStack(path: $node.path) {
             PresentedRootView(node: node, dismiss: dismiss)
                 .navigationDestination(for: Route.self) { route in
-                    DestinationView(route: route)
+                    DestinationView(route: route, context: .presented(node: node, dismiss: nil))
                 }
         }
         // child sheet 递归复用同一个容器；关闭 child 时只清当前 node.sheet。
@@ -333,14 +474,14 @@ private struct PresentationNodeView: View {
             PresentationNodeView(node: child) {
                 node.dismissSheet()
             }
-                .environment(router)
+            .environment(router)
         }
         // child cover 也挂在当前 node 下，所以 sheet/cover 可以任意嵌套。
         .fullScreenCover(item: $node.fullScreen) { child in
             PresentationNodeView(node: child) {
                 node.dismissFullScreen()
             }
-                .environment(router)
+            .environment(router)
         }
     }
 }
@@ -350,106 +491,63 @@ private struct PresentedRootView: View {
     let dismiss: () -> Void
 
     var body: some View {
-        // node.route 只决定当前 presented layer 的根页面；内部 push 仍复用 Route。
-        switch node.route {
-        case .sheet(let route):
-            switch route {
-            case .composer(let replyTo):
-                ComposerSheetView(node: node, replyTo: replyTo, dismiss: dismiss)
-            case .filters:
-                FiltersView(node: node, dismiss: dismiss)
-            }
-        case .fullScreen(let route):
-            switch route {
-            case .onboarding:
-                OnboardingView(node: node, dismiss: dismiss)
-            case .messagePreview(let id):
-                MessagePreviewView(node: node, messageID: id, dismiss: dismiss)
-            }
-        }
-    }
-}
-
-private struct ComposerSheetView: View {
-    @Environment(Router.self) private var router
-    @Bindable var node: PresentationNode
-    let replyTo: Int?
-    let dismiss: () -> Void
-
-    var body: some View {
-        ComposerForm(replyTo: replyTo) {
-            dismiss()
-        }
-        .navigationTitle("Compose Sheet")
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button("Close") {
-                    dismiss()
-                }
-            }
-
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button("Push Inside") {
-                        node.push(.composer(replyTo: replyTo))
-                    }
-
-                    Button("Present Sheet") {
-                        node.presentSheet(.filters)
-                    }
-
-                    Button("Present Cover") {
-                        node.presentFullScreen(.onboarding)
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                }
-            }
-        }
+        // node.route 只决定当前 presented layer 的根页面；同一个 Route 也可以被 push 使用。
+        DestinationView(route: node.route, context: .presented(node: node, dismiss: dismiss))
     }
 }
 
 private struct FiltersView: View {
     @Environment(Router.self) private var router
-    @Bindable var node: PresentationNode
-    let dismiss: () -> Void
+    let context: RouteContext
+
+    private func closeWithApply() {
+        applyFiltersBeforeDismiss()
+        context.dismissAction?()
+    }
+
+    private func applyFiltersBeforeDismiss() {
+        // 这里放 FiltersView 自己的关闭前逻辑，例如保存筛选条件、埋点或校验。
+        print("FiltersView apply before dismiss")
+    }
 
     var body: some View {
         List {
             RouterStateSection()
-            NodeStateSection(node: node)
+            if let node = context.presentationNode {
+                NodeStateSection(node: node)
+            }
 
             Section("Filters") {
                 Toggle("Unread", isOn: .constant(true))
                 Toggle("Flagged", isOn: .constant(false))
             }
 
-            Section("Navigate While Presented") {
+            Section(navigationSectionTitle) {
                 if let message = DemoData.messages.last {
                     Button {
                         // modal-local push：只改变当前 Filter sheet 的 node.path。
-                        node.push(.message(message.id))
+                        context.push(.message(message.id), router: router)
                     } label: {
-                        Label("Push Inside This Sheet", systemImage: "arrow.right.circle")
+                        Label(pushInsideTitle, systemImage: "arrow.right.circle")
                     }
                 }
 
                 Button {
                     // nested present：Compose sheet 成为 Filter node 的 child sheet。
-                    node.presentSheet(.composer(replyTo: nil))
+                    context.presentSheet(.composer(replyTo: nil), router: router)
                 } label: {
-                    Label("Present Sheet From Sheet", systemImage: "rectangle.on.rectangle")
+                    Label(presentSheetTitle, systemImage: "rectangle.on.rectangle")
                 }
 
                 if let message = DemoData.messages.first {
                     Button {
-                        node.presentFullScreen(.messagePreview(message.id))
+                        context.presentFullScreen(.messagePreview(message.id), router: router)
                     } label: {
-                        Label("Present Cover From Sheet", systemImage: "rectangle.fill.on.rectangle.fill")
+                        Label(presentCoverTitle, systemImage: "rectangle.fill.on.rectangle.fill")
                     }
                 }
 
-                if let message = DemoData.messages.last {
+                if isPresented, let message = DemoData.messages.last {
                     Button {
                         // 显式演示“修改背后的 tab stack”，所以这里走 root router。
                         router.push(.message(message.id), on: .inbox)
@@ -458,7 +556,7 @@ private struct FiltersView: View {
                     }
                 }
 
-                if let message = DemoData.messages.first {
+                if isPresented, let message = DemoData.messages.first {
                     Button {
                         // Hot link 会关闭 root presentation tree，再应用目标 tab/path。
                         router.openDeepLink(.message(message))
@@ -470,48 +568,71 @@ private struct FiltersView: View {
         }
         .navigationTitle("Filters")
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button("Close") {
-                    dismiss()
+            if context.dismissAction != nil {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Close") {
+                        closeWithApply()
+                    }
                 }
             }
         }
+    }
+
+    private var pushInsideTitle: String {
+        isPresented ? "Push Inside This Sheet" : "Push Reply Route"
+    }
+
+    private var presentSheetTitle: String {
+        isPresented ? "Present Sheet From Sheet" : "Present Compose Sheet"
+    }
+
+    private var presentCoverTitle: String {
+        isPresented ? "Present Cover From Sheet" : "Present Preview Cover"
+    }
+
+    private var navigationSectionTitle: String {
+        isPresented ? "Navigate While Presented" : "Navigate"
+    }
+
+    private var isPresented: Bool {
+        context.presentationNode != nil
     }
 }
 
 private struct OnboardingView: View {
     @Environment(Router.self) private var router
-    @Bindable var node: PresentationNode
-    let dismiss: () -> Void
+    let context: RouteContext
 
     var body: some View {
         List {
             RouterStateSection()
-            NodeStateSection(node: node)
+            if let node = context.presentationNode {
+                NodeStateSection(node: node)
+            }
 
-            Section("Full Screen") {
-                Text("This cover is a presentation node with its own path and child presentations.")
+            Section(onboardingSectionTitle) {
+                Text(onboardingDescription)
             }
 
             Section("Navigate While Presented") {
                 if let setting = DemoData.settings.first {
                     Button {
-                        node.push(.settingsDetail(setting.id))
+                        context.push(.settingsDetail(setting.id), router: router)
                     } label: {
-                        Label("Push Inside This Cover", systemImage: "arrow.right.circle")
+                        Label(pushInsideTitle, systemImage: "arrow.right.circle")
                     }
                 }
 
                 Button {
-                    node.presentSheet(.filters)
+                    context.presentSheet(.filters, router: router)
                 } label: {
-                    Label("Present Sheet From Cover", systemImage: "rectangle.on.rectangle")
+                    Label(presentSheetTitle, systemImage: "rectangle.on.rectangle")
                 }
 
                 Button {
-                    node.presentFullScreen(.messagePreview(DemoData.messages[0].id))
+                    context.presentFullScreen(.messagePreview(DemoData.messages[0].id), router: router)
                 } label: {
-                    Label("Present Cover From Cover", systemImage: "rectangle.fill.on.rectangle.fill")
+                    Label(presentCoverTitle, systemImage: "rectangle.fill.on.rectangle.fill")
                 }
 
                 if let setting = DemoData.settings.first {
@@ -525,20 +646,47 @@ private struct OnboardingView: View {
         }
         .navigationTitle("Onboarding")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Done") {
-                    dismiss()
+            if let dismiss = context.dismissAction {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
                 }
             }
         }
+    }
+
+    private var pushInsideTitle: String {
+        isPresented ? "Push Inside This Cover" : "Push Settings Route"
+    }
+
+    private var presentSheetTitle: String {
+        isPresented ? "Present Sheet From Cover" : "Present Filter Sheet"
+    }
+
+    private var presentCoverTitle: String {
+        isPresented ? "Present Cover From Cover" : "Present Preview Cover"
+    }
+
+    private var onboardingSectionTitle: String {
+        isPresented ? "Full Screen" : "Onboarding"
+    }
+
+    private var onboardingDescription: String {
+        isPresented
+            ? "This cover is a presentation node with its own path and child presentations."
+            : "This page can also be pushed because presentation style is not part of Route."
+    }
+
+    private var isPresented: Bool {
+        context.presentationNode != nil
     }
 }
 
 private struct MessagePreviewView: View {
     @Environment(Router.self) private var router
-    @Bindable var node: PresentationNode
     let messageID: Int
-    let dismiss: () -> Void
+    let context: RouteContext
 
     private var message: DemoMessage? {
         DemoData.message(id: messageID)
@@ -547,7 +695,9 @@ private struct MessagePreviewView: View {
     var body: some View {
         List {
             RouterStateSection()
-            NodeStateSection(node: node)
+            if let node = context.presentationNode {
+                NodeStateSection(node: node)
+            }
 
             if let message {
                 Section(message.title) {
@@ -556,15 +706,15 @@ private struct MessagePreviewView: View {
 
                 Section("Actions") {
                     Button {
-                        node.push(.message(message.id))
+                        context.push(.message(message.id), router: router)
                     } label: {
-                        Label("Push Inside This Cover", systemImage: "arrow.right.circle")
+                        Label(pushInsideTitle, systemImage: "arrow.right.circle")
                     }
 
                     Button {
-                        node.presentSheet(.filters)
+                        context.presentSheet(.filters, router: router)
                     } label: {
-                        Label("Present Sheet From Cover", systemImage: "rectangle.on.rectangle")
+                        Label(presentSheetTitle, systemImage: "rectangle.on.rectangle")
                     }
 
                     Button {
@@ -577,12 +727,26 @@ private struct MessagePreviewView: View {
         }
         .navigationTitle("Preview")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Close") {
-                    dismiss()
+            if let dismiss = context.dismissAction {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Close") {
+                        dismiss()
+                    }
                 }
             }
         }
+    }
+
+    private var pushInsideTitle: String {
+        isPresented ? "Push Inside This Cover" : "Push Full Message"
+    }
+
+    private var presentSheetTitle: String {
+        isPresented ? "Present Sheet From Cover" : "Present Filter Sheet"
+    }
+
+    private var isPresented: Bool {
+        context.presentationNode != nil
     }
 }
 

@@ -1,30 +1,30 @@
 import SwiftUI
 
-// 每一层被 present 出来的页面都是一个节点：它有自己的根 route、本层 push path，以及下一层 sheet/cover。
-// 这样可以自然支持 sheet -> sheet -> cover 这种递归结构，而不是在 Router 里硬编码 nestedSheet。
+/// 每一层被 present 出来的页面都是一个节点：它有自己的根 route、本层 push path，以及下一层 sheet/cover。
+/// 这样可以自然支持 sheet -> sheet -> cover 这种递归结构，而不是在 Router 里硬编码 nestedSheet。
 @MainActor
 @Observable
 final class PresentationNode: Identifiable {
     let id = UUID()
-    let route: PresentationRoute
+    let route: Route
     var path: [Route]
     // 子 presentation 属于当前节点；关闭子 sheet 时只清这里，不会影响 root sheet。
     var sheet: PresentationNode?
     var fullScreen: PresentationNode?
 
-    init(route: PresentationRoute, path: [Route] = []) {
+    init(route: Route, path: [Route] = []) {
         self.route = route
         self.path = path
     }
 
-    func presentSheet(_ route: SheetRoute) {
+    func presentSheet(_ route: Route) {
         // 从 presented view 再 present 时，挂到当前 node 下面，保留父层 presented view。
-        sheet = PresentationNode(route: .sheet(route))
+        sheet = PresentationNode(route: route)
     }
 
-    func presentFullScreen(_ route: FullScreenRoute) {
+    func presentFullScreen(_ route: Route) {
         // cover 也用同一套节点模型，所以每层 cover 内部仍然可以继续 push 或 present。
-        fullScreen = PresentationNode(route: .fullScreen(route))
+        fullScreen = PresentationNode(route: route)
     }
 
     func dismissSheet() {
@@ -50,8 +50,8 @@ final class PresentationNode: Identifiable {
     }
 }
 
-// Router 只管理 app 根层导航：当前 tab、各 tab 的 path、root sheet/cover，以及等待中的 deep link。
-// Presented view 内部的 path 和 nested presentation 交给 PresentationNode 管，避免所有状态都挤在 root。
+/// Router 只管理 app 根层导航：当前 tab、各 tab 的 path、root sheet/cover，以及等待中的 deep link。
+/// Presented view 内部的 path 和 nested presentation 交给 PresentationNode 管，避免所有状态都挤在 root。
 @MainActor
 @Observable
 final class Router {
@@ -59,10 +59,10 @@ final class Router {
     // Tab 之间保留独立 path，切换 tab 时不会互相污染返回栈。
     var inboxPath: [Route]
     var settingsPath: [Route]
-    // Root-level presentation。值是 PresentationNode，而不是单纯的 SheetRoute/FullScreenRoute。
+    // Root-level presentation。sheet/fullScreen 表示展示方式，node.route 仍然是统一的 Route。
     var sheet: PresentationNode?
     var fullScreen: PresentationNode?
-    // Hot link 到来时如果正在展示 sheet/cover，先 dismiss，再延后应用目标 path。
+    /// Hot link 到来时如果正在展示 sheet/cover，先 dismiss，再延后应用目标 path。
     private(set) var deferredDeepLink: AppDeepLink?
 
     init(
@@ -114,14 +114,14 @@ final class Router {
         setPath(path, for: targetTab)
     }
 
-    func presentSheet(_ route: SheetRoute) {
+    func presentSheet(_ route: Route) {
         // Root 发起的 presentation 挂在 Router 下，是整个 presentation tree 的入口。
-        sheet = PresentationNode(route: .sheet(route))
+        sheet = PresentationNode(route: route)
     }
 
-    func presentFullScreen(_ route: FullScreenRoute) {
+    func presentFullScreen(_ route: Route) {
         // Root cover 与 root sheet 并列；deep link 会一起清掉 root presentation tree。
-        fullScreen = PresentationNode(route: .fullScreen(route))
+        fullScreen = PresentationNode(route: route)
     }
 
     func dismissSheet() {
