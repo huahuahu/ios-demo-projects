@@ -363,6 +363,11 @@ pre {
   background: var(--surface-muted);
 }
 
+.article-body img[src$=".svg"] {
+  max-height: none;
+  padding: 12px;
+}
+
 .article-body pre {
   margin-top: 16px;
 }

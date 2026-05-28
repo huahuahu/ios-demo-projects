@@ -34,6 +34,7 @@ struct RouterTests {
         router.presentSheet(.filters)
         let sheet = try #require(router.sheet)
 
+        // presented view 内部 push 应该落在 node.path，不应该污染背后的 tab path。
         sheet.push(.message(301))
 
         #expect(sheet.path == [.message(301)])
@@ -58,6 +59,7 @@ struct RouterTests {
         router.presentSheet(.filters)
         let filterSheet = try #require(router.sheet)
 
+        // 这是 nested present 的关键回归：关闭 child sheet 后仍然停留在 parent Filter sheet。
         filterSheet.presentSheet(.composer(replyTo: nil))
         #expect(filterSheet.sheet?.route == .sheet(.composer(replyTo: nil)))
 
@@ -104,6 +106,7 @@ struct RouterTests {
         let sheet = try #require(router.sheet)
         sheet.presentSheet(.composer(replyTo: 101))
 
+        // Hot link 来时先清 root presentation tree，把真实跳转延后到 dismiss 完成后。
         router.openDeepLink(.message(message))
 
         #expect(router.sheet == nil)

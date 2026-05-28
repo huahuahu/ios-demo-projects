@@ -38,6 +38,32 @@ demo-name/
 
 如果网站定位是文章站，建议把 `blog/` 作为 Pages root，并让每篇文章放在 `blog/<slug>/index.html`，文章内部再链接对应 demo 或源码。
 
+### 本地预览
+
+`blog/Gemfile` 记录了本地 Jekyll 预览需要的 Ruby gems，并对齐 `actions/jekyll-build-pages@v1.0.13` 镜像里使用的 `github-pages = 232` 依赖。CI 构建仍由 GitHub Pages action 的 Docker 镜像执行；本地 Gemfile 主要用于让预览环境尽量接近 CI。
+
+注意：这套依赖需要 Ruby 3.x，建议使用 `blog/.ruby-version` 里的 Ruby 3.3。macOS 系统自带的 Ruby 2.6 不能安装当前 GitHub Pages 依赖。
+
+第一次运行先安装依赖：
+
+```bash
+cd blog
+bundle config set path vendor/bundle
+bundle install
+```
+
+启动本地站点：
+
+```bash
+bundle exec jekyll serve --host 127.0.0.1
+```
+
+因为 `_config.yml` 设置了 `baseurl: /ios-demo-projects`，本地访问地址是：
+
+```text
+http://127.0.0.1:4000/ios-demo-projects/
+```
+
 ## 维护原则
 
 - demo 应尽量小而完整，聚焦一个明确主题。

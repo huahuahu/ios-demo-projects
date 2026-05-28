@@ -54,6 +54,12 @@ final class PresentationNode: Identifiable {
 
 这回答了一个关键问题：presented view 是否也需要一个 Route？需要，但更准确地说，**每个 presented layer 需要一个 node**。`route` 只描述这一层的根页面；`path/sheet/fullScreen` 描述这一层内部继续发生的导航。
 
+下面这张图是这个 demo 的状态结构：
+
+![SwiftUI navigation handling structure]({{ '/swiftui-navigation-handling/assets/navigation-structure.svg' | relative_url }})
+
+图里最重要的边界是：`Router` 不知道 nested sheet 的细节，它只知道 root sheet / cover；nested sheet 挂在父 `PresentationNode` 上。因此关闭 child sheet 时，只会回到父 sheet。
+
 ## Case 1：Tab 内 push
 
 Tab app 不应该共用一条全局 `NavigationPath`。每个 tab 都应该有自己的 path，否则切 tab 后返回栈会互相污染。

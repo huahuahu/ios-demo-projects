@@ -1,5 +1,7 @@
 import Foundation
 
+// Parser 只把外部输入翻译成 AppDeepLink，不直接修改 Router。
+// 这样 cold launch、hot link、测试都能复用同一份解析逻辑。
 enum DeepLinkParser {
     static let scheme = "swiftuinavigationhandling"
 

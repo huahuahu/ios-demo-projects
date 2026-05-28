@@ -1,17 +1,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    // Router 放在 app 根部，然后通过 environment 下发；子视图只发导航意图，不自己保存全局状态。
     @State private var router = Router()
 
     var body: some View {
         RootView()
             .environment(router)
             .onAppear {
+                // Cold launch deep link 来自启动参数，此时还没有 presentation，可以直接应用。
                 router.openColdLaunchDeepLink(
                     DeepLinkParser.deepLink(from: ProcessInfo.processInfo.arguments)
                 )
             }
             .onOpenURL { url in
+                // Hot link 可能发生在 sheet/cover 打开时，由 Router 决定是否先 dismiss 再跳转。
                 guard let deepLink = DeepLinkParser.deepLink(from: url) else { return }
                 router.openDeepLink(deepLink)
             }
@@ -24,6 +27,7 @@ private struct RootView: View {
     var body: some View {
         @Bindable var router = router
 
+        // 每个 tab 绑定自己的 path，避免一个 tab 的 push 影响另一个 tab 的返回栈。
         TabView(selection: $router.selectedTab) {
             NavigationStack(path: router.binding(for: .inbox)) {
                 InboxView()
@@ -49,6 +53,7 @@ private struct RootView: View {
             }
             .tag(AppTab.settings)
         }
+        // Root presentation 是 modal tree 的入口；onDismiss 用来继续执行等待中的 hot link。
         .sheet(item: $router.sheet, onDismiss: router.applyDeferredDeepLinkIfReady) { node in
             PresentationNodeView(node: node) {
                 router.dismissSheet()
@@ -312,21 +317,25 @@ private struct SettingsDetailView: View {
 private struct PresentationNodeView: View {
     @Environment(Router.self) private var router
     @Bindable var node: PresentationNode
+    // 当前层的关闭动作：root 层清 Router，nested 层清父 node。
     let dismiss: () -> Void
 
     var body: some View {
+        // Presented view 内部 push 走 node.path，不默认改背后的 tab path。
         NavigationStack(path: $node.path) {
             PresentedRootView(node: node, dismiss: dismiss)
                 .navigationDestination(for: Route.self) { route in
                     DestinationView(route: route)
                 }
         }
+        // child sheet 递归复用同一个容器；关闭 child 时只清当前 node.sheet。
         .sheet(item: $node.sheet) { child in
             PresentationNodeView(node: child) {
                 node.dismissSheet()
             }
                 .environment(router)
         }
+        // child cover 也挂在当前 node 下，所以 sheet/cover 可以任意嵌套。
         .fullScreenCover(item: $node.fullScreen) { child in
             PresentationNodeView(node: child) {
                 node.dismissFullScreen()
@@ -341,6 +350,7 @@ private struct PresentedRootView: View {
     let dismiss: () -> Void
 
     var body: some View {
+        // node.route 只决定当前 presented layer 的根页面；内部 push 仍复用 Route。
         switch node.route {
         case .sheet(let route):
             switch route {
@@ -417,6 +427,7 @@ private struct FiltersView: View {
             Section("Navigate While Presented") {
                 if let message = DemoData.messages.last {
                     Button {
+                        // modal-local push：只改变当前 Filter sheet 的 node.path。
                         node.push(.message(message.id))
                     } label: {
                         Label("Push Inside This Sheet", systemImage: "arrow.right.circle")
@@ -424,6 +435,7 @@ private struct FiltersView: View {
                 }
 
                 Button {
+                    // nested present：Compose sheet 成为 Filter node 的 child sheet。
                     node.presentSheet(.composer(replyTo: nil))
                 } label: {
                     Label("Present Sheet From Sheet", systemImage: "rectangle.on.rectangle")
@@ -439,6 +451,7 @@ private struct FiltersView: View {
 
                 if let message = DemoData.messages.last {
                     Button {
+                        // 显式演示“修改背后的 tab stack”，所以这里走 root router。
                         router.push(.message(message.id), on: .inbox)
                     } label: {
                         Label("Push Behind Sheet", systemImage: "arrow.down.forward.circle")
@@ -447,6 +460,7 @@ private struct FiltersView: View {
 
                 if let message = DemoData.messages.first {
                     Button {
+                        // Hot link 会关闭 root presentation tree，再应用目标 tab/path。
                         router.openDeepLink(.message(message))
                     } label: {
                         Label("Deep Link While Sheet Is Open", systemImage: "link")
