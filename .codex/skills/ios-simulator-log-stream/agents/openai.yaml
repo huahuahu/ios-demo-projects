@@ -1,4 +1,0 @@
-interface:
-  display_name: "iOS Simulator Log Stream"
-  short_description: "Capture iOS Simulator logs with simctl spawn"
-  default_prompt: "Use $ios-simulator-log-stream to capture logs from my running iOS Simulator app."

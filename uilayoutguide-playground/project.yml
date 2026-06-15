@@ -1,0 +1,34 @@
+name: "UILayoutGuidePlayground"
+options:
+  bundleIdPrefix: "com.huahuahu.demo"
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: ""
+targets:
+  "UILayoutGuidePlayground":
+    type: application
+    platform: iOS
+    sources:
+      - "UILayoutGuidePlayground"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: "UILayoutGuidePlayground/Info.plist"
+        PRODUCT_BUNDLE_IDENTIFIER: "com.huahuahu.demo.UILayoutGuidePlayground"
+    scheme:
+      testTargets:
+        - "UILayoutGuidePlaygroundTests"
+  "UILayoutGuidePlaygroundTests":
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - "UILayoutGuidePlaygroundTests"
+    dependencies:
+      - target: "UILayoutGuidePlayground"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "com.huahuahu.demo.UILayoutGuidePlaygroundTests"

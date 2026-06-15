@@ -1,0 +1,14 @@
+schemaVersion: 1
+enabledWorkflows:
+  - simulator
+  - debugging
+  - logging
+  - ui-automation
+  - utilities
+debug: true
+sentryDisabled: false
+sessionDefaults:
+  projectPath: UILayoutGuidePlayground.xcodeproj
+  scheme: UILayoutGuidePlayground
+  simulatorName: iPhone 17 Pro Max
+  simulatorId: 62706291-A205-4E42-AD8C-3056825895D4

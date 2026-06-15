@@ -1,13 +1,13 @@
 ---
 name: ios-simulator-log-stream
-description: Use this project-local skill when the user asks Codex to capture, inspect, stream, save, filter, or debug iOS Simulator logs from an app using xcrun simctl spawn log stream. Trigger for simulator logging, Logger/os_log investigation, agentic coding log capture, or checking app runtime output from terminal-accessible simulator logs.
+description: Use this project-local skill when the user asks Copilot to capture, inspect, stream, save, filter, or debug iOS Simulator logs from an app using xcrun simctl spawn log stream. Trigger for simulator logging, Logger/os_log investigation, agentic coding log capture, or checking app runtime output from terminal-accessible simulator logs.
 ---
 
 # iOS Simulator Log Stream
 
 ## Purpose
 
-Capture iOS Simulator unified logs from the terminal in a way Codex can inspect and summarize. Prefer `xcrun simctl spawn <device> log stream ...` over UI-only tools such as Console.app or Xcode Console.
+Capture iOS Simulator unified logs from the terminal in a way Copilot can inspect and summarize. Prefer `xcrun simctl spawn <device> log stream ...` over UI-only tools such as Console.app or Xcode Console.
 
 ## Correct Command Shape
 
