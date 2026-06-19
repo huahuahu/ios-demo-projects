@@ -13,9 +13,9 @@ Building a scrollable input screen where action buttons and the text field stay 
 - Composer area includes action buttons (`Attach`, `Emoji`, `Clear`, `Dismiss`) and a text input + `Send`.
 - `Dismiss` explicitly closes the keyboard or active presentation.
 - SwiftUI `Attach` opens a medium-detent sheet with selectable sources (`Photo Library`, `Camera`, `Files`).
-- UIKit `Attach` dismisses the keyboard and slides in an app-owned attachment panel with a constraint animation.
+- UIKit `Attach` replaces the system keyboard with a custom attachment `UIInputView` hosted by an invisible first responder.
 - SwiftUI tab uses `safeAreaInset(edge: .bottom)` for keyboard-safe placement.
-- UIKit tab uses `keyboardLayoutGuide` for the system keyboard and a separate animated attachment panel for custom actions.
+- UIKit tab keeps the composer pinned to `keyboardLayoutGuide` while UIKit owns both the system keyboard and custom attachment input surface.
 
 ## Requirements
 
@@ -48,7 +48,7 @@ xcodebuild test -project KeyboardHandlingTabs.xcodeproj -scheme KeyboardHandling
 - `project.yml` defines the XcodeGen project.
 - `KeyboardHandlingTabs/ContentView.swift` wires the two tabs.
 - `KeyboardHandlingTabs/SwiftUIKeyboardTabView.swift` demonstrates SwiftUI keyboard-safe composer layout and sheet-based source selection.
-- `KeyboardHandlingTabs/UIKitKeyboardViewController.swift` demonstrates UIKit keyboard-safe composer layout with `keyboardLayoutGuide` plus an app-owned animated attachment panel.
+- `KeyboardHandlingTabs/UIKitKeyboardViewController.swift` demonstrates UIKit keyboard-safe composer layout with `keyboardLayoutGuide` plus first-responder switching to a custom attachment `UIInputView`.
 - `KeyboardHandlingTabs/KeyboardDemoModel.swift` contains shared demo state and action behavior.
 - `KeyboardHandlingTabsTests/KeyboardDemoModelTests.swift` verifies focused model behavior.
 - `docs/ui-preview.html` is a browser-friendly visual mock of both tabs.

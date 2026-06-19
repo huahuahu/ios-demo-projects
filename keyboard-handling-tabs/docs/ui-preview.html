@@ -365,7 +365,7 @@
     <header>
       <h1>Keyboard Handling Tabs UI Preview</h1>
       <p class="subtitle">
-        这个页面用网页 mock 展示 demo 的大概 UI：每个 tab 都是滚动内容区，底部 composer 包含 action buttons、输入框和 Send。SwiftUI 用 sheet 承载来源选择；UIKit 用普通底部 attachmentPanel 配合约束动画替代 inputView 切换。
+        这个页面用网页 mock 展示 demo 的大概 UI：每个 tab 都是滚动内容区，底部 composer 包含 action buttons、输入框和 Send。SwiftUI 用 sheet 承载来源选择；UIKit 用隐藏 first responder 提供 custom inputView，让系统键盘和附件来源选择共用同一个 keyboard area。
       </p>
     </header>
 
@@ -436,16 +436,16 @@
       </article>
 
       <article class="panel">
-        <h2><span class="badge">UIKit</span> animated attachment panel</h2>
+        <h2><span class="badge">UIKit</span> custom input view</h2>
         <p class="notes">
-          UIKit tab 不再用 <code>reloadInputViews()</code> 替换键盘，而是让附件面板作为普通 view 从底部滑入；composer 通过约束动画跟着面板移动。
+          UIKit tab 让 text field 和隐藏的 first-responder host 轮流成为 first responder。composer 始终贴住 <code>keyboardLayoutGuide</code>，系统键盘和附件选择由 UIKit 在同一输入区域中替换。
         </p>
         <div class="phone">
           <div class="screen">
             <div class="status"><span>9:41</span><span>5G 100%</span></div>
             <div class="titlebar">
               <strong>UIKit</strong>
-              <span>UIScrollView + keyboardLayoutGuide + attachmentPanel</span>
+              <span>UIScrollView + keyboardLayoutGuide + custom inputView</span>
             </div>
             <div class="scrollview">
               <div class="message">UIKit tab: ScrollView + input bar pinned above keyboard.</div>
@@ -465,7 +465,7 @@
                 <div class="send">Send</div>
               </div>
             </div>
-            <div class="source-picker" aria-label="animated attachment panel">
+            <div class="source-picker" aria-label="custom attachment input view">
               <strong>Choose attachment source</strong>
               <div class="source-options">
                 <div class="source-option"><span>▧</span>Photo Library</div>
@@ -475,7 +475,7 @@
             </div>
           </div>
         </div>
-        <div class="implementation">Key idea: attachmentPanel bottom constraint toggles between hidden and visible states</div>
+        <div class="implementation">Key idea: a hidden responder returns AttachmentInputView from inputView</div>
       </article>
     </section>
   </main>
