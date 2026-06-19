@@ -10,6 +10,11 @@ final class AttachmentInputView: UIInputView {
         allowsSelfSizing = true
         backgroundColor = .systemBackground
         configureLayout()
+        frame.size = systemLayoutSizeFitting(
+            CGSize(width: fittingWidth(for: .zero), height: UIView.layoutFittingCompressedSize.height),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
     }
 
     @available(*, unavailable)
@@ -22,13 +27,28 @@ final class AttachmentInputView: UIInputView {
         withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
         verticalFittingPriority: UILayoutPriority
     ) -> CGSize {
-        let fittingWidth = targetSize.width > 0 ? targetSize.width : (window?.windowScene?.screen.bounds.width ?? bounds.width)
+        let fittingWidth = fittingWidth(for: targetSize)
         let fittingSize = super.systemLayoutSizeFitting(
             CGSize(width: fittingWidth, height: UIView.layoutFittingCompressedSize.height),
             withHorizontalFittingPriority: .required,
             verticalFittingPriority: .fittingSizeLevel
         )
         return CGSize(width: fittingWidth, height: fittingSize.height)
+    }
+
+    private func fittingWidth(for targetSize: CGSize) -> CGFloat {
+        if targetSize.width > 0 {
+            return targetSize.width
+        }
+        if let windowWidth = window?.windowScene?.screen.bounds.width, windowWidth > 0 {
+            return windowWidth
+        }
+        if bounds.width > 0 {
+            return bounds.width
+        }
+        return UIApplication.shared.connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.screen.bounds.width }
+            .first { $0 > 0 } ?? 390
     }
 
     private func configureLayout() {

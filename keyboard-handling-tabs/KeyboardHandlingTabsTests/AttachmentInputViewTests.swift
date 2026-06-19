@@ -42,4 +42,13 @@ struct AttachmentInputViewTests {
         #expect(fittingSize.height > 120)
         #expect(fittingSize.height < 220)
     }
+
+    @Test
+    func startsWithNonZeroFrameForUIKitInputViewAttachment() {
+        let inputView = AttachmentInputView { _ in }
+
+        #expect(inputView.frame.width > 0)
+        #expect(inputView.frame.height > 120)
+        #expect(inputView.frame.height < 220)
+    }
 }
