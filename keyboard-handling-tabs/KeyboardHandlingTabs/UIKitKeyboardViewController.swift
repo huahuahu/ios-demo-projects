@@ -10,19 +10,17 @@ final class UIKitKeyboardViewController: UIViewController {
     private let actionButtonsStackView = UIStackView()
     private let draftTextField = UITextField()
     private let sendButton = UIButton(type: .system)
-    private let attachmentPanel = UIView()
-    private var composerKeyboardBottomConstraint: NSLayoutConstraint?
-    private var composerAttachmentBottomConstraint: NSLayoutConstraint?
-    private var attachmentPanelBottomConstraint: NSLayoutConstraint?
-    private var isShowingAttachmentPanel = false
-    private static let attachmentPanelHeight: CGFloat = 150
+    private lazy var attachmentInputView = AttachmentInputView { [weak self] source in
+        self?.selectAttachmentSource(source)
+    }
+    private lazy var attachmentInputHostView = AttachmentInputHostView(inputView: attachmentInputView)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "UIKit"
         view.backgroundColor = .systemGroupedBackground
-        configureAttachmentPanel()
         configureComposer()
+        configureAttachmentInputHost()
         configureScrollView()
         applyState(scrollToBottom: false)
     }
@@ -92,16 +90,10 @@ final class UIKitKeyboardViewController: UIViewController {
         // 直接跟随系统键盘布局引导：键盘出现时贴住键盘顶部，隐藏时回到底部安全区域。
         view.keyboardLayoutGuide.followsUndockedKeyboard = true
 
-        let keyboardBottomConstraint = composerContainer.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
-        let attachmentBottomConstraint = composerContainer.bottomAnchor.constraint(equalTo: attachmentPanel.topAnchor)
-        attachmentBottomConstraint.isActive = false
-        composerKeyboardBottomConstraint = keyboardBottomConstraint
-        composerAttachmentBottomConstraint = attachmentBottomConstraint
-
         NSLayoutConstraint.activate([
             composerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             composerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            keyboardBottomConstraint,
+            composerContainer.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
 
             divider.leadingAnchor.constraint(equalTo: composerContainer.leadingAnchor),
             divider.trailingAnchor.constraint(equalTo: composerContainer.trailingAnchor),
@@ -116,64 +108,15 @@ final class UIKitKeyboardViewController: UIViewController {
         ])
     }
 
-    private func configureAttachmentPanel() {
-        attachmentPanel.translatesAutoresizingMaskIntoConstraints = false
-        attachmentPanel.backgroundColor = .systemBackground
-        attachmentPanel.isHidden = true
-        view.addSubview(attachmentPanel)
-
-        let divider = UIView()
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        divider.backgroundColor = .separator
-        attachmentPanel.addSubview(divider)
-
-        let titleLabel = UILabel()
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.text = "Choose attachment source"
-        titleLabel.font = .preferredFont(forTextStyle: .headline)
-        attachmentPanel.addSubview(titleLabel)
-
-        let optionsStackView = UIStackView()
-        optionsStackView.translatesAutoresizingMaskIntoConstraints = false
-        optionsStackView.axis = .horizontal
-        optionsStackView.spacing = 12
-        optionsStackView.distribution = .fillEqually
-        attachmentPanel.addSubview(optionsStackView)
-
-        for source in AttachmentSource.allCases {
-            let button = UIButton(type: .system)
-            button.tag = AttachmentSource.allCases.firstIndex(of: source) ?? 0
-            button.configuration = .tinted()
-            button.configuration?.title = source.rawValue
-            button.configuration?.image = UIImage(systemName: source.symbolName)
-            button.configuration?.imagePadding = 8
-            button.configuration?.imagePlacement = .top
-            button.addTarget(self, action: #selector(handleSourceButtonTap(_:)), for: .touchUpInside)
-            optionsStackView.addArrangedSubview(button)
-        }
-
-        let bottomConstraint = attachmentPanel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Self.attachmentPanelHeight)
-        attachmentPanelBottomConstraint = bottomConstraint
+    private func configureAttachmentInputHost() {
+        attachmentInputHostView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(attachmentInputHostView)
 
         NSLayoutConstraint.activate([
-            attachmentPanel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            attachmentPanel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            attachmentPanel.heightAnchor.constraint(equalToConstant: Self.attachmentPanelHeight),
-            bottomConstraint,
-
-            divider.leadingAnchor.constraint(equalTo: attachmentPanel.leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: attachmentPanel.trailingAnchor),
-            divider.topAnchor.constraint(equalTo: attachmentPanel.topAnchor),
-            divider.heightAnchor.constraint(equalToConstant: 1 / max(view.traitCollection.displayScale, 1)),
-
-            titleLabel.leadingAnchor.constraint(equalTo: attachmentPanel.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: attachmentPanel.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            titleLabel.topAnchor.constraint(equalTo: attachmentPanel.topAnchor, constant: 16),
-
-            optionsStackView.leadingAnchor.constraint(equalTo: attachmentPanel.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            optionsStackView.trailingAnchor.constraint(equalTo: attachmentPanel.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            optionsStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
-            optionsStackView.heightAnchor.constraint(equalToConstant: 96)
+            attachmentInputHostView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            attachmentInputHostView.topAnchor.constraint(equalTo: view.topAnchor),
+            attachmentInputHostView.widthAnchor.constraint(equalToConstant: 1),
+            attachmentInputHostView.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
 
@@ -221,82 +164,38 @@ final class UIKitKeyboardViewController: UIViewController {
         applyState(scrollToBottom: appended)
     }
 
-    @objc
-    private func handleSourceButtonTap(_ sender: UIButton) {
-        let sources = AttachmentSource.allCases
-        guard sender.tag >= 0, sender.tag < sources.count else {
-            return
-        }
-        state.selectAttachmentSource(sources[sender.tag])
-        hideAttachmentPanel()
-        applyState(scrollToBottom: false)
-    }
-
     private func handle(_ action: KeyboardAction) {
         switch action {
         case .attach:
-            showAttachmentPanel()
+            showAttachmentInputView()
         case .emoji, .clear:
             state.handleAction(action)
             applyState(scrollToBottom: false)
         case .dismissKeyboard:
-            if isShowingAttachmentPanel {
-                hideAttachmentPanel()
-            } else {
-                view.endEditing(true)
-            }
+            dismissActiveInputSurface()
         }
     }
 
-    private func showAttachmentPanel() {
-        guard !isShowingAttachmentPanel else {
+    private func showAttachmentInputView() {
+        guard !attachmentInputHostView.isFirstResponder else {
             return
         }
 
-        isShowingAttachmentPanel = true
-        attachmentPanel.isHidden = false
-        view.layoutIfNeeded()
-        draftTextField.resignFirstResponder()
-        composerKeyboardBottomConstraint?.isActive = false
-        composerAttachmentBottomConstraint?.isActive = true
-        attachmentPanelBottomConstraint?.constant = 0
-        animateKeyboardAccessoryLayout()
+        attachmentInputHostView.becomeFirstResponder()
     }
 
-    private func hideAttachmentPanel(animated: Bool = true) {
-        guard isShowingAttachmentPanel else {
-            return
+    private func dismissActiveInputSurface() {
+        if attachmentInputHostView.isFirstResponder {
+            attachmentInputHostView.resignFirstResponder()
+        } else {
+            view.endEditing(true)
         }
-
-        isShowingAttachmentPanel = false
-        view.layoutIfNeeded()
-        attachmentPanelBottomConstraint?.constant = Self.attachmentPanelHeight
-        composerAttachmentBottomConstraint?.isActive = false
-        composerKeyboardBottomConstraint?.isActive = true
-        animateKeyboardAccessoryLayout(animated: animated)
     }
 
-    private func restoreSystemKeyboard() {
-        hideAttachmentPanel(animated: false)
-    }
-
-    private func animateKeyboardAccessoryLayout(animated: Bool = true) {
-        // attachmentPanel 是普通 view，所以切换动画完全由本控制器的约束变化驱动。
-        guard animated else {
-            UIView.performWithoutAnimation {
-                view.layoutIfNeeded()
-            }
-            attachmentPanel.isHidden = true
-            return
-        }
-
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseInOut, .beginFromCurrentState]) {
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-            if !self.isShowingAttachmentPanel {
-                self.attachmentPanel.isHidden = true
-            }
-        }
+    private func selectAttachmentSource(_ source: AttachmentSource) {
+        state.selectAttachmentSource(source)
+        attachmentInputHostView.resignFirstResponder()
+        applyState(scrollToBottom: false)
     }
 
     private func applyState(scrollToBottom: Bool) {
@@ -377,8 +276,7 @@ final class UIKitKeyboardViewController: UIViewController {
 
 extension UIKitKeyboardViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        restoreSystemKeyboard()
-        return true
+        true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

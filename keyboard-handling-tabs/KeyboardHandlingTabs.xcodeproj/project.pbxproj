@@ -18,6 +18,7 @@
 		9BEB28698A3F8900807BEB21 /* UIKitTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58A0010E9CCEB038A9E7D43 /* UIKitTestHelpers.swift */; };
 		BD9E93D3C33610CCC57C6078 /* AttachmentInputHostViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79E393F13781BA988F8E16A /* AttachmentInputHostViewTests.swift */; };
 		BE9483B8EC3A5271352BA234 /* KeyboardDemoModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869372B66D3AC0F9A3611D21 /* KeyboardDemoModelTests.swift */; };
+		E1EED0D522F9D4E59EA13AF9 /* UIKitKeyboardViewControllerAttachmentInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA74B4B4C8BB3D99F4962A /* UIKitKeyboardViewControllerAttachmentInputTests.swift */; };
 		F971CBF5F7ECD8EACCA85B54 /* AttachmentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451D7B78CDCD20715E775DD /* AttachmentInputView.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		3271F0323557B8212BADFDAC /* KeyboardHandlingTabs.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = KeyboardHandlingTabs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C80BAFEBEB29BB97CE784E2 /* KeyboardHandlingTabsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KeyboardHandlingTabsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869372B66D3AC0F9A3611D21 /* KeyboardDemoModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardDemoModelTests.swift; sourceTree = "<group>"; };
+		B6CA74B4B4C8BB3D99F4962A /* UIKitKeyboardViewControllerAttachmentInputTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitKeyboardViewControllerAttachmentInputTests.swift; sourceTree = "<group>"; };
 		C79E393F13781BA988F8E16A /* AttachmentInputHostViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentInputHostViewTests.swift; sourceTree = "<group>"; };
 		F451D7B78CDCD20715E775DD /* AttachmentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentInputView.swift; sourceTree = "<group>"; };
 		F58A0010E9CCEB038A9E7D43 /* UIKitTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTestHelpers.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				C79E393F13781BA988F8E16A /* AttachmentInputHostViewTests.swift */,
 				19BF52525ED4A68A7AB24ADD /* AttachmentInputViewTests.swift */,
 				869372B66D3AC0F9A3611D21 /* KeyboardDemoModelTests.swift */,
+				B6CA74B4B4C8BB3D99F4962A /* UIKitKeyboardViewControllerAttachmentInputTests.swift */,
 				F58A0010E9CCEB038A9E7D43 /* UIKitTestHelpers.swift */,
 			);
 			path = KeyboardHandlingTabsTests;
@@ -176,6 +179,7 @@
 				BD9E93D3C33610CCC57C6078 /* AttachmentInputHostViewTests.swift in Sources */,
 				8512F4F789B8D4FCDC32C3D8 /* AttachmentInputViewTests.swift in Sources */,
 				BE9483B8EC3A5271352BA234 /* KeyboardDemoModelTests.swift in Sources */,
+				E1EED0D522F9D4E59EA13AF9 /* UIKitKeyboardViewControllerAttachmentInputTests.swift in Sources */,
 				9BEB28698A3F8900807BEB21 /* UIKitTestHelpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
