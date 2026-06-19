@@ -61,6 +61,7 @@ final class AttachmentInputView: UIInputView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = "Choose attachment source"
         titleLabel.font = .preferredFont(forTextStyle: .headline)
+        titleLabel.numberOfLines = 0
         addSubview(titleLabel)
 
         let optionsStackView = UIStackView()
@@ -77,6 +78,7 @@ final class AttachmentInputView: UIInputView {
             button.configuration?.image = UIImage(systemName: source.symbolName)
             button.configuration?.imagePadding = 8
             button.configuration?.imagePlacement = .top
+            button.titleLabel?.numberOfLines = 0
             let selectedSource = source
             button.addAction(
                 UIAction { [weak self] _ in
@@ -100,7 +102,7 @@ final class AttachmentInputView: UIInputView {
             optionsStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
             optionsStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             optionsStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
-            optionsStackView.heightAnchor.constraint(equalToConstant: 96),
+            optionsStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 96),
             optionsStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }

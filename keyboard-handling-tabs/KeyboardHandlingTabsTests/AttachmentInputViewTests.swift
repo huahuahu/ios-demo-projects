@@ -40,7 +40,6 @@ struct AttachmentInputViewTests {
         )
 
         #expect(fittingSize.height > 120)
-        #expect(fittingSize.height < 220)
     }
 
     @Test
@@ -49,6 +48,23 @@ struct AttachmentInputViewTests {
 
         #expect(inputView.frame.width > 0)
         #expect(inputView.frame.height > 120)
-        #expect(inputView.frame.height < 220)
+    }
+
+    @Test
+    func sourceOptionsUseMinimumHeightInsteadOfFixedHeight() throws {
+        let inputView = AttachmentInputView { _ in }
+        let optionsStackView = try #require(inputView.firstSubview(ofType: UIStackView.self))
+
+        let heightConstraints = (inputView.constraints + optionsStackView.constraints).filter { constraint in
+            (constraint.firstItem as? UIStackView) === optionsStackView
+                && constraint.firstAttribute == .height
+        }
+
+        #expect(heightConstraints.contains { constraint in
+            constraint.relation == .greaterThanOrEqual && constraint.constant == 96
+        })
+        #expect(!heightConstraints.contains { constraint in
+            constraint.relation == .equal && constraint.constant == 96
+        })
     }
 }

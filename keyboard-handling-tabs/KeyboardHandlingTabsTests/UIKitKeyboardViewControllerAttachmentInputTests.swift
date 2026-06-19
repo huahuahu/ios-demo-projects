@@ -34,6 +34,27 @@ struct UIKitKeyboardViewControllerAttachmentInputTests {
         }
     }
 
+    @Test
+    func selectingAttachmentSourceUpdatesDraftAndDismissesAttachmentInput() throws {
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let hostView = try #require(controller.view.firstSubview(ofType: AttachmentInputHostView.self))
+            let attachmentInputView = try #require(hostView.inputView as? AttachmentInputView)
+            let attachButton = try #require(controller.view.button(named: KeyboardAction.attach.title))
+            let draftTextField = try #require(controller.view.firstSubview(ofType: UITextField.self))
+            let photoButton = try #require(attachmentInputView.button(named: AttachmentSource.photoLibrary.rawValue))
+
+            attachButton.sendActions(for: .touchUpInside)
+            #expect(hostView.isFirstResponder)
+
+            photoButton.sendActions(for: .touchUpInside)
+
+            #expect(draftTextField.text == AttachmentSource.photoLibrary.token)
+            #expect(!hostView.isFirstResponder)
+        }
+    }
+
     private func makeVisibleController() throws -> (UIWindow, UIKitKeyboardViewController) {
         let windowScene = try #require(
             UIApplication.shared.connectedScenes
