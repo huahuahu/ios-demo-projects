@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keyboard Handling Tabs UI Preview</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f4f6fb;
+      --card: #ffffff;
+      --ink: #172033;
+      --muted: #6b7280;
+      --line: #d8deea;
+      --blue: #0a84ff;
+      --green: #34c759;
+      --bubble: #eef2f7;
+      --keyboard: #cfd5df;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(10, 132, 255, 0.16), transparent 36rem),
+        var(--page);
+    }
+
+    main {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    header {
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 22px;
+      border: 1px solid rgba(120, 132, 158, 0.22);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 24px 80px rgba(26, 38, 70, 0.14);
+      backdrop-filter: blur(18px);
+    }
+
+    .panel h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    .badge {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .panel:nth-child(2) .badge {
+      background: var(--green);
+    }
+
+    .notes {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .phone {
+      width: min(100%, 390px);
+      margin: 0 auto;
+      padding: 12px;
+      border: 1px solid #222936;
+      border-radius: 44px;
+      background: #101521;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 20px 36px rgba(15, 23, 42, 0.24);
+    }
+
+    .screen {
+      overflow: hidden;
+      min-height: 720px;
+      border-radius: 34px;
+      background: #f7f8fb;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 22px 6px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .titlebar {
+      padding: 10px 18px 12px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .titlebar strong {
+      display: block;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .titlebar span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .scrollview {
+      flex: 1;
+      padding: 16px 16px 10px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 18%),
+        #f2f4f8;
+    }
+
+    .message {
+      width: fit-content;
+      max-width: 82%;
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      line-height: 1.35;
+      background: var(--bubble);
+      box-shadow: 0 1px 0 rgba(17, 24, 39, 0.04);
+    }
+
+    .message.out {
+      margin-left: auto;
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .message.small {
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px dashed var(--line);
+    }
+
+    .composer {
+      padding: 10px 12px 12px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.93);
+      box-shadow: 0 -10px 28px rgba(15, 23, 42, 0.08);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .action {
+      padding: 8px 6px;
+      border: 1px solid rgba(10, 132, 255, 0.2);
+      border-radius: 12px;
+      color: var(--blue);
+      background: rgba(10, 132, 255, 0.09);
+      font-size: 13px;
+      font-weight: 650;
+      text-align: center;
+    }
+
+    .panel:nth-child(2) .action {
+      border-color: rgba(52, 199, 89, 0.2);
+      color: #248a3d;
+      background: rgba(52, 199, 89, 0.1);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .input {
+      flex: 1;
+      min-height: 38px;
+      padding: 9px 11px;
+      border: 1px solid #cfd6e3;
+      border-radius: 10px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .send {
+      padding: 10px 13px;
+      border-radius: 10px;
+      color: #fff;
+      background: var(--blue);
+      font-weight: 700;
+    }
+
+    .panel:nth-child(2) .send {
+      background: var(--green);
+    }
+
+    .source-picker {
+      padding: 14px 12px 20px;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .source-picker strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .source-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .source-option {
+      min-height: 96px;
+      display: grid;
+      place-content: center;
+      gap: 8px;
+      border: 1px solid rgba(10, 132, 255, 0.2);
+      border-radius: 16px;
+      color: var(--blue);
+      background: rgba(10, 132, 255, 0.08);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .source-option span {
+      font-size: 24px;
+    }
+
+    .sheet-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 10px 10px;
+      background: linear-gradient(180deg, transparent 36%, rgba(15, 23, 42, 0.18));
+      pointer-events: none;
+    }
+
+    .sheet-card {
+      width: 100%;
+      padding: 12px;
+      border-radius: 24px 24px 28px 28px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 -18px 42px rgba(15, 23, 42, 0.22);
+    }
+
+    .sheet-handle {
+      width: 42px;
+      height: 5px;
+      margin: 0 auto 12px;
+      border-radius: 999px;
+      background: #c8ced8;
+    }
+
+    .panel:nth-child(2) .source-option {
+      border-color: rgba(52, 199, 89, 0.2);
+      color: #248a3d;
+      background: rgba(52, 199, 89, 0.1);
+    }
+
+    .keyboard {
+      padding: 9px 8px 14px;
+      background: var(--keyboard);
+    }
+
+    .keyboard-row {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .key {
+      height: 28px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    .keyboard-row:nth-child(2) {
+      padding: 0 16px;
+    }
+
+    .keyboard-row:nth-child(3) {
+      grid-template-columns: 1.4fr repeat(7, 1fr) 1.4fr;
+    }
+
+    .space-row {
+      display: grid;
+      grid-template-columns: 1.3fr 4fr 1.3fr;
+      gap: 6px;
+    }
+
+    .space-row .key {
+      height: 32px;
+    }
+
+    .implementation {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 18px;
+      background: #0f172a;
+      color: #d8e3f0;
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 880px) {
+      .preview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Keyboard Handling Tabs UI Preview</h1>
+      <p class="subtitle">
+        这个页面用网页 mock 展示 demo 的大概 UI：每个 tab 都是滚动内容区，底部 composer 包含 action buttons、输入框和 Send。SwiftUI 用 sheet 承载来源选择；UIKit 用普通底部 attachmentPanel 配合约束动画替代 inputView 切换。
+      </p>
+    </header>
+
+    <section class="preview-grid" aria-label="UI previews">
+      <article class="panel">
+        <h2><span class="badge">SwiftUI</span> sheet presentation</h2>
+        <p class="notes">
+          SwiftUI tab 保留 <code>ScrollView</code> 和 <code>safeAreaInset(edge: .bottom)</code> 的输入栏。点击 Attach 后不模拟替换键盘，而是打开 <code>.sheet</code> 选择来源。
+        </p>
+        <div class="phone">
+          <div class="screen">
+            <div class="status"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar">
+              <strong>SwiftUI</strong>
+              <span>ScrollView + composer + source sheet</span>
+            </div>
+            <div class="scrollview">
+              <div class="message">SwiftUI tab: ScrollView + input bar pinned above keyboard.</div>
+              <div class="message">Use action buttons, then send a message to verify keyboard-safe layout.</div>
+              <div class="message out">[Attachment] [Emoji] Hello keyboard</div>
+              <div class="message small">Content keeps scrolling behind the focused composer.</div>
+            </div>
+            <div class="composer">
+              <div class="actions">
+                <div class="action">Attach</div>
+                <div class="action">Emoji</div>
+                <div class="action">Clear</div>
+                <div class="action">Dismiss</div>
+              </div>
+              <div class="input-row">
+                <div class="input">Type a message</div>
+                <div class="send">Send</div>
+              </div>
+            </div>
+            <div class="keyboard" aria-label="software keyboard">
+              <div class="keyboard-row">
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+              </div>
+              <div class="keyboard-row">
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+              </div>
+              <div class="keyboard-row">
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+              </div>
+              <div class="space-row">
+                <div class="key"></div><div class="key"></div><div class="key"></div>
+              </div>
+            </div>
+            <div class="sheet-overlay" aria-label="SwiftUI source sheet">
+              <div class="sheet-card">
+                <div class="sheet-handle"></div>
+                <div class="source-picker">
+                  <strong>Choose attachment source</strong>
+                  <div class="source-options">
+                    <div class="source-option"><span>▧</span>Photo Library</div>
+                    <div class="source-option"><span>◉</span>Camera</div>
+                    <div class="source-option"><span>□</span>Files</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="implementation">Key idea: Button("Attach") toggles .sheet(isPresented:) with medium detent</div>
+      </article>
+
+      <article class="panel">
+        <h2><span class="badge">UIKit</span> animated attachment panel</h2>
+        <p class="notes">
+          UIKit tab 不再用 <code>reloadInputViews()</code> 替换键盘，而是让附件面板作为普通 view 从底部滑入；composer 通过约束动画跟着面板移动。
+        </p>
+        <div class="phone">
+          <div class="screen">
+            <div class="status"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar">
+              <strong>UIKit</strong>
+              <span>UIScrollView + keyboardLayoutGuide + attachmentPanel</span>
+            </div>
+            <div class="scrollview">
+              <div class="message">UIKit tab: ScrollView + input bar pinned above keyboard.</div>
+              <div class="message">Use action buttons, then send a message to verify keyboard-safe layout.</div>
+              <div class="message out">[Attachment] Hello from UIKit</div>
+              <div class="message small">Scroll view bottom is constrained to the composer top.</div>
+            </div>
+            <div class="composer">
+              <div class="actions">
+                <div class="action">Attach</div>
+                <div class="action">Emoji</div>
+                <div class="action">Clear</div>
+                <div class="action">Dismiss</div>
+              </div>
+              <div class="input-row">
+                <div class="input">Type a message</div>
+                <div class="send">Send</div>
+              </div>
+            </div>
+            <div class="source-picker" aria-label="animated attachment panel">
+              <strong>Choose attachment source</strong>
+              <div class="source-options">
+                <div class="source-option"><span>▧</span>Photo Library</div>
+                <div class="source-option"><span>◉</span>Camera</div>
+                <div class="source-option"><span>□</span>Files</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="implementation">Key idea: attachmentPanel bottom constraint toggles between hidden and visible states</div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
