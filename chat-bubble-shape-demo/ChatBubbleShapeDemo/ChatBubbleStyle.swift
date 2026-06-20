@@ -12,6 +12,7 @@ struct ChatBubbleStyle: Equatable {
     let shadowRadius: CGFloat
     let shadowX: CGFloat
     let shadowY: CGFloat
+    let textColor: Color
 }
 
 extension ChatBubbleStyle {
@@ -26,7 +27,8 @@ extension ChatBubbleStyle {
         shadowColor: Color.black.opacity(0.26),
         shadowRadius: 8,
         shadowX: 0,
-        shadowY: 5
+        shadowY: 5,
+        textColor: Color(red: 0.12, green: 0.11, blue: 0.18)
     )
 
     static let soft = ChatBubbleStyle(
@@ -40,7 +42,8 @@ extension ChatBubbleStyle {
         shadowColor: Color.black.opacity(0.14),
         shadowRadius: 5,
         shadowX: 0,
-        shadowY: 3
+        shadowY: 3,
+        textColor: Color(red: 0.12, green: 0.11, blue: 0.18)
     )
 
     static let boldOutline = ChatBubbleStyle(
@@ -54,7 +57,8 @@ extension ChatBubbleStyle {
         shadowColor: Color.black.opacity(0.22),
         shadowRadius: 7,
         shadowX: 0,
-        shadowY: 4
+        shadowY: 4,
+        textColor: Color(red: 0.12, green: 0.11, blue: 0.18)
     )
 
     static let compactTail = ChatBubbleStyle(
@@ -68,6 +72,7 @@ extension ChatBubbleStyle {
         shadowColor: Color.black.opacity(0.16),
         shadowRadius: 4,
         shadowX: 0,
-        shadowY: 3
+        shadowY: 3,
+        textColor: Color(red: 0.12, green: 0.11, blue: 0.18)
     )
 }

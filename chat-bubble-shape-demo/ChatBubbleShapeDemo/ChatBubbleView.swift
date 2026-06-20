@@ -14,7 +14,7 @@ struct ChatBubbleView: View {
     var body: some View {
         Text(message)
             .font(font)
-            .foregroundStyle(Color(red: 0.12, green: 0.11, blue: 0.18))
+            .foregroundStyle(style.textColor)
             .lineSpacing(5)
             .padding(.leading, style.tailWidth + 20)
             .padding(.trailing, 26)

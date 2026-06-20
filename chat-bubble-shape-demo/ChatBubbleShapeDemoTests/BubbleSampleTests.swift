@@ -34,7 +34,14 @@ final class BubbleSampleTests: XCTestCase {
             font: .title2
         )
 
-        XCTAssertNotNil(view)
         XCTAssertEqual(BubbleSample.comparisonSamples.count, 3)
+    }
+
+    func testAllStylePresetsHaveTextColor() {
+        let textColor = Color(red: 0.12, green: 0.11, blue: 0.18)
+        XCTAssertEqual(ChatBubbleStyle.reference.textColor, textColor)
+        XCTAssertEqual(ChatBubbleStyle.soft.textColor, textColor)
+        XCTAssertEqual(ChatBubbleStyle.boldOutline.textColor, textColor)
+        XCTAssertEqual(ChatBubbleStyle.compactTail.textColor, textColor)
     }
 }
