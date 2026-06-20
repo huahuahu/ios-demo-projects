@@ -40,7 +40,7 @@ struct ContentView: View {
             ChatBubbleView(
                 message: BubbleSample.hero.message,
                 style: BubbleSample.hero.style,
-                font: .title2
+                font: .title3
             )
             Text(BubbleSample.hero.description)
                 .font(.caption)

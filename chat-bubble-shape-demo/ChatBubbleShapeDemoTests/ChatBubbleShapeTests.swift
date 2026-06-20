@@ -36,10 +36,13 @@ final class ChatBubbleShapeTests: XCTestCase {
         let geometry = shape.computeGeometry(in: CGRect(x: 0, y: 0, width: 320, height: 180))
 
         XCTAssertLessThanOrEqual(geometry.body.minX - geometry.tailTip.x, style.tailWidth)
+        XCTAssertLessThanOrEqual(geometry.tailBase.x - geometry.body.minX, style.tailWidth * 0.35)
+        XCTAssertLessThanOrEqual(geometry.tailBase.y - geometry.body.maxY, style.tailHeight * 0.35)
         XCTAssertLessThanOrEqual(geometry.tailTop.x - geometry.body.minX, style.tailWidth * 0.5)
-        XCTAssertLessThanOrEqual(geometry.tailJoin.x - geometry.body.minX, style.tailWidth * 0.6)
-        XCTAssertLessThanOrEqual(geometry.body.maxY - geometry.tailTop.y, style.tailHeight * 0.75)
-        XCTAssertLessThanOrEqual(geometry.body.maxY - geometry.tailJoin.y, style.tailInset * 0.6)
+        XCTAssertLessThanOrEqual(geometry.tailJoin.x - geometry.body.minX, style.cornerRadius * 0.5)
+        XCTAssertGreaterThanOrEqual(geometry.body.maxY - geometry.tailTop.y, style.cornerRadius * 0.4)
+        XCTAssertLessThanOrEqual(geometry.body.maxY - geometry.tailTop.y, style.cornerRadius)
+        XCTAssertLessThanOrEqual(geometry.tailTip.y - geometry.body.maxY, style.tailHeight)
     }
 
     func testShapeClampsGeometryForSmallRects() {

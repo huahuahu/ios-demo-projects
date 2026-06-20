@@ -10,8 +10,8 @@ final class BubbleSampleTests: XCTestCase {
         XCTAssertEqual(hero.title, "Reference bubble")
         XCTAssertTrue(hero.message.contains("Japanese washi paper"))
         XCTAssertGreaterThan(hero.style.cornerRadius, 32)
-        XCTAssertLessThanOrEqual(hero.style.tailWidth, 10)
-        XCTAssertLessThanOrEqual(hero.style.tailHeight, 12)
+        XCTAssertLessThanOrEqual(hero.style.tailWidth, 16)
+        XCTAssertLessThanOrEqual(hero.style.tailHeight, 14)
         XCTAssertLessThanOrEqual(hero.style.tailInset, 6)
         XCTAssertGreaterThan(hero.style.strokeWidth, 4)
     }

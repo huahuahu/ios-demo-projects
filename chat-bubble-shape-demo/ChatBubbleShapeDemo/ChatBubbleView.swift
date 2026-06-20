@@ -15,10 +15,10 @@ struct ChatBubbleView: View {
         Text(message)
             .font(font)
             .foregroundStyle(style.textColor)
-            .lineSpacing(5)
-            .padding(.leading, style.tailWidth + 20)
-            .padding(.trailing, 26)
-            .padding(.vertical, 24)
+            .lineSpacing(3)
+            .padding(.leading, style.tailWidth + 14)
+            .padding(.trailing, 18)
+            .padding(.vertical, 16)
             .background {
                 bubbleShape
                     .fill(style.fill)

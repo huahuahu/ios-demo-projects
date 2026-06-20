@@ -14,6 +14,7 @@ struct ChatBubbleShape: Shape {
         let safeTailInset: CGFloat
         let tailTip: CGPoint
         let tailTop: CGPoint
+        let tailBase: CGPoint
         let tailJoin: CGPoint
     }
 
@@ -28,20 +29,24 @@ struct ChatBubbleShape: Shape {
             x: rect.minX + safeTailWidth,
             y: rect.minY,
             width: max(0, rect.width - safeTailWidth - 0.0001),
-            height: rect.height - safeTailHeight * 0.75
+            height: rect.height - safeTailHeight * 0.55
         )
 
         let safeRadius = clamp(initialSafeRadius, lower: 0, upper: min(body.width / 2.0, body.height / 2.0))
         let tailTip = CGPoint(
-            x: max(rect.minX, body.minX - safeTailWidth * 0.55),
-            y: rect.maxY - 0.0001
+            x: max(rect.minX, body.minX - safeTailWidth * 0.58),
+            y: min(rect.maxY - 0.0001, body.maxY + safeTailHeight * 0.62)
         )
         let tailTop = CGPoint(
             x: body.minX,
-            y: max(body.minY + safeRadius, body.maxY - max(safeTailInset, safeTailHeight * 0.75))
+            y: max(body.minY + safeRadius, body.maxY - safeRadius * 0.48)
+        )
+        let tailBase = CGPoint(
+            x: body.minX + safeTailWidth * 0.12,
+            y: body.maxY + safeTailHeight * 0.24
         )
         let tailJoin = CGPoint(
-            x: body.minX + safeTailWidth * 0.55,
+            x: body.minX + min(safeRadius * 0.34, safeTailWidth * 0.84),
             y: body.maxY
         )
 
@@ -53,6 +58,7 @@ struct ChatBubbleShape: Shape {
             safeTailInset: safeTailInset,
             tailTip: tailTip,
             tailTop: tailTop,
+            tailBase: tailBase,
             tailJoin: tailJoin
         )
     }
@@ -74,14 +80,19 @@ struct ChatBubbleShape: Shape {
         )
         path.addLine(to: geometry.tailJoin)
         path.addCurve(
+            to: geometry.tailBase,
+            control1: CGPoint(x: geometry.body.minX + geometry.safeTailWidth * 0.16, y: geometry.body.maxY),
+            control2: CGPoint(x: geometry.body.minX + geometry.safeTailWidth * 0.02, y: geometry.tailBase.y)
+        )
+        path.addCurve(
             to: geometry.tailTip,
-            control1: CGPoint(x: geometry.body.minX + geometry.safeTailWidth * 0.2, y: geometry.body.maxY),
-            control2: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.35, y: geometry.body.maxY + geometry.safeTailHeight * 0.65)
+            control1: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.18, y: geometry.tailBase.y),
+            control2: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.50, y: geometry.body.maxY + geometry.safeTailHeight * 0.50)
         )
         path.addCurve(
             to: geometry.tailTop,
-            control1: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.35, y: geometry.body.maxY + geometry.safeTailHeight * 0.25),
-            control2: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.15, y: geometry.body.maxY - geometry.safeTailHeight * 0.35)
+            control1: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.64, y: geometry.body.maxY + geometry.safeTailHeight * 0.26),
+            control2: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.12, y: geometry.tailTop.y + geometry.safeTailHeight * 0.12)
         )
         path.addLine(to: CGPoint(x: geometry.body.minX, y: geometry.body.minY + geometry.safeRadius))
         path.addQuadCurve(
