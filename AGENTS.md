@@ -3,6 +3,9 @@
 1. Address the user as "花花虎" in every response.
 2. Reply in Chinese. English technical terms such as UIKit and token are fine.
 3. When running `curl` or similar Bash network commands, prefix each command with the full local proxy environment so both HTTP and HTTPS traffic use port 1082.
+   - No proxy needed when talking to the remote ai server
+   - Apply this to commands that fetch, install, or upload over the network, such as `curl`, `wget`, `npm install`, `brew install`, `git fetch`, `git pull`, `git push`, `git clone`, `gh pr`, `gh issue`, `gh repo`, `pip install`, `pod install`, `bundle install`, and `swift package resolve`. 
+   - Do not add proxy environment variables for local-only commands, such as `ls`, `pwd`, `rg`, `find`, `git status`, `git diff`, `git log`, local `npm test`, local `xcodebuild` build/test, and local `swift test`.
    - Use this inline pattern before the actual command and target URL/address:
      `HTTP_PROXY=http://127.0.0.1:1082 HTTPS_PROXY=http://127.0.0.1:1082 ALL_PROXY=http://127.0.0.1:1082 http_proxy=http://127.0.0.1:1082 https_proxy=http://127.0.0.1:1082 all_proxy=http://127.0.0.1:1082 NO_PROXY=localhost,127.0.0.1,::1 no_proxy=localhost,127.0.0.1,::1 <command> <url-or-address>`
    - For example:

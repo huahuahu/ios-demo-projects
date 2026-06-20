@@ -1,19 +1,14 @@
 schemaVersion: 1
 enabledWorkflows:
-  - macos
   - simulator
   - debugging
-  - simulator-management
-  - swift-package
+  - logging
   - ui-automation
-debug: false
-sentryDisabled: true
-setupPreferences:
-  platforms:
-    - iOS
-    - macOS
+  - utilities
+debug: true
+sentryDisabled: false
 sessionDefaults:
-  projectPath: uilayoutguide-playground/UILayoutGuidePlayground.xcodeproj
-  scheme: UILayoutGuidePlayground
-  simulatorId: 62706291-A205-4E42-AD8C-3056825895D4
+  projectPath: keyboard-handling-tabs/KeyboardHandlingTabs.xcodeproj
+  scheme: KeyboardHandlingTabs
   simulatorName: iPhone 17 Pro Max
+  simulatorId: F8AFBC61-0935-4C51-826E-E03D6DCD3D71
