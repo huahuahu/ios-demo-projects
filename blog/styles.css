@@ -368,6 +368,21 @@ pre {
   padding: 12px;
 }
 
+.article-body .mermaid {
+  overflow-x: auto;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-muted);
+  text-align: center;
+}
+
+.article-body .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
 .article-body pre {
   margin-top: 16px;
 }
