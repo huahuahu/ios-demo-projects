@@ -30,7 +30,7 @@
 - Create `swiftui-shape-view-style-color/SwiftUIShapeViewStyleColor/SwiftUIShapeViewStyleColorApp.swift`: SwiftUI app entry point.
 - Create `swiftui-shape-view-style-color/SwiftUIShapeViewStyleColor/DemoModel.swift`: pure Swift enums and static metadata for concepts, relationships, experiments, shapes, colors, styles, and stroke modes.
 - Create `swiftui-shape-view-style-color/SwiftUIShapeViewStyleColor/ContentView.swift`: screen layout, local selection state, relationship map, picker, and four experiments.
-- Create `swiftui-shape-view-style-color/SwiftUIShapeViewStyleColorTests/DemoModelTests.swift`: Swift Testing coverage for concept order, non-empty copy, experiment metadata, and relationship edges.
+- Create `swiftui-shape-view-style-color/SwiftUIShapeViewStyleColorTests/DemoModelTests.swift`: Swift Testing file; Task 1 keeps it empty so the scaffold passes, and Task 2 adds model coverage before implementing the model.
 
 ---
 
@@ -44,7 +44,7 @@
 
 **Interfaces:**
 - Consumes: repository XcodeGen template values `{DemoName}=SwiftUIShapeViewStyleColor`, `{BundleIdPrefix}=com.huahuahu.demo`, `{DeploymentTarget}=26.0`, `{SwiftVersion}=6.0`, `{DevelopmentTeam}=`.
-- Produces: app target `SwiftUIShapeViewStyleColor`, test target `SwiftUIShapeViewStyleColorTests`, and a compilable placeholder `ContentView`.
+- Produces: app target `SwiftUIShapeViewStyleColor`, test target `SwiftUIShapeViewStyleColorTests`, a compilable placeholder `ContentView`, and an empty Swift Testing file.
 
 - [ ] **Step 1: Create directories**
 
@@ -134,30 +134,18 @@ struct ContentView: View {
 }
 ```
 
-- [ ] **Step 4: Add an initial failing test target file**
+- [ ] **Step 4: Add an empty test target file**
 
 Create `swiftui-shape-view-style-color/SwiftUIShapeViewStyleColorTests/DemoModelTests.swift`:
 
 ```swift
-@testable import SwiftUIShapeViewStyleColor
-import Foundation
 import Testing
 
 struct DemoModelTests {
-    @Test func conceptNodesExistInTeachingOrder() {
-        #expect(ConceptNode.teachingOrder.map(\.id) == [
-            "shape",
-            "view",
-            "shapeStyle",
-            "color",
-            "modifier",
-            "insettableShape",
-        ])
-    }
 }
 ```
 
-This test intentionally fails until Task 2 creates `ConceptNode`.
+Task 2 replaces this file with real model tests before creating `ConceptNode`.
 
 - [ ] **Step 5: Generate the Xcode project**
 
@@ -169,7 +157,7 @@ cd swiftui-shape-view-style-color && xcodegen generate
 
 Expected: `SwiftUIShapeViewStyleColor.xcodeproj` is generated.
 
-- [ ] **Step 6: Run the failing test once**
+- [ ] **Step 6: Run scaffold tests once**
 
 Use XcodeBuildMCP if session defaults are already set; otherwise this direct fallback is acceptable during plan execution setup:
 
@@ -177,7 +165,7 @@ Use XcodeBuildMCP if session defaults are already set; otherwise this direct fal
 cd swiftui-shape-view-style-color && xcodebuild test -project SwiftUIShapeViewStyleColor.xcodeproj -scheme SwiftUIShapeViewStyleColor -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=latest'
 ```
 
-Expected: FAIL with a compile error containing `Cannot find 'ConceptNode' in scope`.
+Expected: PASS for the empty test target and placeholder app.
 
 - [ ] **Step 7: Commit scaffold**
 
