@@ -12,6 +12,9 @@ struct ChatBubbleShape: Shape {
         let safeTailWidth: CGFloat
         let safeTailHeight: CGFloat
         let safeTailInset: CGFloat
+        let tailTip: CGPoint
+        let tailTop: CGPoint
+        let tailJoin: CGPoint
     }
 
     func computeGeometry(in rect: CGRect) -> Geometry {
@@ -25,35 +28,37 @@ struct ChatBubbleShape: Shape {
             x: rect.minX + safeTailWidth,
             y: rect.minY,
             width: max(0, rect.width - safeTailWidth - 0.0001),
-            height: rect.height - safeTailHeight * 0.15
+            height: rect.height - safeTailHeight * 0.75
         )
 
         let safeRadius = clamp(initialSafeRadius, lower: 0, upper: min(body.width / 2.0, body.height / 2.0))
+        let tailTip = CGPoint(
+            x: max(rect.minX, body.minX - safeTailWidth * 0.55),
+            y: rect.maxY - 0.0001
+        )
+        let tailTop = CGPoint(
+            x: body.minX,
+            y: max(body.minY + safeRadius, body.maxY - max(safeTailInset, safeTailHeight * 0.75))
+        )
+        let tailJoin = CGPoint(
+            x: body.minX + safeTailWidth * 0.55,
+            y: body.maxY
+        )
 
         return Geometry(
             body: body,
             safeRadius: safeRadius,
             safeTailWidth: safeTailWidth,
             safeTailHeight: safeTailHeight,
-            safeTailInset: safeTailInset
+            safeTailInset: safeTailInset,
+            tailTip: tailTip,
+            tailTop: tailTop,
+            tailJoin: tailJoin
         )
     }
 
     func path(in rect: CGRect) -> Path {
         let geometry = computeGeometry(in: rect)
-
-        let tailTip = CGPoint(
-            x: rect.minX + geometry.safeTailWidth * 0.12,
-            y: rect.maxY - 0.0001
-        )
-        let tailTop = CGPoint(
-            x: geometry.body.minX + geometry.safeRadius * 0.55,
-            y: max(geometry.body.minY + geometry.safeRadius, geometry.body.maxY - geometry.safeTailInset - geometry.safeTailHeight)
-        )
-        let tailJoin = CGPoint(
-            x: geometry.body.minX + geometry.safeRadius * 0.35,
-            y: geometry.body.maxY - geometry.safeTailInset
-        )
 
         var path = Path()
         path.move(to: CGPoint(x: geometry.body.minX + geometry.safeRadius, y: geometry.body.minY))
@@ -67,14 +72,16 @@ struct ChatBubbleShape: Shape {
             to: CGPoint(x: geometry.body.maxX - geometry.safeRadius, y: geometry.body.maxY),
             control: CGPoint(x: geometry.body.maxX, y: geometry.body.maxY)
         )
-        path.addLine(to: tailJoin)
-        path.addQuadCurve(
-            to: tailTip,
-            control: CGPoint(x: geometry.body.minX + geometry.safeTailWidth * 0.15, y: geometry.body.maxY + geometry.safeTailHeight * 0.15)
+        path.addLine(to: geometry.tailJoin)
+        path.addCurve(
+            to: geometry.tailTip,
+            control1: CGPoint(x: geometry.body.minX + geometry.safeTailWidth * 0.2, y: geometry.body.maxY),
+            control2: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.35, y: geometry.body.maxY + geometry.safeTailHeight * 0.65)
         )
-        path.addQuadCurve(
-            to: tailTop,
-            control: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.15, y: geometry.body.maxY - geometry.safeTailInset)
+        path.addCurve(
+            to: geometry.tailTop,
+            control1: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.35, y: geometry.body.maxY + geometry.safeTailHeight * 0.25),
+            control2: CGPoint(x: geometry.body.minX - geometry.safeTailWidth * 0.15, y: geometry.body.maxY - geometry.safeTailHeight * 0.35)
         )
         path.addLine(to: CGPoint(x: geometry.body.minX, y: geometry.body.minY + geometry.safeRadius))
         path.addQuadCurve(

@@ -10,7 +10,9 @@ final class BubbleSampleTests: XCTestCase {
         XCTAssertEqual(hero.title, "Reference bubble")
         XCTAssertTrue(hero.message.contains("Japanese washi paper"))
         XCTAssertGreaterThan(hero.style.cornerRadius, 32)
-        XCTAssertGreaterThan(hero.style.tailWidth, 20)
+        XCTAssertLessThanOrEqual(hero.style.tailWidth, 10)
+        XCTAssertLessThanOrEqual(hero.style.tailHeight, 12)
+        XCTAssertLessThanOrEqual(hero.style.tailInset, 6)
         XCTAssertGreaterThan(hero.style.strokeWidth, 4)
     }
 
@@ -27,6 +29,7 @@ final class BubbleSampleTests: XCTestCase {
         XCTAssertTrue(samples.allSatisfy { $0.style.strokeWidth > 0 })
     }
 
+    @MainActor
     func testChatBubbleViewCanBeConstructedWithPresetData() {
         let view = ChatBubbleView(
             message: BubbleSample.hero.message,

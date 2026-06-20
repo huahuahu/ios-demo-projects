@@ -24,6 +24,24 @@ final class ChatBubbleShapeTests: XCTestCase {
         XCTAssertLessThanOrEqual(bounds.maxY, rect.maxY)
     }
 
+    func testReferenceTailStaysSmallAndNearLowerLeftCorner() {
+        let style = ChatBubbleStyle.reference
+        let shape = ChatBubbleShape(
+            cornerRadius: style.cornerRadius,
+            tailWidth: style.tailWidth,
+            tailHeight: style.tailHeight,
+            tailInset: style.tailInset
+        )
+
+        let geometry = shape.computeGeometry(in: CGRect(x: 0, y: 0, width: 320, height: 180))
+
+        XCTAssertLessThanOrEqual(geometry.body.minX - geometry.tailTip.x, style.tailWidth)
+        XCTAssertLessThanOrEqual(geometry.tailTop.x - geometry.body.minX, style.tailWidth * 0.5)
+        XCTAssertLessThanOrEqual(geometry.tailJoin.x - geometry.body.minX, style.tailWidth * 0.6)
+        XCTAssertLessThanOrEqual(geometry.body.maxY - geometry.tailTop.y, style.tailHeight * 0.75)
+        XCTAssertLessThanOrEqual(geometry.body.maxY - geometry.tailJoin.y, style.tailInset * 0.6)
+    }
+
     func testShapeClampsGeometryForSmallRects() {
         let shape = ChatBubbleShape(
             cornerRadius: 80,

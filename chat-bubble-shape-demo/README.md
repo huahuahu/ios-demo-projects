@@ -40,3 +40,4 @@ Use XcodeBuildMCP with the checked-in `.xcodebuildmcp/config.yaml` defaults, or 
 - `ChatBubbleShapeDemo/ChatBubbleView.swift` applies fill, stroke, shadow, padding, and text.
 - `ChatBubbleShapeDemo/ContentView.swift` presents the reference bubble and variants.
 - `ChatBubbleShapeDemoTests/` verifies preset data and path behavior.
+- `samples/` keeps the original reference image, the latest simulator screenshot, and a side-by-side comparison.
