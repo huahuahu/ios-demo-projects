@@ -72,5 +72,13 @@ final class ChatBubbleShapeTests: XCTestCase {
             geometry.body.minY + geometry.safeRadius,
             geometry.body.maxY - geometry.safeRadius
         )
+
+        // Verify path produces valid bounding rect within requested rect
+        let pathBounds = shape.path(in: rect).boundingRect
+        XCTAssertFalse(pathBounds.isNull)
+        XCTAssertGreaterThanOrEqual(pathBounds.minX, rect.minX)
+        XCTAssertGreaterThanOrEqual(pathBounds.minY, rect.minY)
+        XCTAssertLessThanOrEqual(pathBounds.maxX, rect.maxX)
+        XCTAssertLessThanOrEqual(pathBounds.maxY, rect.maxY)
     }
 }
