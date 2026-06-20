@@ -10,24 +10,38 @@ final class UIKitKeyboardViewController: UIViewController {
     private let actionButtonsStackView = UIStackView()
     private let draftTextField = UITextField()
     private let sendButton = UIButton(type: .system)
-    private lazy var attachmentInputView = AttachmentInputView { [weak self] source in
-        self?.selectAttachmentSource(source)
+    private let attachmentPanel = UIView()
+    private var composerBottomToKeyboardConstraint: NSLayoutConstraint?
+    private var composerBottomToBottomConstraint: NSLayoutConstraint?
+    private var composerBottomToAttachmentPanelConstraint: NSLayoutConstraint?
+    private var attachmentPanelBottomConstraint: NSLayoutConstraint?
+    private var attachmentPanelHeightConstraint: NSLayoutConstraint?
+    private var isAttachmentPanelVisible = false
+    private var isKeyboardDismissalPending = false
+    private var lastVisibleKeyboardHeight: CGFloat = 291
+
+    private enum AttachmentPanelLayout {
+        static let minimumHeight: CGFloat = 180
     }
-    private lazy var attachmentInputHostView = AttachmentInputHostView(inputView: attachmentInputView)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "UIKit"
         view.backgroundColor = .systemGroupedBackground
         configureComposer()
-        configureAttachmentInputHost()
+        configureAttachmentPanel()
         configureScrollView()
+        observeKeyboardFrameChanges()
         applyState(scrollToBottom: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         scrollMessagesToBottom(animated: false)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     private func configureComposer() {
@@ -89,11 +103,16 @@ final class UIKitKeyboardViewController: UIViewController {
 
         // 直接跟随系统键盘布局引导：键盘出现时贴住键盘顶部，隐藏时回到底部安全区域。
         view.keyboardLayoutGuide.followsUndockedKeyboard = true
+        let composerKeyboardConstraint = composerContainer.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
+        let composerBottomConstraint = composerContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        composerBottomToKeyboardConstraint = composerKeyboardConstraint
+        composerBottomToBottomConstraint = composerBottomConstraint
+        composerBottomConstraint.isActive = false
 
         NSLayoutConstraint.activate([
             composerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             composerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            composerContainer.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
+            composerKeyboardConstraint,
 
             divider.leadingAnchor.constraint(equalTo: composerContainer.leadingAnchor),
             divider.trailingAnchor.constraint(equalTo: composerContainer.trailingAnchor),
@@ -108,16 +127,98 @@ final class UIKitKeyboardViewController: UIViewController {
         ])
     }
 
-    private func configureAttachmentInputHost() {
-        attachmentInputHostView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(attachmentInputHostView)
+    private func configureAttachmentPanel() {
+        attachmentPanel.translatesAutoresizingMaskIntoConstraints = false
+        attachmentPanel.accessibilityIdentifier = "UIKitAttachmentPanel"
+        attachmentPanel.backgroundColor = .systemBackground
+        attachmentPanel.isHidden = true
+        attachmentPanel.alpha = 0
+        view.addSubview(attachmentPanel)
+
+        let divider = UIView()
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        divider.backgroundColor = .separator
+        attachmentPanel.addSubview(divider)
+
+        let titleLabel = UILabel()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.accessibilityIdentifier = "UIKitAttachmentPanelTitle"
+        titleLabel.text = "Choose attachment source"
+        titleLabel.font = .preferredFont(forTextStyle: .headline)
+        titleLabel.numberOfLines = 0
+        attachmentPanel.addSubview(titleLabel)
+
+        let optionsStackView = UIStackView()
+        optionsStackView.translatesAutoresizingMaskIntoConstraints = false
+        optionsStackView.accessibilityIdentifier = "UIKitAttachmentPanelOptions"
+        optionsStackView.axis = .horizontal
+        optionsStackView.spacing = 12
+        optionsStackView.distribution = .fillEqually
+        attachmentPanel.addSubview(optionsStackView)
+
+        for source in AttachmentSource.allCases {
+            let button = UIButton(type: .system)
+            button.configuration = .tinted()
+            button.configuration?.title = source.rawValue
+            button.configuration?.image = UIImage(systemName: source.symbolName)
+            button.configuration?.imagePadding = 8
+            button.configuration?.imagePlacement = .top
+            button.titleLabel?.numberOfLines = 0
+            let selectedSource = source
+            button.addAction(
+                UIAction { [weak self] _ in
+                    self?.selectAttachmentSource(selectedSource)
+                },
+                for: .touchUpInside
+            )
+            optionsStackView.addArrangedSubview(button)
+        }
+
+        let panelBottomConstraint = attachmentPanel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        let panelHeightConstraint = attachmentPanel.heightAnchor.constraint(equalToConstant: lastVisibleKeyboardHeight)
+        let composerPanelConstraint = composerContainer.bottomAnchor.constraint(equalTo: attachmentPanel.topAnchor)
+
+        attachmentPanelBottomConstraint = panelBottomConstraint
+        attachmentPanelHeightConstraint = panelHeightConstraint
+        composerBottomToAttachmentPanelConstraint = composerPanelConstraint
+        composerPanelConstraint.isActive = false
 
         NSLayoutConstraint.activate([
-            attachmentInputHostView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            attachmentInputHostView.topAnchor.constraint(equalTo: view.topAnchor),
-            attachmentInputHostView.widthAnchor.constraint(equalToConstant: 1),
-            attachmentInputHostView.heightAnchor.constraint(equalToConstant: 1)
+            attachmentPanel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            attachmentPanel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            panelBottomConstraint,
+            panelHeightConstraint,
+
+            divider.leadingAnchor.constraint(equalTo: attachmentPanel.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: attachmentPanel.trailingAnchor),
+            divider.topAnchor.constraint(equalTo: attachmentPanel.topAnchor),
+            divider.heightAnchor.constraint(equalToConstant: 1 / max(view.traitCollection.displayScale, 1)),
+
+            titleLabel.leadingAnchor.constraint(equalTo: attachmentPanel.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: attachmentPanel.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: attachmentPanel.topAnchor, constant: 16),
+
+            optionsStackView.leadingAnchor.constraint(equalTo: attachmentPanel.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            optionsStackView.trailingAnchor.constraint(equalTo: attachmentPanel.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            optionsStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
+            optionsStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 96),
+            optionsStackView.bottomAnchor.constraint(lessThanOrEqualTo: attachmentPanel.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
+    }
+
+    private func observeKeyboardFrameChanges() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillChangeFrame(_:)),
+            name: UIResponder.keyboardWillChangeFrameNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardDidHide(_:)),
+            name: UIResponder.keyboardDidHideNotification,
+            object: nil
+        )
     }
 
     private func configureScrollView() {
@@ -164,10 +265,42 @@ final class UIKitKeyboardViewController: UIViewController {
         applyState(scrollToBottom: appended)
     }
 
+    @objc
+    private func keyboardWillChangeFrame(_ notification: Notification) {
+        guard
+            let endFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+            let window = view.window
+        else {
+            return
+        }
+
+        let convertedEndFrame = view.convert(endFrame, from: window.screen.coordinateSpace)
+        let keyboardHeight = max(0, view.bounds.maxY - convertedEndFrame.minY - view.safeAreaInsets.bottom)
+        if keyboardHeight > 0 {
+            lastVisibleKeyboardHeight = keyboardHeight
+            if !isAttachmentPanelVisible {
+                attachmentPanelHeightConstraint?.constant = max(
+                    AttachmentPanelLayout.minimumHeight,
+                    keyboardHeight
+                )
+            }
+        }
+    }
+
+    @objc
+    private func keyboardDidHide(_ notification: Notification) {
+        guard isKeyboardDismissalPending && !isAttachmentPanelVisible else {
+            return
+        }
+        isKeyboardDismissalPending = false
+        activateComposerBottomLayout()
+        view.layoutIfNeeded()
+    }
+
     private func handle(_ action: KeyboardAction) {
         switch action {
         case .attach:
-            showAttachmentInputView()
+            showAttachmentPanel()
         case .emoji, .clear:
             state.handleAction(action)
             applyState(scrollToBottom: false)
@@ -176,26 +309,104 @@ final class UIKitKeyboardViewController: UIViewController {
         }
     }
 
-    private func showAttachmentInputView() {
-        guard !attachmentInputHostView.isFirstResponder else {
+    private func showAttachmentPanel() {
+        guard !isAttachmentPanelVisible else {
             return
         }
 
-        attachmentInputHostView.becomeFirstResponder()
+        isAttachmentPanelVisible = true
+        attachmentPanelHeightConstraint?.constant = max(
+            AttachmentPanelLayout.minimumHeight,
+            lastVisibleKeyboardHeight
+        )
+        attachmentPanel.isHidden = false
+        attachmentPanel.alpha = 1
+
+        activateComposerAttachmentPanelLayout()
+        view.layoutIfNeeded()
+
+        if draftTextField.isFirstResponder {
+            draftTextField.resignFirstResponder()
+        }
     }
 
     private func dismissActiveInputSurface() {
-        if attachmentInputHostView.isFirstResponder {
-            attachmentInputHostView.resignFirstResponder()
+        if isAttachmentPanelVisible {
+            hideAttachmentPanel(animated: true)
         } else {
+            isKeyboardDismissalPending = true
             view.endEditing(true)
         }
     }
 
     private func selectAttachmentSource(_ source: AttachmentSource) {
         state.selectAttachmentSource(source)
-        attachmentInputHostView.resignFirstResponder()
+        hideAttachmentPanel(animated: false)
         applyState(scrollToBottom: false)
+    }
+
+    private func hideAttachmentPanel(animated: Bool) {
+        guard isAttachmentPanelVisible else {
+            return
+        }
+        isAttachmentPanelVisible = false
+        isKeyboardDismissalPending = false
+        activateComposerBottomLayout()
+
+        let updates = {
+            self.attachmentPanel.alpha = 0
+            self.view.layoutIfNeeded()
+        }
+        let completion: (Bool) -> Void = { _ in
+            self.attachmentPanel.isHidden = true
+        }
+
+        if animated {
+            UIView.animate(
+                withDuration: 0.25,
+                delay: 0,
+                options: [.curveEaseInOut, .beginFromCurrentState],
+                animations: updates,
+                completion: nil
+            )
+            completion(true)
+        } else {
+            updates()
+            completion(true)
+        }
+    }
+
+    private func activateComposerKeyboardLayout() {
+        composerBottomToBottomConstraint?.isActive = false
+        composerBottomToAttachmentPanelConstraint?.isActive = false
+        composerBottomToKeyboardConstraint?.isActive = true
+    }
+
+    private func activateComposerAttachmentPanelLayout() {
+        composerBottomToKeyboardConstraint?.isActive = false
+        composerBottomToBottomConstraint?.isActive = false
+        composerBottomToAttachmentPanelConstraint?.isActive = true
+    }
+
+    private func activateComposerBottomLayout() {
+        composerBottomToKeyboardConstraint?.isActive = false
+        composerBottomToAttachmentPanelConstraint?.isActive = false
+        composerBottomToBottomConstraint?.isActive = true
+    }
+
+    private func animateLayoutChanges(with notification: Notification) {
+        let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval ?? 0.25
+        let curveRawValue = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt ?? 0
+        let options = UIView.AnimationOptions(rawValue: curveRawValue << 16)
+            .union(.beginFromCurrentState)
+        UIView.animate(
+            withDuration: duration,
+            delay: 0,
+            options: options,
+            animations: {
+                self.view.layoutIfNeeded()
+            }
+        )
     }
 
     private func applyState(scrollToBottom: Bool) {
@@ -276,7 +487,10 @@ final class UIKitKeyboardViewController: UIViewController {
 
 extension UIKitKeyboardViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        true
+        isKeyboardDismissalPending = false
+        hideAttachmentPanel(animated: false)
+        activateComposerKeyboardLayout()
+        return true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
