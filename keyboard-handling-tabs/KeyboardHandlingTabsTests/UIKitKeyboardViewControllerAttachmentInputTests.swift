@@ -25,6 +25,39 @@ struct UIKitKeyboardViewControllerAttachmentInputTests {
     }
 
     @Test
+    func controllerStartsWithComposerPinnedToBottomWhenNoInputSurfaceIsActive() throws {
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let keyboardConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToKeyboardConstraint", in: controller)
+            )
+            let bottomConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToBottomConstraint", in: controller)
+            )
+
+            #expect(!keyboardConstraint.isActive)
+            #expect(bottomConstraint.isActive)
+        }
+    }
+
+    @Test
+    func attachmentPanelIsPinnedBehindTabBarAndKeyboardArea() throws {
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let panelBottomConstraint = try #require(
+                mirroredConstraint(named: "attachmentPanelBottomConstraint", in: controller)
+            )
+
+            #expect(panelBottomConstraint.firstItem as? UIView === controller.view.subview(withAccessibilityIdentifier: "UIKitAttachmentPanel"))
+            #expect(panelBottomConstraint.firstAttribute == .bottom)
+            #expect(panelBottomConstraint.secondItem as? UIView === controller.view)
+            #expect(panelBottomConstraint.secondAttribute == .bottom)
+        }
+    }
+
+    @Test
     func attachActionResignsFocusedTextFieldAndShowsAttachmentPanel() throws {
         let (window, controller) = try makeVisibleController()
 
@@ -45,7 +78,44 @@ struct UIKitKeyboardViewControllerAttachmentInputTests {
     }
 
     @Test
-    func beginningTextFieldEditingHidesVisibleAttachmentPanel() throws {
+    func attachActionPinsComposerAboveKeyboardAndAttachmentUntilKeyboardFinishesHiding() throws {
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let draftTextField = try #require(controller.view.firstSubview(ofType: UITextField.self))
+            let attachButton = try #require(controller.view.button(named: KeyboardAction.attach.title))
+            let panelConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToAttachmentPanelConstraint", in: controller)
+            )
+            let aboveKeyboardConstraint = try #require(
+                mirroredConstraint(named: "composerBottomAboveKeyboardDuringPanelCoverConstraint", in: controller)
+            )
+            let abovePanelConstraint = try #require(
+                mirroredConstraint(named: "composerBottomAboveAttachmentDuringPanelCoverConstraint", in: controller)
+            )
+            let pullDownConstraint = try #require(
+                mirroredConstraint(named: "composerBottomPullDownDuringPanelCoverConstraint", in: controller)
+            )
+
+            #expect(draftTextField.delegate?.textFieldShouldBeginEditing?(draftTextField) ?? true)
+            attachButton.sendActions(for: .touchUpInside)
+
+            #expect(!panelConstraint.isActive)
+            #expect(aboveKeyboardConstraint.isActive)
+            #expect(abovePanelConstraint.isActive)
+            #expect(pullDownConstraint.isActive)
+
+            postKeyboardDidHide()
+
+            #expect(panelConstraint.isActive)
+            #expect(!aboveKeyboardConstraint.isActive)
+            #expect(!abovePanelConstraint.isActive)
+            #expect(!pullDownConstraint.isActive)
+        }
+    }
+
+    @Test
+    func beginningTextFieldEditingKeepsAttachmentPanelUntilKeyboardCoversIt() throws {
         let (window, controller) = try makeVisibleController()
 
         try withExtendedLifetime(window) {
@@ -58,7 +128,138 @@ struct UIKitKeyboardViewControllerAttachmentInputTests {
 
             #expect(draftTextField.delegate?.textFieldShouldBeginEditing?(draftTextField) ?? true)
 
+            #expect(!panel.isHidden)
+            postKeyboardDidShow()
+
             #expect(panel.isHidden)
+        }
+    }
+
+    @Test
+    func beginningTextFieldEditingPinsComposerAboveKeyboardAndAttachmentDuringCoverTransition() throws {
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let draftTextField = try #require(controller.view.firstSubview(ofType: UITextField.self))
+            let attachButton = try #require(controller.view.button(named: KeyboardAction.attach.title))
+            let keyboardConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToKeyboardConstraint", in: controller)
+            )
+            let panelConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToAttachmentPanelConstraint", in: controller)
+            )
+            let aboveKeyboardConstraint = try #require(
+                mirroredConstraint(named: "composerBottomAboveKeyboardDuringPanelCoverConstraint", in: controller)
+            )
+            let abovePanelConstraint = try #require(
+                mirroredConstraint(named: "composerBottomAboveAttachmentDuringPanelCoverConstraint", in: controller)
+            )
+            let pullDownConstraint = try #require(
+                mirroredConstraint(named: "composerBottomPullDownDuringPanelCoverConstraint", in: controller)
+            )
+
+            attachButton.sendActions(for: .touchUpInside)
+            #expect(draftTextField.delegate?.textFieldShouldBeginEditing?(draftTextField) ?? true)
+
+            #expect(!keyboardConstraint.isActive)
+            #expect(!panelConstraint.isActive)
+            #expect(aboveKeyboardConstraint.isActive)
+            #expect(abovePanelConstraint.isActive)
+            #expect(pullDownConstraint.isActive)
+        }
+    }
+
+    @Test
+    func attachDuringKeyboardPresentationCancelsPanelCoverAndResignsTextField() throws {
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let draftTextField = try #require(controller.view.firstSubview(ofType: UITextField.self))
+            let attachButton = try #require(controller.view.button(named: KeyboardAction.attach.title))
+            let panel = try #require(controller.view.subview(withAccessibilityIdentifier: "UIKitAttachmentPanel"))
+
+            attachButton.sendActions(for: .touchUpInside)
+            #expect(!panel.isHidden)
+
+            #expect(draftTextField.delegate?.textFieldShouldBeginEditing?(draftTextField) ?? true)
+            #expect(draftTextField.becomeFirstResponder())
+            #expect(draftTextField.isFirstResponder)
+            #expect(!panel.isHidden)
+
+            attachButton.sendActions(for: .touchUpInside)
+
+            #expect(!draftTextField.isFirstResponder)
+            #expect(!panel.isHidden)
+
+            postKeyboardDidShow()
+
+            #expect(!panel.isHidden)
+        }
+    }
+
+    @Test
+    func dismissDuringKeyboardPresentationDismissesKeyboardBeforeReturningComposerToBottom() throws {
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let draftTextField = try #require(controller.view.firstSubview(ofType: UITextField.self))
+            let attachButton = try #require(controller.view.button(named: KeyboardAction.attach.title))
+            let dismissButton = try #require(controller.view.button(named: KeyboardAction.dismissKeyboard.title))
+            let panel = try #require(controller.view.subview(withAccessibilityIdentifier: "UIKitAttachmentPanel"))
+
+            attachButton.sendActions(for: .touchUpInside)
+            #expect(!panel.isHidden)
+
+            #expect(draftTextField.delegate?.textFieldShouldBeginEditing?(draftTextField) ?? true)
+            #expect(draftTextField.becomeFirstResponder())
+            #expect(draftTextField.isFirstResponder)
+
+            dismissButton.sendActions(for: .touchUpInside)
+
+            #expect(!draftTextField.isFirstResponder)
+            #expect(panel.isHidden)
+
+            postKeyboardDidShow()
+
+            #expect(panel.isHidden)
+        }
+    }
+
+    @Test
+    func selectingAttachmentDuringKeyboardPresentationKeepsComposerWithKeyboard() throws {
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let draftTextField = try #require(controller.view.firstSubview(ofType: UITextField.self))
+            let attachButton = try #require(controller.view.button(named: KeyboardAction.attach.title))
+            let photoButton = try #require(controller.view.button(named: AttachmentSource.photoLibrary.rawValue))
+            let panel = try #require(controller.view.subview(withAccessibilityIdentifier: "UIKitAttachmentPanel"))
+            let keyboardConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToKeyboardConstraint", in: controller)
+            )
+            let bottomConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToBottomConstraint", in: controller)
+            )
+
+            attachButton.sendActions(for: .touchUpInside)
+            #expect(!panel.isHidden)
+
+            #expect(draftTextField.delegate?.textFieldShouldBeginEditing?(draftTextField) ?? true)
+            #expect(draftTextField.becomeFirstResponder())
+            #expect(draftTextField.isFirstResponder)
+
+            photoButton.sendActions(for: .touchUpInside)
+
+            #expect(draftTextField.text == AttachmentSource.photoLibrary.token)
+            #expect(panel.isHidden)
+            #expect(keyboardConstraint.isActive)
+            #expect(!bottomConstraint.isActive)
+
+            postKeyboardDidShow()
+
+            #expect(panel.isHidden)
+            #expect(keyboardConstraint.isActive)
+            #expect(!bottomConstraint.isActive)
         }
     }
 
@@ -83,20 +284,56 @@ struct UIKitKeyboardViewControllerAttachmentInputTests {
     }
 
     @Test
-    func dismissActionHidesAttachmentPanelWhenPanelIsActive() throws {
+    func dismissActionSlidesAttachmentPanelDownWhenPanelIsActive() throws {
         let (window, controller) = try makeVisibleController()
 
         try withExtendedLifetime(window) {
             let attachButton = try #require(controller.view.button(named: KeyboardAction.attach.title))
             let dismissButton = try #require(controller.view.button(named: KeyboardAction.dismissKeyboard.title))
             let panel = try #require(controller.view.subview(withAccessibilityIdentifier: "UIKitAttachmentPanel"))
+            let panelBottomConstraint = try #require(
+                mirroredConstraint(named: "attachmentPanelBottomConstraint", in: controller)
+            )
+            let panelConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToAttachmentPanelConstraint", in: controller)
+            )
+            let bottomConstraint = try #require(
+                mirroredConstraint(named: "composerBottomToBottomConstraint", in: controller)
+            )
 
             attachButton.sendActions(for: .touchUpInside)
             #expect(!panel.isHidden)
+            #expect(panelBottomConstraint.constant == 0)
 
             dismissButton.sendActions(for: .touchUpInside)
 
-            #expect(panel.isHidden)
+            #expect(!panel.isHidden)
+            #expect(panelBottomConstraint.constant > 0)
+            #expect(panelConstraint.isActive)
+            #expect(!bottomConstraint.isActive)
+        }
+    }
+
+    @Test
+    func attachActionDoesNotReanimateWhenAttachmentPanelIsAlreadyActive() throws {
+        let animationsWereEnabled = UIView.areAnimationsEnabled
+        UIView.setAnimationsEnabled(false)
+        defer { UIView.setAnimationsEnabled(animationsWereEnabled) }
+
+        let (window, controller) = try makeVisibleController()
+
+        try withExtendedLifetime(window) {
+            let attachButton = try #require(controller.view.button(named: KeyboardAction.attach.title))
+            let panelBottomConstraint = try #require(
+                mirroredConstraint(named: "attachmentPanelBottomConstraint", in: controller)
+            )
+
+            attachButton.sendActions(for: .touchUpInside)
+            #expect(panelBottomConstraint.constant == 0)
+
+            attachButton.sendActions(for: .touchUpInside)
+
+            #expect(panelBottomConstraint.constant == 0)
         }
     }
 
@@ -109,7 +346,7 @@ struct UIKitKeyboardViewControllerAttachmentInputTests {
             let dismissButton = try #require(controller.view.button(named: KeyboardAction.dismissKeyboard.title))
             let textField = try #require(controller.view.textField())
             let composerContainer = try #require(controller.view.directSubviewContaining(textField))
-            #expect(!activeKeyboardConstraints(in: controller, for: composerContainer).isEmpty)
+            #expect(activeKeyboardConstraints(in: controller, for: composerContainer).isEmpty)
 
             attachButton.sendActions(for: .touchUpInside)
             dismissButton.sendActions(for: .touchUpInside)
@@ -125,14 +362,17 @@ struct UIKitKeyboardViewControllerAttachmentInputTests {
 
         try withExtendedLifetime(window) {
             let dismissButton = try #require(controller.view.button(named: KeyboardAction.dismissKeyboard.title))
+            let textField = try #require(controller.view.textField())
             let keyboardConstraint = try #require(
                 mirroredConstraint(named: "composerBottomToKeyboardConstraint", in: controller)
             )
             let bottomConstraint = try #require(
                 mirroredConstraint(named: "composerBottomToBottomConstraint", in: controller)
             )
+            #expect(textField.delegate?.textFieldShouldBeginEditing?(textField) ?? true)
+
             #expect(keyboardConstraint.isActive)
-            #expect(keyboardConstraint.isActive)
+            #expect(!bottomConstraint.isActive)
 
             dismissButton.sendActions(for: .touchUpInside)
             controller.view.layoutIfNeeded()
@@ -230,6 +470,13 @@ struct UIKitKeyboardViewControllerAttachmentInputTests {
     private func postKeyboardDidHide() {
         NotificationCenter.default.post(
             name: UIResponder.keyboardDidHideNotification,
+            object: nil
+        )
+    }
+
+    private func postKeyboardDidShow() {
+        NotificationCenter.default.post(
+            name: UIResponder.keyboardDidShowNotification,
             object: nil
         )
     }
