@@ -26,4 +26,15 @@ final class BubbleSampleTests: XCTestCase {
         XCTAssertTrue(samples.allSatisfy { $0.style.tailHeight > 0 })
         XCTAssertTrue(samples.allSatisfy { $0.style.strokeWidth > 0 })
     }
+
+    func testChatBubbleViewCanBeConstructedWithPresetData() {
+        let view = ChatBubbleView(
+            message: BubbleSample.hero.message,
+            style: BubbleSample.hero.style,
+            font: .title2
+        )
+
+        XCTAssertNotNil(view)
+        XCTAssertEqual(BubbleSample.comparisonSamples.count, 3)
+    }
 }
