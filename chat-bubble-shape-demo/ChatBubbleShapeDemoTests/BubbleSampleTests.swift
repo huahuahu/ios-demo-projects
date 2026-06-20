@@ -34,7 +34,8 @@ final class BubbleSampleTests: XCTestCase {
             font: .title2
         )
 
-        XCTAssertEqual(BubbleSample.comparisonSamples.count, 3)
+        XCTAssertEqual(view.message, BubbleSample.hero.message)
+        XCTAssertEqual(view.style, BubbleSample.hero.style)
     }
 
     func testAllStylePresetsHaveTextColor() {

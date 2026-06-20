@@ -6,12 +6,17 @@ struct ChatBubbleShape: Shape {
     let tailHeight: CGFloat
     let tailInset: CGFloat
 
-    func path(in rect: CGRect) -> Path {
+    struct Geometry {
+        let body: CGRect
+        let safeRadius: CGFloat
+    }
+
+    func computeGeometry(in rect: CGRect) -> Geometry {
         let minimumSide = max(0, min(rect.width, rect.height))
         let safeTailWidth = clamp(tailWidth, lower: 0, upper: rect.width * 0.35)
         let safeTailHeight = clamp(tailHeight, lower: 0, upper: rect.height * 0.45)
         let safeTailInset = clamp(tailInset, lower: 0, upper: rect.height * 0.35)
-        let safeRadius = clamp(cornerRadius, lower: 0, upper: minimumSide * 0.5)
+        let initialSafeRadius = clamp(cornerRadius, lower: 0, upper: minimumSide * 0.5)
 
         let body = CGRect(
             x: rect.minX + safeTailWidth,
@@ -19,6 +24,27 @@ struct ChatBubbleShape: Shape {
             width: max(0, rect.width - safeTailWidth - 0.0001),
             height: rect.height - safeTailHeight * 0.15
         )
+
+        let safeRadius = clamp(initialSafeRadius, lower: 0, upper: min(body.width / 2.0, body.height / 2.0))
+
+        return Geometry(body: body, safeRadius: safeRadius)
+    }
+
+    func path(in rect: CGRect) -> Path {
+        let minimumSide = max(0, min(rect.width, rect.height))
+        let safeTailWidth = clamp(tailWidth, lower: 0, upper: rect.width * 0.35)
+        let safeTailHeight = clamp(tailHeight, lower: 0, upper: rect.height * 0.45)
+        let safeTailInset = clamp(tailInset, lower: 0, upper: rect.height * 0.35)
+        let initialSafeRadius = clamp(cornerRadius, lower: 0, upper: minimumSide * 0.5)
+
+        let body = CGRect(
+            x: rect.minX + safeTailWidth,
+            y: rect.minY,
+            width: max(0, rect.width - safeTailWidth - 0.0001),
+            height: rect.height - safeTailHeight * 0.15
+        )
+
+        let safeRadius = clamp(initialSafeRadius, lower: 0, upper: min(body.width / 2.0, body.height / 2.0))
 
         let tailTip = CGPoint(
             x: rect.minX + safeTailWidth * 0.12,
@@ -67,4 +93,3 @@ struct ChatBubbleShape: Shape {
         min(max(value, lower), max(lower, upper))
     }
 }
-

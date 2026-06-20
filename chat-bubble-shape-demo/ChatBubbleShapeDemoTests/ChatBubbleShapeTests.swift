@@ -43,4 +43,34 @@ final class ChatBubbleShapeTests: XCTestCase {
         XCTAssertLessThanOrEqual(bounds.maxX, rect.maxX)
         XCTAssertLessThanOrEqual(bounds.maxY, rect.maxY)
     }
+
+    func testSmallRectRadiusClampPreventsSelfIntersectingTopEdge() {
+        let shape = ChatBubbleShape(
+            cornerRadius: 80,
+            tailWidth: 60,
+            tailHeight: 60,
+            tailInset: 40
+        )
+
+        let rect = CGRect(x: 0, y: 0, width: 48, height: 36)
+        let geometry = shape.computeGeometry(in: rect)
+
+        // Verify body dimensions are non-negative
+        XCTAssertGreaterThanOrEqual(geometry.body.width, 0)
+        XCTAssertGreaterThanOrEqual(geometry.body.height, 0)
+
+        // Verify radius fits within body to prevent self-intersection
+        XCTAssertLessThanOrEqual(geometry.safeRadius, geometry.body.width / 2.0)
+        XCTAssertLessThanOrEqual(geometry.safeRadius, geometry.body.height / 2.0)
+
+        // Verify corner points are valid (not inverted)
+        XCTAssertLessThanOrEqual(
+            geometry.body.minX + geometry.safeRadius,
+            geometry.body.maxX - geometry.safeRadius
+        )
+        XCTAssertLessThanOrEqual(
+            geometry.body.minY + geometry.safeRadius,
+            geometry.body.maxY - geometry.safeRadius
+        )
+    }
 }
