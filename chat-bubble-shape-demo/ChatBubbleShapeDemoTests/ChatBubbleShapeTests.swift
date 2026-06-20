@@ -35,14 +35,65 @@ final class ChatBubbleShapeTests: XCTestCase {
 
         let geometry = shape.computeGeometry(in: CGRect(x: 0, y: 0, width: 320, height: 180))
 
-        XCTAssertLessThanOrEqual(geometry.body.minX - geometry.tailTip.x, style.tailWidth)
-        XCTAssertLessThanOrEqual(geometry.tailBase.x - geometry.body.minX, style.tailWidth * 0.35)
-        XCTAssertLessThanOrEqual(geometry.tailBase.y - geometry.body.maxY, style.tailHeight * 0.35)
-        XCTAssertLessThanOrEqual(geometry.tailTop.x - geometry.body.minX, style.tailWidth * 0.5)
-        XCTAssertLessThanOrEqual(geometry.tailJoin.x - geometry.body.minX, style.cornerRadius * 0.5)
-        XCTAssertGreaterThanOrEqual(geometry.body.maxY - geometry.tailTop.y, style.cornerRadius * 0.4)
-        XCTAssertLessThanOrEqual(geometry.body.maxY - geometry.tailTop.y, style.cornerRadius)
-        XCTAssertLessThanOrEqual(geometry.tailTip.y - geometry.body.maxY, style.tailHeight)
+        XCTAssertGreaterThanOrEqual(geometry.tailTip.x, geometry.body.minX)
+        XCTAssertGreaterThanOrEqual(geometry.tailTop.x, geometry.body.minX)
+        XCTAssertGreaterThanOrEqual(geometry.tailBase.x, geometry.body.minX)
+        XCTAssertLessThanOrEqual(geometry.tailBase.x - geometry.body.minX, style.cornerRadius * 0.55)
+        XCTAssertLessThanOrEqual(geometry.tailJoin.x - geometry.body.minX, style.cornerRadius * 1.3)
+        XCTAssertGreaterThanOrEqual(geometry.tailTop.y, geometry.body.maxY - style.tailHeight * 0.75)
+        XCTAssertLessThanOrEqual(geometry.tailBase.y - geometry.body.maxY, style.tailHeight * 0.85)
+        XCTAssertLessThanOrEqual(geometry.tailTip.y - geometry.body.maxY, style.tailHeight * 0.4)
+    }
+
+    func testReferenceTailConnectsToBottomEdgeInsteadOfLeftSide() {
+        let style = ChatBubbleStyle.reference
+        let shape = ChatBubbleShape(
+            cornerRadius: style.cornerRadius,
+            tailWidth: style.tailWidth,
+            tailHeight: style.tailHeight,
+            tailInset: style.tailInset
+        )
+
+        let geometry = shape.computeGeometry(in: CGRect(x: 0, y: 0, width: 320, height: 180))
+
+        XCTAssertGreaterThan(
+            geometry.tailJoin.y,
+            geometry.body.maxY - 0.001,
+            "The tail should start from the lower-left corner area, not halfway up the left edge."
+        )
+        XCTAssertLessThanOrEqual(
+            geometry.tailJoin.x - geometry.body.minX,
+            style.cornerRadius * 1.3,
+            "The bottom-edge connection should stay short instead of forming a long underline."
+        )
+    }
+
+    func testReferenceTailUsesRoundedFootBeforeJoiningTheBottomEdge() {
+        let style = ChatBubbleStyle.reference
+        let shape = ChatBubbleShape(
+            cornerRadius: style.cornerRadius,
+            tailWidth: style.tailWidth,
+            tailHeight: style.tailHeight,
+            tailInset: style.tailInset
+        )
+
+        let geometry = shape.computeGeometry(in: CGRect(x: 0, y: 0, width: 320, height: 180))
+
+        XCTAssertLessThan(
+            geometry.tailTip.x,
+            geometry.tailBase.x,
+            "The rounded foot should curve rightward from the left tail tip."
+        )
+        XCTAssertGreaterThan(
+            geometry.tailBase.y,
+            geometry.tailTip.y,
+            "The tail should have a soft lower belly instead of a sharp point."
+        )
+        XCTAssertGreaterThan(
+            geometry.tailJoin.x,
+            geometry.tailBase.x,
+            "The tail should blend into the bottom edge to the right of the rounded foot."
+        )
     }
 
     func testShapeClampsGeometryForSmallRects() {

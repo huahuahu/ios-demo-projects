@@ -11,9 +11,11 @@
 		0CAC962FC8759A1E87363099 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E7151C27514AB4D705F5D9 /* ContentView.swift */; };
 		23A7B837D567948942BDBDF5 /* ChatBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9FEF935CD9302275135DAE /* ChatBubbleView.swift */; };
 		2CA1DB4F38FD434E602A9C2B /* BubbleSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2D5314DA9B74D15DCC8AF3 /* BubbleSample.swift */; };
+		51333DA9DDC14F303EA5CEED /* TailPrototypeShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB6BB0C57596C3458EBEBAF /* TailPrototypeShape.swift */; };
 		5C2D963E0B5447CFE918A62C /* ChatBubbleShapeDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFC9EBE3A56B0D693A5EBD8 /* ChatBubbleShapeDemoApp.swift */; };
 		97E7AB90DA1842530842348F /* BubbleSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD654231EAE44753D931BA2 /* BubbleSampleTests.swift */; };
 		B87181E3C1DDE8E417D1AF3E /* ChatBubbleShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D9947864F09F86E3F63E90 /* ChatBubbleShapeTests.swift */; };
+		C771A55B19E30DC11F1DF0A5 /* TailPrototypeShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00497CA318302EFF5F8F41E8 /* TailPrototypeShapeTests.swift */; };
 		DD7936504255180E17CA2D83 /* ChatBubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C05DA0EC623B939D8CC2A74 /* ChatBubbleShape.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,12 +30,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00497CA318302EFF5F8F41E8 /* TailPrototypeShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TailPrototypeShapeTests.swift; sourceTree = "<group>"; };
 		22E7151C27514AB4D705F5D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		26D9947864F09F86E3F63E90 /* ChatBubbleShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleShapeTests.swift; sourceTree = "<group>"; };
 		3BD654231EAE44753D931BA2 /* BubbleSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleSampleTests.swift; sourceTree = "<group>"; };
 		6C05DA0EC623B939D8CC2A74 /* ChatBubbleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleShape.swift; sourceTree = "<group>"; };
 		9C2DB37F2DF8F65166C308E8 /* ChatBubbleShapeDemoTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ChatBubbleShapeDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A988EBDDB7C8FAD38B654A13 /* ChatBubbleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleStyle.swift; sourceTree = "<group>"; };
+		AFB6BB0C57596C3458EBEBAF /* TailPrototypeShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TailPrototypeShape.swift; sourceTree = "<group>"; };
 		BCE54D989E0A786CE4ED70DC /* ChatBubbleShapeDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ChatBubbleShapeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFC9EBE3A56B0D693A5EBD8 /* ChatBubbleShapeDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleShapeDemoApp.swift; sourceTree = "<group>"; };
 		FC2D5314DA9B74D15DCC8AF3 /* BubbleSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleSample.swift; sourceTree = "<group>"; };
@@ -50,6 +54,7 @@
 				A988EBDDB7C8FAD38B654A13 /* ChatBubbleStyle.swift */,
 				FE9FEF935CD9302275135DAE /* ChatBubbleView.swift */,
 				22E7151C27514AB4D705F5D9 /* ContentView.swift */,
+				AFB6BB0C57596C3458EBEBAF /* TailPrototypeShape.swift */,
 			);
 			path = ChatBubbleShapeDemo;
 			sourceTree = "<group>";
@@ -77,6 +82,7 @@
 			children = (
 				3BD654231EAE44753D931BA2 /* BubbleSampleTests.swift */,
 				26D9947864F09F86E3F63E90 /* ChatBubbleShapeTests.swift */,
+				00497CA318302EFF5F8F41E8 /* TailPrototypeShapeTests.swift */,
 			);
 			path = ChatBubbleShapeDemoTests;
 			sourceTree = "<group>";
@@ -167,6 +173,7 @@
 				04CE1F9EE100969A0312B1C8 /* ChatBubbleStyle.swift in Sources */,
 				23A7B837D567948942BDBDF5 /* ChatBubbleView.swift in Sources */,
 				0CAC962FC8759A1E87363099 /* ContentView.swift in Sources */,
+				51333DA9DDC14F303EA5CEED /* TailPrototypeShape.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +183,7 @@
 			files = (
 				97E7AB90DA1842530842348F /* BubbleSampleTests.swift in Sources */,
 				B87181E3C1DDE8E417D1AF3E /* ChatBubbleShapeTests.swift in Sources */,
+				C771A55B19E30DC11F1DF0A5 /* TailPrototypeShapeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

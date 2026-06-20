@@ -2,6 +2,10 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
+        bubbleDemo
+    }
+
+    private var bubbleDemo: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 28) {
                 header

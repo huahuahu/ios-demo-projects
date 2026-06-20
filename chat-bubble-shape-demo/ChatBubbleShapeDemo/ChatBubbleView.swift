@@ -31,7 +31,14 @@ struct ChatBubbleView: View {
             }
             .overlay {
                 bubbleShape
-                    .stroke(style.stroke, lineWidth: style.strokeWidth)
+                    .stroke(
+                        style.stroke,
+                        style: StrokeStyle(
+                            lineWidth: style.strokeWidth,
+                            lineCap: .round,
+                            lineJoin: .round
+                        )
+                    )
             }
             .fixedSize(horizontal: false, vertical: true)
             .accessibilityLabel(message)
