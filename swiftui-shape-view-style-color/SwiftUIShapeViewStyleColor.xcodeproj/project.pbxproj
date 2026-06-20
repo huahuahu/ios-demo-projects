@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04CB91ACD1E17A0725C9C125 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89584A778CD6B1476FA7804D /* ContentView.swift */; };
 		20BD74A8622468A16CE5AB64 /* SwiftUIShapeViewStyleColorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF242D40A00CAAFCCC5660 /* SwiftUIShapeViewStyleColorApp.swift */; };
+		8CC32B0D5E91A60444349250 /* DemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF65F9B6AFAAC2C626A7E393 /* DemoModel.swift */; };
 		E6EC7DE2750F1F76C66160B0 /* DemoModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4862A2E3536FA1E2129351 /* DemoModelTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,7 @@
 		89584A778CD6B1476FA7804D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BC4862A2E3536FA1E2129351 /* DemoModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModelTests.swift; sourceTree = "<group>"; };
 		D4FF242D40A00CAAFCCC5660 /* SwiftUIShapeViewStyleColorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIShapeViewStyleColorApp.swift; sourceTree = "<group>"; };
+		DF65F9B6AFAAC2C626A7E393 /* DemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -52,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				89584A778CD6B1476FA7804D /* ContentView.swift */,
+				DF65F9B6AFAAC2C626A7E393 /* DemoModel.swift */,
 				D4FF242D40A00CAAFCCC5660 /* SwiftUIShapeViewStyleColorApp.swift */,
 			);
 			path = SwiftUIShapeViewStyleColor;
@@ -155,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04CB91ACD1E17A0725C9C125 /* ContentView.swift in Sources */,
+				8CC32B0D5E91A60444349250 /* DemoModel.swift in Sources */,
 				20BD74A8622468A16CE5AB64 /* SwiftUIShapeViewStyleColorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
