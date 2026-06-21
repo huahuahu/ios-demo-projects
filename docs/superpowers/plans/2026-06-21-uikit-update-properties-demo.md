@@ -390,14 +390,25 @@ final class DemoStateTests: XCTestCase {
         XCTAssertEqual(state.statusText, DemoAction.constraintUpdate.explanation)
     }
 
-    func testLayoutOnlyChangesHeightAndStatus() {
+    func testLayoutOnlyIncrementsMarkerAndLeavesHeightUnchanged() {
         let state = DemoState()
 
         state.apply(.layoutOnly)
 
         XCTAssertFalse(state.isDetailHidden)
-        XCTAssertEqual(state.detailHeight, 188)
+        XCTAssertEqual(state.detailHeight, 140)
+        XCTAssertEqual(state.layoutMarker, 1)
         XCTAssertEqual(state.statusText, DemoAction.layoutOnly.explanation)
+    }
+
+    func testLayoutOnlyMarkerAccumulatesAcrossTaps() {
+        let state = DemoState()
+
+        state.apply(.layoutOnly)
+        state.apply(.layoutOnly)
+
+        XCTAssertEqual(state.detailHeight, 140)
+        XCTAssertEqual(state.layoutMarker, 2)
     }
 }
 ```
