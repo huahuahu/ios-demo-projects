@@ -44,4 +44,19 @@ final class DemoStateTests: XCTestCase {
 
         XCTAssertEqual(state.layoutMarker, 3)
     }
+
+    func testControllerTextOnlyTogglesControllerMessageWithoutLayoutOrConstraintState() {
+        let state = DemoState()
+        let initialHeight = state.detailHeight
+        let initialLayoutMarker = state.layoutMarker
+        let initialHidden = state.isDetailHidden
+
+        state.apply(.controllerTextOnly)
+
+        XCTAssertNotEqual(state.controllerMessage, "Controller title is normal")
+        XCTAssertEqual(state.detailHeight, initialHeight)
+        XCTAssertEqual(state.layoutMarker, initialLayoutMarker)
+        XCTAssertEqual(state.isDetailHidden, initialHidden)
+        XCTAssertEqual(state.statusText, DemoAction.controllerTextOnly.explanation)
+    }
 }

@@ -17,7 +17,7 @@ final class UIViewControllerExperimentViewController: UIViewController {
         super.updateProperties()
         recorder.record(.updateProperties, note: "UIViewController read observable state")
         title = state.isDetailHidden ? "VC Hidden State" : "UIViewController"
-        titlePreviewLabel.text = state.isDetailHidden ? "Controller title changed by state" : "Controller title is normal"
+        titlePreviewLabel.text = state.controllerMessage
         statusLabel.text = state.statusText
         refreshLog()
     }
@@ -55,6 +55,7 @@ final class UIViewControllerExperimentViewController: UIViewController {
         statusLabel.numberOfLines = 0
 
         let buttonStack = UIStackView(arrangedSubviews: [
+            makeButton(for: .controllerTextOnly),
             makeButton(for: .toggleHidden),
             makeButton(for: .layoutOnly),
             makeClearButton()

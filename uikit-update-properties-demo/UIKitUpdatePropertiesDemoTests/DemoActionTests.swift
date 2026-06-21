@@ -15,4 +15,12 @@ final class DemoActionTests: XCTestCase {
         XCTAssertTrue(DemoAction.layoutOnly.explanation.contains("setNeedsLayout"))
         XCTAssertFalse(DemoAction.constraintUpdate.explanation.contains("setNeedsUpdateConstraints"))
     }
+
+    func testControllerTextOnlyActionExplainsPureViewControllerPropertyTracking() {
+        XCTAssertEqual(DemoAction.controllerTextOnly.title, "Controller text only")
+        XCTAssertEqual(DemoAction.controllerTextOnly.expectation, .propertiesOnly)
+        XCTAssertTrue(DemoAction.controllerTextOnly.explanation.contains("UIViewController.updateProperties()"))
+        XCTAssertFalse(DemoAction.controllerTextOnly.explanation.contains("setNeedsLayout"))
+        XCTAssertFalse(DemoAction.controllerTextOnly.explanation.contains("updateConstraints"))
+    }
 }

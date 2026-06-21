@@ -10,12 +10,15 @@ enum InvalidationExpectation: Equatable {
 }
 
 enum DemoAction: CaseIterable, Equatable {
+    case controllerTextOnly
     case toggleHidden
     case constraintUpdate
     case layoutOnly
 
     var title: String {
         switch self {
+        case .controllerTextOnly:
+            "Controller text only"
         case .toggleHidden:
             "Toggle hidden"
         case .constraintUpdate:
@@ -27,6 +30,8 @@ enum DemoAction: CaseIterable, Equatable {
 
     var explanation: String {
         switch self {
+        case .controllerTextOnly:
+            "Changes controllerMessage read only by UIViewController.updateProperties(). No manual layout or constraints request is made."
         case .toggleHidden:
             "Mutates isDetailHidden via updateProperties tracking. UIStackView may affect layout, but this does not create a constraints dependency unless updateConstraints reads that state."
         case .constraintUpdate:
@@ -38,6 +43,8 @@ enum DemoAction: CaseIterable, Equatable {
 
     var expectation: InvalidationExpectation {
         switch self {
+        case .controllerTextOnly:
+            .propertiesOnly
         case .toggleHidden:
             .propertiesOnly
         case .constraintUpdate:
