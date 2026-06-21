@@ -19,8 +19,6 @@ Use this layout unless the demo has a strong reason to differ:
 demo-name/
   README.md
   project.yml
-  .xcodebuildmcp/
-    config.yaml
   DemoName/
   DemoNameTests/
   scripts/
@@ -44,8 +42,8 @@ Use XcodeGen for new scaffolded projects. Generate and keep `.xcodeproj` when th
    - Set `{SimulatorName}` to `{DemoName} iPhone 17 Pro Max`.
    - Use `xcrun simctl create "{SimulatorName}"` with the iPhone 17 Pro Max device type and the latest available iOS runtime.
    - Capture the returned UUID as `{SimulatorId}`.
-10. Add `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml` by copying the template and using plain string replacement for `{DemoName}`, `{SimulatorName}`, and `{SimulatorId}`.
-11. Use XcodeBuildMCP where available to discover schemes, build, test, run, launch, capture logs, or inspect simulator state.
+10. Update the repository root `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml` by copying the template to the root config path and using plain string replacement for `{DemoDirectory}`, `{DemoName}`, `{SimulatorName}`, and `{SimulatorId}`. Use the kebab-case demo directory name for `{DemoDirectory}`. Do not create `demo-name/.xcodebuildmcp/config.yaml`.
+11. Use XcodeBuildMCP where available to discover schemes, build, test, run, launch, capture logs, or inspect simulator state. Before using MCP tools in the same session, call `session_set_defaults` with the same root-relative values from the root config when current defaults do not already match.
 12. For verification, use XcodeBuildMCP MCP tools rather than command-line `xcodebuildmcp` commands.
 
 ## XcodeGen Pattern
@@ -87,11 +85,13 @@ Use `xcrun simctl list devicetypes` and `xcrun simctl list runtimes` to confirm 
 xcrun simctl create "{DemoName} iPhone 17 Pro Max" "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max" "com.apple.CoreSimulator.SimRuntime.iOS-26-5"
 ```
 
-Copy the returned UUID into `.xcodebuildmcp/config.yaml` as `simulatorId`. Do not reuse the UUID from another demo.
+Copy the returned UUID into the repository root `.xcodebuildmcp/config.yaml` as `simulatorId`. Do not reuse the UUID from another demo.
 
 ## XcodeBuildMCP Config
 
-After generating the Xcode project and creating the dedicated simulator, write `.xcodebuildmcp/config.yaml` inside the demo directory from `templates/xcodebuildmcp-config.yaml`. Replace `{DemoName}` with the inferred PascalCase demo name, `{SimulatorName}` with `{DemoName} iPhone 17 Pro Max`, and `{SimulatorId}` with the UUID returned by `xcrun simctl create`.
+After generating the Xcode project and creating the dedicated simulator, update the repository root `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml`. Replace `{DemoDirectory}` with the kebab-case demo directory name, `{DemoName}` with the inferred PascalCase demo name, `{SimulatorName}` with `{DemoName} iPhone 17 Pro Max`, and `{SimulatorId}` with the UUID returned by `xcrun simctl create`.
+
+The persisted `projectPath` must be relative to the repository root, for example `demo-name/DemoName.xcodeproj`. Do not write or create `demo-name/.xcodebuildmcp/config.yaml`. If an older demo-local config already exists, leave it untouched unless the user explicitly asks to migrate or remove it.
 
 
 ## Blog-Friendly README
@@ -118,6 +118,7 @@ xcodegen generate
 
 Then use XcodeBuildMCP MCP tools, not command-line `xcodebuildmcp`, to validate:
 
-1. `test_sim` to verify can test on the simulator
+1. `session_show_defaults` to confirm the active MCP defaults match the repository root `.xcodebuildmcp/config.yaml`; if they do not, call `session_set_defaults` with `projectPath: demo-name/{DemoName}.xcodeproj`, `scheme: {DemoName}`, `simulatorName: {DemoName} iPhone 17 Pro Max`, and the dedicated `simulatorId`.
+2. `test_sim` to verify can test on the simulator
 
 If XcodeBuildMCP MCP tools are unavailable, fall back to `xcodebuild` with an explicit destination such as `platform=iOS Simulator,name={DemoName} iPhone 17 Pro Max,OS=latest`. If validation fails, inspect the logs and report the specific blocker.
