@@ -3,7 +3,8 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            Text("UIKit demo will be added in Task 2.")
+            UIKitInterruptibleDemoView()
+                .ignoresSafeArea(edges: .bottom)
                 .tabItem {
                     Label("UIKit", systemImage: "hand.draw")
                 }
