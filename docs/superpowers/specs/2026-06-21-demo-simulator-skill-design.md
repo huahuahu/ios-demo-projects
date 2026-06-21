@@ -1,23 +1,23 @@
-# Demo Simulator Skill Design
+# Demo 模拟器 Skill 设计
 
-## Goal
+## 目标
 
-Update the `ios-demo-project-creator` skill so every newly created demo gets its own iPhone 17 Pro Max simulator whose name is derived from the demo.
+修改 `ios-demo-project-creator` skill，让每次新建 demo 时都创建一个专属的 iPhone 17 Pro Max 模拟器，模拟器名称和 demo 相关。
 
-## Requirements
+## 需求
 
-- Infer `DemoName` as the existing PascalCase app and scheme name.
-- Create a dedicated simulator named `{DemoName} iPhone 17 Pro Max`.
-- Use the iPhone 17 Pro Max device type with the latest available iOS runtime.
-- Store the returned simulator UUID in that demo's `.xcodebuildmcp/config.yaml`.
-- Replace the current fixed simulator name and simulator ID in the config template with placeholders.
+- 沿用现有流程推导出的 PascalCase app 和 scheme 名称作为 `DemoName`。
+- 创建名为 `{DemoName} iPhone 17 Pro Max` 的专属模拟器。
+- 使用 iPhone 17 Pro Max 设备类型和本机可用的最新 iOS runtime。
+- 将 `xcrun simctl create` 返回的模拟器 UUID 写入该 demo 的 `.xcodebuildmcp/config.yaml`。
+- 将当前配置模板里的固定模拟器名称和固定模拟器 UUID 改成占位符。
 
-## Design
+## 设计
 
-The skill will add a simulator provisioning step after the Xcode project and `.xcodebuildmcp` config template are prepared. The creator should run `xcrun simctl create` for the derived simulator name, capture the UUID, and use it to replace `{SimulatorId}`. The same derived name replaces `{SimulatorName}`.
+在 skill 的创建流程中，在准备好 Xcode project 和 `.xcodebuildmcp` 配置模板后增加模拟器准备步骤。创建 demo 的 agent 需要用推导出的模拟器名称运行 `xcrun simctl create`，捕获返回的 UUID，并用它替换 `{SimulatorId}`；同一个模拟器名称用于替换 `{SimulatorName}`。
 
-The XcodeBuildMCP config template will no longer contain a shared hardcoded simulator UUID. Each generated demo receives a config that points to its own simulator, keeping builds, launches, logs, and UI automation isolated per demo.
+XcodeBuildMCP 配置模板不再包含共享的硬编码模拟器 UUID。每个生成出来的 demo 都会得到一份指向自己专属模拟器的配置，让 build、launch、日志和 UI 自动化都按 demo 隔离。
 
-## Validation
+## 验证
 
-After creating or changing a demo, validation still uses XcodeBuildMCP MCP tools. The generated `.xcodebuildmcp/config.yaml` must contain the demo-specific simulator name and UUID before running `test_sim` or build/run actions.
+创建或修改 demo 后，验证仍然使用 XcodeBuildMCP MCP 工具。运行 `test_sim` 或 build/run 相关操作前，生成的 `.xcodebuildmcp/config.yaml` 必须包含该 demo 专属的模拟器名称和 UUID。
