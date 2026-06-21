@@ -1,14 +1,14 @@
-# Interruptible Animation Demo Design
+# 可打断动画 Demo 设计
 
-## Goal
+## 目标
 
-Create a focused iOS demo project that explains interruptible and resumable animations through direct interaction. The demo should let readers drag a card, stop midway, reverse direction, and release it so the animation continues from the current progress instead of restarting.
+创建一个聚焦的 iOS demo project，用直接可操作的交互解释可打断、可恢复动画。读者可以拖拽一张卡片，在中途停下、反向拖动，然后松手，让动画从当前进度继续完成或回弹，而不是从头开始。
 
-The demo is intended for a blog topic about UIKit `UIViewPropertyAnimator`, interactive animation progress, and how SwiftUI state-driven animation compares conceptually.
+这个 demo 服务于一篇关于 UIKit `UIViewPropertyAnimator`、交互式动画进度，以及 SwiftUI 状态驱动动画对比的博客主题。
 
-## Project Shape
+## 项目形态
 
-The new standalone demo directory will be:
+新的独立 demo 目录为：
 
 ```text
 interruptible-animation-demo/
@@ -20,93 +20,93 @@ interruptible-animation-demo/
   InterruptibleAnimationDemoTests/
 ```
 
-The app and scheme name will be `InterruptibleAnimationDemo`. The bundle identifier will be `com.huahuahu.demo.InterruptibleAnimationDemo`. The project will use XcodeGen, Swift 6.0, iOS 26.0, and an empty development team for local simulator use.
+app 和 scheme 名称为 `InterruptibleAnimationDemo`。bundle identifier 为 `com.huahuahu.demo.InterruptibleAnimationDemo`。项目使用 XcodeGen、Swift 6.0、iOS 26.0，并把 development team 留空，方便本地 simulator 运行。
 
-## Architecture
+## 架构
 
-The app will use a SwiftUI shell with two tabs:
+app 使用 SwiftUI 外壳，并提供两个 tab：
 
-1. `UIKit` as the primary explanation.
-2. `SwiftUI` as a conceptual comparison.
+1. `UIKit`：作为主要讲解入口。
+2. `SwiftUI`：作为概念对照。
 
-The UIKit tab will host a `UIViewControllerRepresentable` wrapper around a UIKit view controller. That view controller owns a draggable card and a `UIViewPropertyAnimator`. A pan gesture pauses the animator, maps drag distance into `fractionComplete`, and then calls `continueAnimation(...)` on release so the card completes or returns from the current position.
+UIKit tab 会通过 `UIViewControllerRepresentable` 承载一个 UIKit view controller。这个 view controller 拥有一张可拖拽卡片和一个 `UIViewPropertyAnimator`。pan gesture 开始时暂停 animator，把拖拽距离映射到 `fractionComplete`，松手时再调用 `continueAnimation(...)`，让卡片从当前进度继续完成或回到原位。
 
-The SwiftUI tab will use the same visual metaphor, but it will explain the concept through state: gesture updates temporarily override the card offset, and release changes the target state with animation. This keeps the comparison honest: UIKit exposes explicit animator control, while SwiftUI usually expresses interruptibility by changing animated state.
+SwiftUI tab 使用同样的视觉隐喻，但通过 state 来解释这个概念：手势更新临时覆盖卡片 offset，松手时改变目标状态并触发动画。这样对比会更准确：UIKit 暴露显式 animator 控制面，而 SwiftUI 通常通过改变 animated state 来表现“被新目标打断后继续过渡”的用户体验。
 
-## Components
+## 组件
 
 ### `AnimationSnapState`
 
-`AnimationSnapState` will describe the two resting positions: collapsed and expanded. It will expose display labels and target offsets used by both tabs.
+`AnimationSnapState` 描述两个静止位置：collapsed 和 expanded。它提供展示文案和目标 progress，供两个 tab 共用。
 
 ### `AnimationProgressModel`
 
-`AnimationProgressModel` will contain deterministic math for:
+`AnimationProgressModel` 存放可测试的确定性计算：
 
-- clamping progress to `0...1`
-- converting a drag translation into progress
-- choosing the final snap state from progress and drag velocity
+- 把 progress clamp 到 `0...1`
+- 把拖拽 translation 转换成 progress
+- 根据 progress 和拖拽 velocity 选择最终 snap state
 
-This model keeps the demo behavior testable without relying on animation timing or UIKit gesture recognizers.
+这个 model 让 demo 行为可以通过单元测试验证，而不依赖动画时序或 UIKit gesture recognizer。
 
 ### `InterruptibleUIKitViewController`
 
-`InterruptibleUIKitViewController` will render the primary demo. It will include:
+`InterruptibleUIKitViewController` 渲染主要 demo。它包含：
 
-- a card view with short instructional text
-- a status label showing the current animator state and progress
-- a pan gesture recognizer
-- a `UIViewPropertyAnimator` that moves the card between collapsed and expanded positions
+- 一张带简短说明文字的卡片
+- 一个显示当前 animator 阶段和 progress 的状态 label
+- 一个 pan gesture recognizer
+- 一个在 collapsed 和 expanded 位置之间移动卡片的 `UIViewPropertyAnimator`
 
-During a pan gesture, the controller will call `pauseAnimation()`, update `fractionComplete`, and reverse or continue the animator depending on the selected snap state.
+pan 过程中，controller 会调用 `pauseAnimation()`，更新 `fractionComplete`，并根据最终 snap state 反向或继续 animator。
 
 ### `UIKitInterruptibleDemoView`
 
-`UIKitInterruptibleDemoView` will bridge the UIKit controller into SwiftUI so the app can keep a simple tab-based shell.
+`UIKitInterruptibleDemoView` 把 UIKit controller bridge 到 SwiftUI，让 app 可以保持简单的 tab-based shell。
 
 ### `SwiftUIInterruptibleDemoView`
 
-`SwiftUIInterruptibleDemoView` will mirror the card interaction using SwiftUI gestures and state. It will include explanatory text that points out the API difference from UIKit: SwiftUI does not expose the same `UIViewPropertyAnimator` control surface, but changing animated state while an animation is in flight produces a similar user-facing interruption.
+`SwiftUIInterruptibleDemoView` 使用 SwiftUI gesture 和 state 镜像同样的卡片交互。它会包含解释文案，说明 SwiftUI 与 UIKit 的 API 差异：SwiftUI 不暴露同样的 `UIViewPropertyAnimator` 控制面，但在动画过程中改变 animated state，可以得到类似的“可被打断并过渡到新目标”的用户体验。
 
 ### `ContentView`
 
-`ContentView` will present the two tabs and a concise title for the overall demo.
+`ContentView` 展示两个 demo tab，并提供简洁的整体标题或入口结构。
 
-## Data Flow
+## 数据流
 
-Static state flows from each tab into the shared progress model. Gesture updates produce a normalized progress value. The UIKit tab writes that progress into `UIViewPropertyAnimator.fractionComplete`; the SwiftUI tab converts the same concept into a temporary offset and final snap state.
+静态状态从各 tab 流入共享的 progress model。手势更新生成 normalized progress。UIKit tab 把这个 progress 写入 `UIViewPropertyAnimator.fractionComplete`；SwiftUI tab 把同一个概念转换成临时 offset 和最终 snap state。
 
-There is no network, persistence, or user-generated data. The app remains deterministic except for UIKit and SwiftUI runtime animation interpolation.
+demo 不包含网络、持久化或用户生成数据。除了 UIKit 和 SwiftUI runtime 的动画插值之外，app 行为保持确定且易于测试。
 
-## Error Handling and Edge Cases
+## 错误处理和边界情况
 
-The demo has no recoverable external errors. Internal edge cases will be handled by clamping progress and guarding against invalid travel distances before computing snap decisions. Very small layout sizes should still keep the card visible and avoid negative travel distance.
+demo 没有需要恢复的外部错误。内部边界情况通过 clamp progress、并在计算 snap decision 前防御无效 travel distance 来处理。极小布局尺寸下，卡片仍应保持可见，并避免产生负 travel distance。
 
-Gesture cancellation will be treated like release: the card chooses the nearest snap state and animates there from the current progress.
+gesture cancellation 会按 release 处理：卡片根据当前 progress 选择最近或最符合速度方向的 snap state，并从当前进度动画到该位置。
 
-## Testing
+## 测试
 
-Tests will focus on stable logic rather than visual timing:
+测试聚焦稳定逻辑，而不是视觉时序：
 
-- progress clamping keeps values inside `0...1`
-- drag translation maps to expected progress
-- snap decisions prefer expanded or collapsed based on progress threshold
-- high velocity can choose the velocity direction even when progress is near the threshold
+- progress clamp 始终保持在 `0...1`
+- 拖拽 translation 能映射到预期 progress
+- snap decision 能根据 progress threshold 选择 expanded 或 collapsed
+- 当 velocity 方向足够明确时，即使 progress 接近 threshold，也可以按 velocity 方向选择目标状态
 
-The project will not include pixel snapshot tests because the goal is to teach interruptible animation concepts, not to freeze exact rendering details.
+项目不包含 pixel snapshot tests，因为目标是解释可打断动画概念，而不是锁定具体渲染细节。
 
-## README Scope
+## README 范围
 
-The demo README will explain:
+demo README 会说明：
 
-- what interruptible and resumable animations mean
-- why `UIViewPropertyAnimator` is the central UIKit API
-- how the SwiftUI comparison differs from UIKit
-- expected Xcode/iOS versions
-- how to run `xcodegen generate`
-- how to open, run, and test the project
-- which files contain the main concept
+- interruptible 和 resumable animations 是什么
+- 为什么 `UIViewPropertyAnimator` 是 UIKit 里的核心 API
+- SwiftUI 对照与 UIKit 的差异
+- 预期 Xcode/iOS 版本
+- 如何运行 `xcodegen generate`
+- 如何打开、运行和测试项目
+- 哪些文件承载主要概念
 
-## Validation Plan
+## 验证计划
 
-After implementation, generate the Xcode project with `xcodegen generate`, create a dedicated `InterruptibleAnimationDemo iPhone 17 Pro Max` simulator, write `.xcodebuildmcp/config.yaml`, and use XcodeBuildMCP `test_sim` to verify the simulator test target.
+实现完成后，使用 `xcodegen generate` 生成 Xcode project，创建专用的 `InterruptibleAnimationDemo iPhone 17 Pro Max` simulator，写入 `.xcodebuildmcp/config.yaml`，并使用 XcodeBuildMCP `test_sim` 验证 simulator test target。
