@@ -40,9 +40,13 @@ Use XcodeGen for new scaffolded projects. Generate and keep `.xcodeproj` when th
 6. Add focused tests when the demo has logic or behavior worth verifying.
 7. Add `docs/`, `scripts/`, `samples/`, or `prompts/` only when they support the demo's purpose.
 8. Run `xcodegen generate` from the demo directory.
-9. Add `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml` by copying the template and using plain string replacement for `{DemoName}`.
-10. Use XcodeBuildMCP where available to discover schemes, build, test, run, launch, capture logs, or inspect simulator state.
-11. For verification, use XcodeBuildMCP MCP tools rather than command-line `xcodebuildmcp` commands.
+9. Create a dedicated iPhone 17 Pro Max simulator for the demo before writing the XcodeBuildMCP config:
+   - Set `{SimulatorName}` to `{DemoName} iPhone 17 Pro Max`.
+   - Use `xcrun simctl create "{SimulatorName}"` with the iPhone 17 Pro Max device type and the latest available iOS runtime.
+   - Capture the returned UUID as `{SimulatorId}`.
+10. Add `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml` by copying the template and using plain string replacement for `{DemoName}`, `{SimulatorName}`, and `{SimulatorId}`.
+11. Use XcodeBuildMCP where available to discover schemes, build, test, run, launch, capture logs, or inspect simulator state.
+12. For verification, use XcodeBuildMCP MCP tools rather than command-line `xcodebuildmcp` commands.
 
 ## XcodeGen Pattern
 
@@ -68,9 +72,26 @@ Prefer XcodeBuildMCP for:
 
 Use direct `xcodebuild`, `xcrun simctl` only when MCP tools are unavailable or for non-verification fallback evidence.
 
+## Dedicated Simulator
+
+Every newly created demo gets its own simulator.
+
+- `{SimulatorName}`: `{DemoName} iPhone 17 Pro Max`
+- Device type: iPhone 17 Pro Max
+- Runtime: latest available iOS runtime
+- `{SimulatorId}`: the UUID returned by `xcrun simctl create`
+
+Use `xcrun simctl list devicetypes` and `xcrun simctl list runtimes` to confirm the exact local identifiers. On this machine, use `com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max` and `com.apple.CoreSimulator.SimRuntime.iOS-26-5`. Create the simulator with the derived name:
+
+```bash
+xcrun simctl create "{DemoName} iPhone 17 Pro Max" "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max" "com.apple.CoreSimulator.SimRuntime.iOS-26-5"
+```
+
+Copy the returned UUID into `.xcodebuildmcp/config.yaml` as `simulatorId`. Do not reuse the UUID from another demo.
+
 ## XcodeBuildMCP Config
 
-After generating the Xcode project, write `.xcodebuildmcp/config.yaml` inside the demo directory from `templates/xcodebuildmcp-config.yaml`. Replace `{DemoName}` with the inferred PascalCase demo name before using it.
+After generating the Xcode project and creating the dedicated simulator, write `.xcodebuildmcp/config.yaml` inside the demo directory from `templates/xcodebuildmcp-config.yaml`. Replace `{DemoName}` with the inferred PascalCase demo name, `{SimulatorName}` with `{DemoName} iPhone 17 Pro Max`, and `{SimulatorId}` with the UUID returned by `xcrun simctl create`.
 
 
 ## Blog-Friendly README
@@ -99,4 +120,4 @@ Then use XcodeBuildMCP MCP tools, not command-line `xcodebuildmcp`, to validate:
 
 1. `test_sim` to verify can test on the simulator
 
-If XcodeBuildMCP MCP tools are unavailable, fall back to `xcodebuild` with an explicit destination such as `platform=iOS Simulator,name=iPhone 16 Pro,OS=latest`. If validation fails, inspect the logs and report the specific blocker.
+If XcodeBuildMCP MCP tools are unavailable, fall back to `xcodebuild` with an explicit destination such as `platform=iOS Simulator,name={DemoName} iPhone 17 Pro Max,OS=latest`. If validation fails, inspect the logs and report the specific blocker.
