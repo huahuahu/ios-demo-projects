@@ -4,13 +4,7 @@ final class InstrumentedPanelView: UIView {
     let recorder = LifecycleEventRecorder()
     let logView = LogView()
 
-    var state: DemoState {
-        didSet {
-            setNeedsUpdateProperties()
-            setNeedsUpdateConstraints()
-            setNeedsLayout()
-        }
-    }
+    let state: DemoState
 
     private let statusLabel = UILabel()
     private let detailView = UIView()
