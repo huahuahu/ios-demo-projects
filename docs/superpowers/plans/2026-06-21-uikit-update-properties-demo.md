@@ -350,18 +350,15 @@ import XCTest
 final class DemoActionTests: XCTestCase {
     func testActionCopyExplainsInvalidationBoundary() {
         XCTAssertEqual(DemoAction.toggleHidden.title, "Toggle hidden")
-        XCTAssertEqual(
-            DemoAction.toggleHidden.explanation,
-            "Changes hidden state through updateProperties. This does not promise updateConstraints."
-        )
+        XCTAssertTrue(DemoAction.toggleHidden.explanation.contains("isDetailHidden"))
         XCTAssertEqual(DemoAction.toggleHidden.expectation, .propertiesOnly)
     }
 
     func testConstraintActionsHaveDifferentExpectations() {
-        XCTAssertEqual(DemoAction.constraintUpdate.expectation, .propertiesAndConstraints)
+        XCTAssertEqual(DemoAction.constraintUpdate.expectation, .trackedConstraints)
         XCTAssertEqual(DemoAction.layoutOnly.expectation, .propertiesAndLayout)
-        XCTAssertTrue(DemoAction.constraintUpdate.explanation.contains("setNeedsUpdateConstraints"))
-        XCTAssertTrue(DemoAction.layoutOnly.explanation.contains("setNeedsLayout"))
+        XCTAssertTrue(DemoAction.constraintUpdate.explanation.contains("observation tracking"))
+        XCTAssertFalse(DemoAction.constraintUpdate.explanation.contains("setNeedsUpdateConstraints"))
     }
 }
 ```
@@ -424,8 +421,11 @@ Create `uikit-update-properties-demo/UIKitUpdatePropertiesDemo/DemoAction.swift`
 import Foundation
 
 enum InvalidationExpectation: Equatable {
+    /// Only updateProperties re-runs via observation tracking.
     case propertiesOnly
-    case propertiesAndConstraints
+    /// updateConstraints re-runs automatically because it reads an observable property that changed.
+    case trackedConstraints
+    /// Explicit setNeedsLayout() is called; constraints tracking is unaffected.
     case propertiesAndLayout
 }
 
@@ -448,11 +448,11 @@ enum DemoAction: CaseIterable, Equatable {
     var explanation: String {
         switch self {
         case .toggleHidden:
-            "Changes hidden state through updateProperties. This does not promise updateConstraints."
+            "Mutates isDetailHidden via updateProperties tracking. UIStackView may affect layout, but this does not create a constraints dependency unless updateConstraints reads that state."
         case .constraintUpdate:
-            "Changes height state and explicitly calls setNeedsUpdateConstraints."
+            "Changes detailHeight. updateConstraints() reads detailHeight, so it re-runs automatically via observation tracking — no explicit invalidation call needed."
         case .layoutOnly:
-            "Changes height state and explicitly calls setNeedsLayout without requesting constraints."
+            "Changes layoutMarker (not read by updateConstraints). Explicitly calls setNeedsLayout to show manual layout requests are independent of constraints tracking."
         }
     }
 
@@ -461,7 +461,7 @@ enum DemoAction: CaseIterable, Equatable {
         case .toggleHidden:
             .propertiesOnly
         case .constraintUpdate:
-            .propertiesAndConstraints
+            .trackedConstraints
         case .layoutOnly:
             .propertiesAndLayout
         }
@@ -479,6 +479,8 @@ import UIKit
 final class DemoState {
     var isDetailHidden = false
     var detailHeight: CGFloat = 140
+    /// Incremented by layoutOnly action; not read by updateConstraints, so it does not create a constraints dependency.
+    var layoutMarker: Int = 0
     var statusText = "Tap an action to observe which UIKit callbacks run."
 
     func apply(_ action: DemoAction) {
@@ -489,8 +491,7 @@ final class DemoState {
             isDetailHidden = false
             detailHeight = detailHeight == 72 ? 140 : 72
         case .layoutOnly:
-            isDetailHidden = false
-            detailHeight = detailHeight == 188 ? 140 : 188
+            layoutMarker += 1
         }
 
         statusText = action.explanation
@@ -599,13 +600,7 @@ final class InstrumentedPanelView: UIView {
     let recorder = LifecycleEventRecorder()
     let logView = LogView()
 
-    var state: DemoState {
-        didSet {
-            setNeedsUpdateProperties()
-            setNeedsUpdateConstraints()
-            setNeedsLayout()
-        }
-    }
+    let state: DemoState
 
     private let statusLabel = UILabel()
     private let detailView = UIView()
@@ -671,7 +666,7 @@ final class InstrumentedPanelView: UIView {
         detailHeightConstraint = detailView.heightAnchor.constraint(equalToConstant: state.detailHeight)
 
         let explanationLabel = UILabel()
-        explanationLabel.text = "UIView experiment: updateProperties updates state-derived properties. Constraint changes only happen in updateConstraints when constraints are invalidated."
+        explanationLabel.text = "UIView experiment: updateProperties(), updateConstraints(), and layoutSubviews() each build their own observation dependency. updateConstraints() reads detailHeight, so changing detailHeight re-runs it automatically. layoutMarker is not read by updateConstraints, so changing it doesn't trigger constraints tracking."
         explanationLabel.font = .preferredFont(forTextStyle: .body)
         explanationLabel.numberOfLines = 0
 
@@ -767,8 +762,9 @@ final class UIViewExperimentViewController: UIViewController {
         switch action.expectation {
         case .propertiesOnly:
             break
-        case .propertiesAndConstraints:
-            panelView.setNeedsUpdateConstraints()
+        case .trackedConstraints:
+            // updateConstraints() reads state.detailHeight, so observation tracking re-runs it automatically.
+            break
         case .propertiesAndLayout:
             panelView.setNeedsLayout()
         }
