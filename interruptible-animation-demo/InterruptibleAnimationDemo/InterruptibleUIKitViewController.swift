@@ -2,9 +2,14 @@ import UIKit
 
 final class InterruptibleUIKitViewController: UIViewController {
     private let travelDistance: CGFloat = 260
+    private let animationDuration: TimeInterval = 0.65
     private var currentState: AnimationSnapState = .collapsed
-    private var interactionStartState: AnimationSnapState = .collapsed
+    private var interactionStartProgress: CGFloat = AnimationSnapState.collapsed.targetProgress
+    private var displayedProgress: CGFloat = AnimationSnapState.collapsed.targetProgress
     private var animator: UIViewPropertyAnimator?
+    private var activeAnimatorStartProgress: CGFloat = AnimationSnapState.collapsed.targetProgress
+    private var activeAnimatorForwardTarget: AnimationSnapState?
+    private var pendingCompletionState: AnimationSnapState?
 
     private let titleLabel = UILabel()
     private let explanationLabel = UILabel()
@@ -27,7 +32,9 @@ final class InterruptibleUIKitViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        cardCenterYConstraint?.constant = offset(for: currentState.targetProgress)
+        if animator == nil {
+            cardCenterYConstraint?.constant = offset(for: displayedProgress)
+        }
     }
 
     private func configureView() {
@@ -124,26 +131,31 @@ final class InterruptibleUIKitViewController: UIViewController {
     @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
         switch gesture.state {
         case .began:
-            interactionStartState = currentState
-            animator?.stopAnimation(true)
-            animator = nil
-            makeAnimator(to: currentState == .collapsed ? .expanded : .collapsed).pauseAnimation()
-            updateStatus(progress: currentState.targetProgress, phase: "Paused")
+            beginInteractiveAnimation()
 
         case .changed:
             let translation = gesture.translation(in: trackView).y
             let progress = AnimationProgressModel.progress(
-                start: interactionStartState,
+                startProgress: interactionStartProgress,
                 translation: translation,
                 travelDistance: travelDistance
             )
-            animator?.fractionComplete = progress
-            cardCenterYConstraint?.constant = offset(for: progress)
+            displayedProgress = progress
+
+            if let activeAnimatorForwardTarget {
+                animator?.isReversed = false
+                animator?.fractionComplete = AnimationProgressModel.animatorFraction(
+                    absoluteProgress: progress,
+                    startProgress: activeAnimatorStartProgress,
+                    targetProgress: activeAnimatorForwardTarget.targetProgress
+                )
+            }
+
             updateStatus(progress: progress, phase: "Scrubbing")
 
         case .ended, .cancelled, .failed:
             let velocity = gesture.velocity(in: trackView).y
-            let progress = animator?.fractionComplete ?? currentState.targetProgress
+            let progress = displayedProgress
             let targetState = AnimationProgressModel.snapState(progress: progress, velocity: velocity)
             continueAnimation(to: targetState, from: progress)
 
@@ -152,24 +164,103 @@ final class InterruptibleUIKitViewController: UIViewController {
         }
     }
 
-    private func makeAnimator(to targetState: AnimationSnapState) -> UIViewPropertyAnimator {
-        let animator = UIViewPropertyAnimator(duration: 0.65, dampingRatio: 0.82) {
-            self.cardCenterYConstraint?.constant = self.offset(for: targetState.targetProgress)
+    private func beginInteractiveAnimation() {
+        pendingCompletionState = nil
+
+        if let animator, let activeAnimatorForwardTarget, animator.state == .active {
+            if animator.isRunning {
+                animator.pauseAnimation()
+            }
+
+            displayedProgress = AnimationProgressModel.absoluteProgress(
+                animatorFraction: animator.fractionComplete,
+                startProgress: activeAnimatorStartProgress,
+                targetProgress: activeAnimatorForwardTarget.targetProgress
+            )
+            animator.isReversed = false
+        } else {
+            let forwardTarget: AnimationSnapState = currentState == .collapsed ? .expanded : .collapsed
+            _ = makePausedAnimator(to: forwardTarget, from: displayedProgress)
+        }
+
+        interactionStartProgress = displayedProgress
+        updateStatus(progress: displayedProgress, phase: "Paused")
+    }
+
+    private func makePausedAnimator(
+        to forwardTarget: AnimationSnapState,
+        from startProgress: CGFloat
+    ) -> UIViewPropertyAnimator {
+        displayedProgress = AnimationProgressModel.clampedProgress(startProgress)
+        cardCenterYConstraint?.constant = offset(for: displayedProgress)
+        view.layoutIfNeeded()
+
+        let animator = UIViewPropertyAnimator(duration: animationDuration, dampingRatio: 0.82) { [weak self] in
+            guard let self else {
+                return
+            }
+
+            self.cardCenterYConstraint?.constant = self.offset(for: forwardTarget.targetProgress)
             self.view.layoutIfNeeded()
         }
+        animator.addCompletion { [weak self] _ in
+            self?.completeActiveAnimation()
+        }
+
         self.animator = animator
+        activeAnimatorStartProgress = displayedProgress
+        activeAnimatorForwardTarget = forwardTarget
+        animator.pauseAnimation()
+        animator.fractionComplete = AnimationProgressModel.animatorFraction(
+            absoluteProgress: displayedProgress,
+            startProgress: activeAnimatorStartProgress,
+            targetProgress: forwardTarget.targetProgress
+        )
         return animator
     }
 
     private func continueAnimation(to targetState: AnimationSnapState, from progress: CGFloat) {
-        currentState = targetState
-        let animator = makeAnimator(to: targetState)
-        animator.fractionComplete = progress
-        animator.addCompletion { [weak self] _ in
-            self?.updateStatus(progress: targetState.targetProgress, phase: "Completed: \(targetState.title)")
+        let activeAnimator: UIViewPropertyAnimator
+        let forwardTarget: AnimationSnapState
+
+        if let animator, let activeAnimatorForwardTarget, animator.state == .active {
+            activeAnimator = animator
+            forwardTarget = activeAnimatorForwardTarget
+        } else {
+            activeAnimator = makePausedAnimator(to: targetState, from: progress)
+            forwardTarget = targetState
         }
+
+        let plan = AnimatorContinuationPlan.plan(
+            activeForwardTarget: forwardTarget,
+            releaseTarget: targetState
+        )
+
+        pendingCompletionState = targetState
+        displayedProgress = AnimationProgressModel.clampedProgress(progress)
+        activeAnimator.isReversed = plan.isReversed
         updateStatus(progress: progress, phase: "Continuing to \(targetState.title)")
-        animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+        switch plan.action {
+        case .continuePausedActiveAnimator:
+            activeAnimator.continueAnimation(withTimingParameters: nil, durationFactor: plan.durationFactor)
+        }
+    }
+
+    private func completeActiveAnimation() {
+        guard let targetState = pendingCompletionState ?? activeAnimatorForwardTarget else {
+            return
+        }
+
+        currentState = targetState
+        displayedProgress = targetState.targetProgress
+        cardCenterYConstraint?.constant = offset(for: displayedProgress)
+        view.layoutIfNeeded()
+        updateStatus(progress: displayedProgress, phase: "Completed: \(targetState.title)")
+
+        animator = nil
+        activeAnimatorStartProgress = displayedProgress
+        activeAnimatorForwardTarget = nil
+        pendingCompletionState = nil
     }
 
     private func offset(for progress: CGFloat) -> CGFloat {

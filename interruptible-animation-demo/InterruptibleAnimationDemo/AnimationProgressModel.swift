@@ -12,12 +12,92 @@ struct AnimationProgressModel {
         translation: CGFloat,
         travelDistance: CGFloat
     ) -> CGFloat {
+        progress(
+            startProgress: start.targetProgress,
+            translation: translation,
+            travelDistance: travelDistance
+        )
+    }
+
+    static func progress(
+        startProgress: CGFloat,
+        translation: CGFloat,
+        travelDistance: CGFloat
+    ) -> CGFloat {
         guard travelDistance > 0 else {
-            return start.targetProgress
+            return clampedProgress(startProgress)
         }
 
         let delta = -translation / travelDistance
-        return clampedProgress(start.targetProgress + delta)
+        return clampedProgress(startProgress + delta)
+    }
+
+    static func animatorFraction(
+        absoluteProgress: CGFloat,
+        forwardTarget: AnimationSnapState
+    ) -> CGFloat {
+        switch forwardTarget {
+        case .collapsed:
+            return animatorFraction(
+                absoluteProgress: absoluteProgress,
+                startProgress: AnimationSnapState.expanded.targetProgress,
+                targetProgress: AnimationSnapState.collapsed.targetProgress
+            )
+        case .expanded:
+            return animatorFraction(
+                absoluteProgress: absoluteProgress,
+                startProgress: AnimationSnapState.collapsed.targetProgress,
+                targetProgress: AnimationSnapState.expanded.targetProgress
+            )
+        }
+    }
+
+    static func animatorFraction(
+        absoluteProgress: CGFloat,
+        startProgress: CGFloat,
+        targetProgress: CGFloat
+    ) -> CGFloat {
+        let start = clampedProgress(startProgress)
+        let target = clampedProgress(targetProgress)
+        let distance = target - start
+
+        guard abs(distance) > .ulpOfOne else {
+            return 0
+        }
+
+        return clampedProgress((clampedProgress(absoluteProgress) - start) / distance)
+    }
+
+    static func absoluteProgress(
+        animatorFraction: CGFloat,
+        forwardTarget: AnimationSnapState
+    ) -> CGFloat {
+        switch forwardTarget {
+        case .collapsed:
+            return absoluteProgress(
+                animatorFraction: animatorFraction,
+                startProgress: AnimationSnapState.expanded.targetProgress,
+                targetProgress: AnimationSnapState.collapsed.targetProgress
+            )
+        case .expanded:
+            return absoluteProgress(
+                animatorFraction: animatorFraction,
+                startProgress: AnimationSnapState.collapsed.targetProgress,
+                targetProgress: AnimationSnapState.expanded.targetProgress
+            )
+        }
+    }
+
+    static func absoluteProgress(
+        animatorFraction: CGFloat,
+        startProgress: CGFloat,
+        targetProgress: CGFloat
+    ) -> CGFloat {
+        let start = clampedProgress(startProgress)
+        let target = clampedProgress(targetProgress)
+        let fraction = clampedProgress(animatorFraction)
+
+        return clampedProgress(start + (target - start) * fraction)
     }
 
     static func snapState(progress: CGFloat, velocity: CGFloat) -> AnimationSnapState {

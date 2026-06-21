@@ -14,8 +14,12 @@
 		4E45B904E2C3A85CEF2AA350 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42016D94AE43C1F8E74FC249 /* ContentView.swift */; };
 		6C77EBAE0DD57EACEFC47AB9 /* UIKitInterruptibleDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090F1FE9AD3D4920FE57E8BC /* UIKitInterruptibleDemoTests.swift */; };
 		6E733717BA5A4B5DF2FCEA55 /* AnimationProgressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99C6F032BEA1026BFBE456B /* AnimationProgressModel.swift */; };
+		71416DFE0341652E380EA573 /* AnimatorContinuationPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCE264D322BD45DD7D8A342 /* AnimatorContinuationPlanTests.swift */; };
+		78CA31952D58C9B76824636F /* ProgressRetargetingModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F484B6FBC00646EB1573BCA0 /* ProgressRetargetingModelTests.swift */; };
+		841ABBD2524943A48FACA4D1 /* AnimatorContinuationPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3538E156792FD9F1E2D2A4D9 /* AnimatorContinuationPlan.swift */; };
 		845522C88ACC358D61071F6D /* UIKitInterruptibleDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0815B4040900B3E393FF8B /* UIKitInterruptibleDemoView.swift */; };
 		B5479F5F754D5C71FCD6B396 /* AnimationProgressModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF80BBD50DB893F0EF5775 /* AnimationProgressModelTests.swift */; };
+		C01F87CE35D954174F9E73FF /* ProgressRetargetingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910BC479256A3019895D4AEE /* ProgressRetargetingModel.swift */; };
 		E20FA85068B4F4729E488A6E /* SwiftUIInterruptibleDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88B6CAFC440DDB0B731D888 /* SwiftUIInterruptibleDemoTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,14 +37,18 @@
 		090F1FE9AD3D4920FE57E8BC /* UIKitInterruptibleDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitInterruptibleDemoTests.swift; sourceTree = "<group>"; };
 		0BB65D69C374555AABB95984 /* InterruptibleAnimationDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterruptibleAnimationDemoApp.swift; sourceTree = "<group>"; };
 		21A7F526C973380F03A25CB6 /* InterruptibleAnimationDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = InterruptibleAnimationDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3538E156792FD9F1E2D2A4D9 /* AnimatorContinuationPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorContinuationPlan.swift; sourceTree = "<group>"; };
 		3556B5ED010C5113DAB1E9DC /* InterruptibleUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterruptibleUIKitViewController.swift; sourceTree = "<group>"; };
 		3B0815B4040900B3E393FF8B /* UIKitInterruptibleDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitInterruptibleDemoView.swift; sourceTree = "<group>"; };
 		42016D94AE43C1F8E74FC249 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5B5C3E2BE296FCAFFCA26F9B /* SwiftUIInterruptibleDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIInterruptibleDemoView.swift; sourceTree = "<group>"; };
 		7102D15D6AE80D1C8EE07828 /* InterruptibleAnimationDemoTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = InterruptibleAnimationDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		910BC479256A3019895D4AEE /* ProgressRetargetingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRetargetingModel.swift; sourceTree = "<group>"; };
 		A88B6CAFC440DDB0B731D888 /* SwiftUIInterruptibleDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIInterruptibleDemoTests.swift; sourceTree = "<group>"; };
 		B99C6F032BEA1026BFBE456B /* AnimationProgressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationProgressModel.swift; sourceTree = "<group>"; };
 		BD81D0A1077610D24F922F98 /* AnimationSnapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSnapState.swift; sourceTree = "<group>"; };
+		EDCE264D322BD45DD7D8A342 /* AnimatorContinuationPlanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorContinuationPlanTests.swift; sourceTree = "<group>"; };
+		F484B6FBC00646EB1573BCA0 /* ProgressRetargetingModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRetargetingModelTests.swift; sourceTree = "<group>"; };
 		FFDF80BBD50DB893F0EF5775 /* AnimationProgressModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationProgressModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,6 +66,8 @@
 			isa = PBXGroup;
 			children = (
 				FFDF80BBD50DB893F0EF5775 /* AnimationProgressModelTests.swift */,
+				EDCE264D322BD45DD7D8A342 /* AnimatorContinuationPlanTests.swift */,
+				F484B6FBC00646EB1573BCA0 /* ProgressRetargetingModelTests.swift */,
 				A88B6CAFC440DDB0B731D888 /* SwiftUIInterruptibleDemoTests.swift */,
 				090F1FE9AD3D4920FE57E8BC /* UIKitInterruptibleDemoTests.swift */,
 			);
@@ -78,9 +88,11 @@
 			children = (
 				B99C6F032BEA1026BFBE456B /* AnimationProgressModel.swift */,
 				BD81D0A1077610D24F922F98 /* AnimationSnapState.swift */,
+				3538E156792FD9F1E2D2A4D9 /* AnimatorContinuationPlan.swift */,
 				42016D94AE43C1F8E74FC249 /* ContentView.swift */,
 				0BB65D69C374555AABB95984 /* InterruptibleAnimationDemoApp.swift */,
 				3556B5ED010C5113DAB1E9DC /* InterruptibleUIKitViewController.swift */,
+				910BC479256A3019895D4AEE /* ProgressRetargetingModel.swift */,
 				5B5C3E2BE296FCAFFCA26F9B /* SwiftUIInterruptibleDemoView.swift */,
 				3B0815B4040900B3E393FF8B /* UIKitInterruptibleDemoView.swift */,
 			);
@@ -169,9 +181,11 @@
 			files = (
 				6E733717BA5A4B5DF2FCEA55 /* AnimationProgressModel.swift in Sources */,
 				36101A25F5DE67FDF87EEC41 /* AnimationSnapState.swift in Sources */,
+				841ABBD2524943A48FACA4D1 /* AnimatorContinuationPlan.swift in Sources */,
 				4E45B904E2C3A85CEF2AA350 /* ContentView.swift in Sources */,
 				41EEFFA53DB6A1BEC5476007 /* InterruptibleAnimationDemoApp.swift in Sources */,
 				0160CCD89796F523844FD5FA /* InterruptibleUIKitViewController.swift in Sources */,
+				C01F87CE35D954174F9E73FF /* ProgressRetargetingModel.swift in Sources */,
 				44D5BDEEF1A1199A0FCE6D75 /* SwiftUIInterruptibleDemoView.swift in Sources */,
 				845522C88ACC358D61071F6D /* UIKitInterruptibleDemoView.swift in Sources */,
 			);
@@ -182,6 +196,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5479F5F754D5C71FCD6B396 /* AnimationProgressModelTests.swift in Sources */,
+				71416DFE0341652E380EA573 /* AnimatorContinuationPlanTests.swift in Sources */,
+				78CA31952D58C9B76824636F /* ProgressRetargetingModelTests.swift in Sources */,
 				E20FA85068B4F4729E488A6E /* SwiftUIInterruptibleDemoTests.swift in Sources */,
 				6C77EBAE0DD57EACEFC47AB9 /* UIKitInterruptibleDemoTests.swift in Sources */,
 			);
