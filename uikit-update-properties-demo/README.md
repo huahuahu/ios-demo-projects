@@ -12,7 +12,7 @@
 - UIViewController 页 override `updateProperties()`、`viewWillLayoutSubviews()`、`viewDidLayoutSubviews()` 并显示调用次数。
 - `Controller text only` 展示 VC 的 `updateProperties()` 读取 `controllerMessage` 后，state 改变会自动重跑 VC property update，且不显式请求 layout 或 constraints。
 - `Toggle hidden` 展示 state-driven property update：UIStackView 可能触发 layout，但不会建立 constraints 依赖（除非 `updateConstraints()` 读取该 state）。
-- `Constraint update` 展示 `updateConstraints()` 读取 `detailHeight`，detailHeight 改变会通过 observation tracking 自动重跑 `updateConstraints()`，无需显式调用 `setNeedsUpdateConstraints()`。
+- `Constraint update` 展示 UIView 的 `updateConstraints()` 读取 `detailHeight`，以及 VC 在 `updateProperties()` 中读取同一个 state 并更新高度约束常量，二者都无需显式调用 constraints invalidation。
 - `Layout only` 展示只改变 `layoutMarker`（`updateConstraints()` 不读取它）并显式调用 `setNeedsLayout()`，证明手动 layout request 与 constraints tracking 彼此独立。
 
 ## Core Conclusion

@@ -35,7 +35,7 @@ enum DemoAction: CaseIterable, Equatable {
         case .toggleHidden:
             "Mutates isDetailHidden via updateProperties tracking. UIStackView may affect layout, but this does not create a constraints dependency unless updateConstraints reads that state."
         case .constraintUpdate:
-            "Changes detailHeight. updateConstraints() reads detailHeight, so it re-runs automatically via observation tracking — no explicit invalidation call needed."
+            "Changes detailHeight. UIView.updateConstraints() reads it, and the VC also applies it to a height constraint inside updateProperties() via observation tracking — no explicit invalidation call needed."
         case .layoutOnly:
             "Changes layoutMarker (not read by updateConstraints). Explicitly calls setNeedsLayout to show manual layout requests are independent of constraints tracking."
         }

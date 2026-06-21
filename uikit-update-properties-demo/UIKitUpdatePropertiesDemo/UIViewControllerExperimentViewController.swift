@@ -1,11 +1,19 @@
 import UIKit
 
+@MainActor
+enum ControllerPropertyBinding {
+    static func apply(detailHeight: CGFloat, to heightConstraint: NSLayoutConstraint) {
+        heightConstraint.constant = detailHeight
+    }
+}
+
 final class UIViewControllerExperimentViewController: UIViewController {
     private let state = DemoState()
     private let recorder = LifecycleEventRecorder()
     private let statusLabel = UILabel()
     private let titlePreviewLabel = UILabel()
     private let logView = LogView()
+    private var titlePreviewHeightConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,10 +23,13 @@ final class UIViewControllerExperimentViewController: UIViewController {
 
     override func updateProperties() {
         super.updateProperties()
-        recorder.record(.updateProperties, note: "UIViewController read observable state")
         title = state.isDetailHidden ? "VC Hidden State" : "UIViewController"
         titlePreviewLabel.text = state.controllerMessage
+        if let titlePreviewHeightConstraint {
+            ControllerPropertyBinding.apply(detailHeight: state.detailHeight, to: titlePreviewHeightConstraint)
+        }
         statusLabel.text = state.statusText
+        recorder.record(.updateProperties, note: "UIViewController read observable state and applied height constraint = \(Int(state.detailHeight))")
         refreshLog()
     }
 
@@ -49,6 +60,10 @@ final class UIViewControllerExperimentViewController: UIViewController {
 
         titlePreviewLabel.font = .preferredFont(forTextStyle: .headline)
         titlePreviewLabel.numberOfLines = 0
+        titlePreviewLabel.textAlignment = .center
+        titlePreviewLabel.backgroundColor = .secondarySystemBackground
+        titlePreviewLabel.layer.cornerRadius = 12
+        titlePreviewLabel.layer.masksToBounds = true
 
         statusLabel.font = .preferredFont(forTextStyle: .callout)
         statusLabel.textColor = .secondaryLabel
@@ -56,6 +71,7 @@ final class UIViewControllerExperimentViewController: UIViewController {
 
         let buttonStack = UIStackView(arrangedSubviews: [
             makeButton(for: .controllerTextOnly),
+            makeButton(for: .constraintUpdate),
             makeButton(for: .toggleHidden),
             makeButton(for: .layoutOnly),
             makeClearButton()
@@ -69,6 +85,9 @@ final class UIViewControllerExperimentViewController: UIViewController {
         rootStack.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(rootStack)
 
+        let titlePreviewHeightConstraint = titlePreviewLabel.heightAnchor.constraint(equalToConstant: state.detailHeight)
+        self.titlePreviewHeightConstraint = titlePreviewHeightConstraint
+
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -79,7 +98,8 @@ final class UIViewControllerExperimentViewController: UIViewController {
             rootStack.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
             rootStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
             rootStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
-            rootStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40)
+            rootStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40),
+            titlePreviewHeightConstraint
         ])
     }
 

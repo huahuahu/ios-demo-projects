@@ -11,6 +11,7 @@
 		3D753D332D7CD49CF8EA607F /* LifecycleEventRecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0E2FD99075B7940E88D73 /* LifecycleEventRecorderTests.swift */; };
 		43284AB3481F383898445B95 /* UIViewControllerExperimentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F575979DAC757842CD45795 /* UIViewControllerExperimentViewController.swift */; };
 		52AE405ADABAFFD145228FC1 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BD2034BA3773C10C25E5FB /* RootTabBarController.swift */; };
+		5D78C2D3B09FC3C2AC3052D9 /* UIViewControllerExperimentViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EC6D6951108407F3AD6A6F /* UIViewControllerExperimentViewControllerTests.swift */; };
 		6CA5982E61F7B3C8076C4B37 /* DemoActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D1A446D9EC050183586950 /* DemoActionTests.swift */; };
 		9F0904DC5EDA38D2CF4E41B6 /* DemoStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1D933A360883E8DD371402 /* DemoStateTests.swift */; };
 		A06004F1F732CCB5BB19AF8D /* DemoAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE3972F3B5BFEDCCF19B48C /* DemoAction.swift */; };
@@ -42,6 +43,7 @@
 		82BD2034BA3773C10C25E5FB /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		848B1E97616F20732F5383ED /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		934970510AEF341838A26ADE /* InstrumentedPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentedPanelView.swift; sourceTree = "<group>"; };
+		96EC6D6951108407F3AD6A6F /* UIViewControllerExperimentViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExperimentViewControllerTests.swift; sourceTree = "<group>"; };
 		A521E8E7069A95805CE9B4C8 /* LifecycleEventRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifecycleEventRecorder.swift; sourceTree = "<group>"; };
 		CFF911131ADF6064146FBA49 /* UIKitUpdatePropertiesDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = UIKitUpdatePropertiesDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3CBAADFA3DB769BECEF61CA /* DemoState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoState.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				77D1A446D9EC050183586950 /* DemoActionTests.swift */,
 				DD1D933A360883E8DD371402 /* DemoStateTests.swift */,
 				0DB0E2FD99075B7940E88D73 /* LifecycleEventRecorderTests.swift */,
+				96EC6D6951108407F3AD6A6F /* UIViewControllerExperimentViewControllerTests.swift */,
 			);
 			path = UIKitUpdatePropertiesDemoTests;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				6CA5982E61F7B3C8076C4B37 /* DemoActionTests.swift in Sources */,
 				9F0904DC5EDA38D2CF4E41B6 /* DemoStateTests.swift in Sources */,
 				3D753D332D7CD49CF8EA607F /* LifecycleEventRecorderTests.swift in Sources */,
+				5D78C2D3B09FC3C2AC3052D9 /* UIViewControllerExperimentViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
