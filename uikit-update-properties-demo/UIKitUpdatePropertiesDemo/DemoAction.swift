@@ -1,8 +1,11 @@
 import Foundation
 
 enum InvalidationExpectation: Equatable {
+    /// Only updateProperties re-runs via observation tracking.
     case propertiesOnly
-    case propertiesAndConstraints
+    /// updateConstraints re-runs automatically because it reads an observable property that changed.
+    case trackedConstraints
+    /// Explicit setNeedsLayout() is called; constraints tracking is unaffected.
     case propertiesAndLayout
 }
 
@@ -25,11 +28,11 @@ enum DemoAction: CaseIterable, Equatable {
     var explanation: String {
         switch self {
         case .toggleHidden:
-            "Changes hidden state through updateProperties. This does not promise updateConstraints."
+            "Mutates isDetailHidden via updateProperties tracking. UIStackView may affect layout, but this does not create a constraints dependency unless updateConstraints reads that state."
         case .constraintUpdate:
-            "Changes height state and explicitly calls setNeedsUpdateConstraints."
+            "Changes detailHeight. updateConstraints() reads detailHeight, so it re-runs automatically via observation tracking — no explicit invalidation call needed."
         case .layoutOnly:
-            "Changes height state and explicitly calls setNeedsLayout without requesting constraints."
+            "Changes layoutMarker (not read by updateConstraints). Explicitly calls setNeedsLayout to show manual layout requests are independent of constraints tracking."
         }
     }
 
@@ -38,7 +41,7 @@ enum DemoAction: CaseIterable, Equatable {
         case .toggleHidden:
             .propertiesOnly
         case .constraintUpdate:
-            .propertiesAndConstraints
+            .trackedConstraints
         case .layoutOnly:
             .propertiesAndLayout
         }

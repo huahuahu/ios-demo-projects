@@ -70,7 +70,7 @@ final class InstrumentedPanelView: UIView {
         detailHeightConstraint = detailView.heightAnchor.constraint(equalToConstant: state.detailHeight)
 
         let explanationLabel = UILabel()
-        explanationLabel.text = "UIView experiment: updateProperties updates state-derived properties. Constraint changes only happen in updateConstraints when constraints are invalidated."
+        explanationLabel.text = "UIView experiment: updateProperties(), updateConstraints(), and layoutSubviews() each build their own observation dependency. updateConstraints() reads detailHeight, so changing detailHeight re-runs it automatically. layoutMarker is not read by updateConstraints, so changing it doesn't trigger constraints tracking."
         explanationLabel.font = .preferredFont(forTextStyle: .body)
         explanationLabel.numberOfLines = 0
 

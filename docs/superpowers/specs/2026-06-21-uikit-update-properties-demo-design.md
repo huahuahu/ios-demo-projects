@@ -31,21 +31,23 @@ App 使用 tab bar 或 segmented navigation 展示两个实验页：
 每个实验页使用一个小型 state object 和一个 `LifecycleEventRecorder`。
 
 - 只影响外观的 state 变化通过 `updateProperties()` 更新 label、alpha、text 或 hidden state。
-- 修改 constraint constant 的操作需要显式调用 `setNeedsUpdateConstraints()` 或 `setNeedsLayout()` 来请求对应更新。
+- `updateConstraints()` 也支持 automatic observation tracking：在 `updateConstraints()` 中读取的 observable 属性改变时，UIKit 会自动重跑 `updateConstraints()`，无需显式调用 `setNeedsUpdateConstraints()`。
+- 每个 update 方法（`updateProperties()`、`updateConstraints()`、`layoutSubviews()` 等）独立建立自己的 observation 依赖，彼此互不影响。
+- 手动调用 `setNeedsLayout()` 只请求 layout pass，不会因此创建 constraints tracking 依赖。
 - 日志展示 callback 顺序、callback 计数，以及当前操作预期会 invalidate 哪一类更新。
 
 UI 需要包含这些操作：
 
 - 切换 detail view 的 hidden state；
-- 修改高度约束，并显式请求 constraint update；
-- 修改高度约束，但只请求 layout update；
+- 修改高度约束（通过 observation tracking 自动触发 `updateConstraints()`）；
+- 修改 layoutMarker（不影响 constraints tracking），并显式调用 `setNeedsLayout()`；
 - 清空 lifecycle 日志。
 
 ## Demo 要传达的结论
 
 界面文案和 README 必须写清楚核心结论：
 
-`@Observable` 或 observation tracking 可以让 UIKit 为受影响的 view 或 view controller 重新运行 `updateProperties()`。这并不意味着 `updateConstraints()` 会自动运行。layout 和 constraint update 仍然取决于属性变化本身、UIKit 控件行为，或显式调用 `setNeedsLayout()`、`setNeedsUpdateConstraints()` 是否让 layout / constraints 失效。
+`@Observable` 或 observation tracking 可以让 UIKit 为受影响的 view 或 view controller 分别重新运行 `updateProperties()`、`updateConstraints()` 等方法——每个方法独立建立依赖，取决于该方法中读取了哪些 observable 属性。`updateProperties()` 的 observation tracking 与 `updateConstraints()` 的 observation tracking 是彼此独立的：某个属性只在 `updateProperties()` 中被读取，改变时只重跑 `updateProperties()`；在 `updateConstraints()` 中被读取的属性改变时，会自动重跑 `updateConstraints()`。`setNeedsLayout()` 只请求 layout pass，不影响 constraints tracking。
 
 ## 测试
 

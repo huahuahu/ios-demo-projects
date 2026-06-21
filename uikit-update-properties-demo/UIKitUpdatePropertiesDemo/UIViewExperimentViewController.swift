@@ -68,8 +68,9 @@ final class UIViewExperimentViewController: UIViewController {
         switch action.expectation {
         case .propertiesOnly:
             break
-        case .propertiesAndConstraints:
-            panelView.setNeedsUpdateConstraints()
+        case .trackedConstraints:
+            // updateConstraints() reads state.detailHeight, so observation tracking re-runs it automatically.
+            break
         case .propertiesAndLayout:
             panelView.setNeedsLayout()
         }

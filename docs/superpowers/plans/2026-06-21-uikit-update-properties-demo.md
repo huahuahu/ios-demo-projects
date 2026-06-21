@@ -17,7 +17,7 @@
 - iOS deployment target 必须是 26.0。
 - 使用 XcodeGen 生成 Xcode project。
 - 验证优先使用 XcodeBuildMCP。
-- 界面和 README 必须明确说明：`updateProperties()` 的 observation-driven property update 不等于自动触发 `updateConstraints()`。
+- 界面和 README 必须明确说明：`updateProperties()`、`updateConstraints()`、`layoutSubviews()` 等 UIKit update 方法各自独立建立 observation 依赖；某个 observable 属性在哪个方法中被读取，改变时就会自动重跑哪个方法。
 
 ---
 
@@ -1013,13 +1013,13 @@ Create or replace `uikit-update-properties-demo/README.md`:
 
 - UIView 页 override `updateProperties()`、`updateConstraints()`、`layoutSubviews()` 并显示调用次数。
 - UIViewController 页 override `updateProperties()`、`viewWillLayoutSubviews()`、`viewDidLayoutSubviews()` 并显示调用次数。
-- `Toggle hidden` 展示 state-driven property update 不等于自动 constraint update。
-- `Constraint update` 展示修改约束相关 state 后显式调用 `setNeedsUpdateConstraints()`。
-- `Layout only` 展示只调用 `setNeedsLayout()` 时，layout callback 可以发生，但不应把 `updateConstraints()` 当成必然结果。
+- `Toggle hidden` 展示 state-driven property update：UIStackView 可能触发 layout，但不创建 constraints 依赖（除非 updateConstraints 读取该 state）。
+- `Constraint update` 展示 `updateConstraints()` 读取 `detailHeight`，detailHeight 改变会通过 observation tracking 自动重跑 `updateConstraints()`，无需显式调用 `setNeedsUpdateConstraints()`。
+- `Layout only` 展示只改变 `layoutMarker`（`updateConstraints()` 不读取），并显式调用 `setNeedsLayout()`，证明手动 layout request 与 constraints tracking 彼此独立。
 
 ## Core Conclusion
 
-`@Observable` 或 observation tracking 可以让 UIKit 为受影响的 view 或 view controller 重新运行 `updateProperties()`。这并不意味着 `updateConstraints()` 会自动运行。layout 和 constraint update 仍然取决于属性变化本身、UIKit 控件行为，或显式调用 `setNeedsLayout()`、`setNeedsUpdateConstraints()` 是否让 layout / constraints 失效。
+`updateProperties()`、`updateConstraints()`、`layoutSubviews()` 等 UIKit update 方法各自独立建立 observation 依赖。某个 observable 属性在哪个方法中被读取，改变时就会自动重跑哪个方法。`updateProperties()` 的 observation tracking 与 `updateConstraints()` 的 observation tracking 彼此独立。`setNeedsLayout()` 只请求 layout pass，不影响 constraints tracking。
 
 ## Requirements
 

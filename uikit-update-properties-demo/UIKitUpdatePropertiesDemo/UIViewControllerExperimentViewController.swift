@@ -38,7 +38,7 @@ final class UIViewControllerExperimentViewController: UIViewController {
         view.backgroundColor = .systemBackground
 
         let explanationLabel = UILabel()
-        explanationLabel.text = "UIViewController experiment: updateProperties can update controller-owned UI such as title and status. View layout callbacks remain separate."
+        explanationLabel.text = "UIViewController experiment: updateProperties() tracks its own observable dependencies, independent of view layout callbacks. Constraints tracking depends on what updateConstraints() reads — controller property tracking and constraints tracking are separate concerns."
         explanationLabel.font = .preferredFont(forTextStyle: .body)
         explanationLabel.numberOfLines = 0
 
