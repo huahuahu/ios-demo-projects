@@ -1,0 +1,9 @@
+sessionDefaults:
+  projectPath: UIKitUpdatePropertiesDemo.xcodeproj
+  scheme: UIKitUpdatePropertiesDemo
+  configuration: Debug
+  simulatorName: UIKitUpdatePropertiesDemo iPhone 17 Pro Max
+  simulatorId: 1326B0AD-347E-4600-99C7-995F9AE111FC
+  simulatorPlatform: iOS Simulator
+  useLatestOS: true
+  derivedDataPath: .derivedData

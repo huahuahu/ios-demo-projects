@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		246493EB0C7DC2711EBA7966 /* UIViewExperimentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5AF2DB6D0EF8FDE8399CE /* UIViewExperimentViewController.swift */; };
 		3D753D332D7CD49CF8EA607F /* LifecycleEventRecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0E2FD99075B7940E88D73 /* LifecycleEventRecorderTests.swift */; };
+		43284AB3481F383898445B95 /* UIViewControllerExperimentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F575979DAC757842CD45795 /* UIViewControllerExperimentViewController.swift */; };
 		52AE405ADABAFFD145228FC1 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BD2034BA3773C10C25E5FB /* RootTabBarController.swift */; };
 		6CA5982E61F7B3C8076C4B37 /* DemoActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D1A446D9EC050183586950 /* DemoActionTests.swift */; };
 		9F0904DC5EDA38D2CF4E41B6 /* DemoStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1D933A360883E8DD371402 /* DemoStateTests.swift */; };
 		A06004F1F732CCB5BB19AF8D /* DemoAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE3972F3B5BFEDCCF19B48C /* DemoAction.swift */; };
+		A8B0DACC2F9C1894E7D378BA /* InstrumentedPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934970510AEF341838A26ADE /* InstrumentedPanelView.swift */; };
 		B0C6CC7ED536A0E71256B82D /* LifecycleEventRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A521E8E7069A95805CE9B4C8 /* LifecycleEventRecorder.swift */; };
 		C91621584655B8481A49D3DE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F03EEEDE214EFED6A463959 /* SceneDelegate.swift */; };
 		DAC6BCCACC1776A6E9BC8734 /* DemoState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CBAADFA3DB769BECEF61CA /* DemoState.swift */; };
+		F1F95F0AF9B9C335CFB62321 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848B1E97616F20732F5383ED /* LogView.swift */; };
 		F70505B106C33A708AEB1F77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EDF03245368EA3260FEAF1 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,12 +37,16 @@
 		0F03EEEDE214EFED6A463959 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1C93092CCBB67AA066F5D4D3 /* UIKitUpdatePropertiesDemoTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = UIKitUpdatePropertiesDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37EDF03245368EA3260FEAF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5F575979DAC757842CD45795 /* UIViewControllerExperimentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExperimentViewController.swift; sourceTree = "<group>"; };
 		77D1A446D9EC050183586950 /* DemoActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoActionTests.swift; sourceTree = "<group>"; };
 		82BD2034BA3773C10C25E5FB /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
+		848B1E97616F20732F5383ED /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		934970510AEF341838A26ADE /* InstrumentedPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentedPanelView.swift; sourceTree = "<group>"; };
 		A521E8E7069A95805CE9B4C8 /* LifecycleEventRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifecycleEventRecorder.swift; sourceTree = "<group>"; };
 		CFF911131ADF6064146FBA49 /* UIKitUpdatePropertiesDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = UIKitUpdatePropertiesDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3CBAADFA3DB769BECEF61CA /* DemoState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoState.swift; sourceTree = "<group>"; };
 		DD1D933A360883E8DD371402 /* DemoStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoStateTests.swift; sourceTree = "<group>"; };
+		E4E5AF2DB6D0EF8FDE8399CE /* UIViewExperimentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExperimentViewController.swift; sourceTree = "<group>"; };
 		FFE3972F3B5BFEDCCF19B48C /* DemoAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,9 +66,13 @@
 				37EDF03245368EA3260FEAF1 /* AppDelegate.swift */,
 				FFE3972F3B5BFEDCCF19B48C /* DemoAction.swift */,
 				D3CBAADFA3DB769BECEF61CA /* DemoState.swift */,
+				934970510AEF341838A26ADE /* InstrumentedPanelView.swift */,
 				A521E8E7069A95805CE9B4C8 /* LifecycleEventRecorder.swift */,
+				848B1E97616F20732F5383ED /* LogView.swift */,
 				82BD2034BA3773C10C25E5FB /* RootTabBarController.swift */,
 				0F03EEEDE214EFED6A463959 /* SceneDelegate.swift */,
+				5F575979DAC757842CD45795 /* UIViewControllerExperimentViewController.swift */,
+				E4E5AF2DB6D0EF8FDE8399CE /* UIViewExperimentViewController.swift */,
 			);
 			path = UIKitUpdatePropertiesDemo;
 			sourceTree = "<group>";
@@ -167,9 +179,13 @@
 				F70505B106C33A708AEB1F77 /* AppDelegate.swift in Sources */,
 				A06004F1F732CCB5BB19AF8D /* DemoAction.swift in Sources */,
 				DAC6BCCACC1776A6E9BC8734 /* DemoState.swift in Sources */,
+				A8B0DACC2F9C1894E7D378BA /* InstrumentedPanelView.swift in Sources */,
 				B0C6CC7ED536A0E71256B82D /* LifecycleEventRecorder.swift in Sources */,
+				F1F95F0AF9B9C335CFB62321 /* LogView.swift in Sources */,
 				52AE405ADABAFFD145228FC1 /* RootTabBarController.swift in Sources */,
 				C91621584655B8481A49D3DE /* SceneDelegate.swift in Sources */,
+				43284AB3481F383898445B95 /* UIViewControllerExperimentViewController.swift in Sources */,
+				246493EB0C7DC2711EBA7966 /* UIViewExperimentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
