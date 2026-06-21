@@ -1,0 +1,14 @@
+schemaVersion: 1
+enabledWorkflows:
+  - simulator
+  - debugging
+  - logging
+  - ui-automation
+  - utilities
+debug: true
+sentryDisabled: false
+sessionDefaults:
+  projectPath: InterruptibleAnimationDemo.xcodeproj
+  scheme: InterruptibleAnimationDemo
+  simulatorName: InterruptibleAnimationDemo iPhone 17 Pro Max
+  simulatorId: 2319D4F5-237E-4AAC-B558-694254B5AAD8
