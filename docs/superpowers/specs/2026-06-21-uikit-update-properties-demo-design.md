@@ -1,12 +1,12 @@
-# UIKit updateProperties Demo Design
+# UIKit updateProperties Demo 设计
 
-## Goal
+## 目标
 
-Create a focused UIKit demo that explains how iOS 26 `updateProperties()` relates to view-controller updates, view layout, and Auto Layout constraint updates. The demo should make it clear that observation-driven property updates are independent from layout and constraint invalidation, while still running before layout when a layout pass occurs.
+创建一个聚焦的 UIKit demo，用来说明 iOS 26 `updateProperties()` 和 view controller 更新、view layout、Auto Layout 约束更新之间的关系。这个 demo 要清楚表达：由 Observation 驱动的属性更新和 layout / constraint invalidation 是相互独立的；但当 layout pass 发生时，`updateProperties()` 会在 layout 之前运行。
 
-## Project shape
+## 工程结构
 
-Add a standalone XcodeGen project:
+新增一个独立的 XcodeGen 工程：
 
 ```text
 uikit-update-properties-demo/
@@ -17,46 +17,46 @@ uikit-update-properties-demo/
   UIKitUpdatePropertiesDemoTests/
 ```
 
-The app target is `UIKitUpdatePropertiesDemo`, uses UIKit, Swift 6.0, and an iOS 26.0 deployment target.
+App target 名为 `UIKitUpdatePropertiesDemo`，使用 UIKit、Swift 6.0，最低部署目标为 iOS 26.0。
 
-## Demo structure
+## Demo 结构
 
-The app presents two experiments with a tab bar or segmented navigation:
+App 使用 tab bar 或 segmented navigation 展示两个实验页：
 
-1. **UIView experiment**: `InstrumentedPanelView` owns a detail area, height constraint, action buttons, and a lifecycle log. It overrides `updateProperties()`, `updateConstraints()`, and `layoutSubviews()` and records each callback.
-2. **UIViewController experiment**: `InstrumentedViewController` overrides `updateProperties()`, `viewWillLayoutSubviews()`, and `viewDidLayoutSubviews()`. It updates controller-level UI, such as title/status text, while showing how controller property updates are separate from view layout callbacks.
+1. **UIView 实验页**：`InstrumentedPanelView` 拥有 detail 区域、高度约束、操作按钮和 lifecycle 日志。它 override `updateProperties()`、`updateConstraints()`、`layoutSubviews()`，并记录每次回调。
+2. **UIViewController 实验页**：`InstrumentedViewController` override `updateProperties()`、`viewWillLayoutSubviews()`、`viewDidLayoutSubviews()`。它更新 controller 层 UI，例如 title 和 status 文案，同时展示 controller 的 property update 与 view layout callback 的边界。
 
-## State and event flow
+## 状态和事件流
 
-Each experiment uses a small state object and a `LifecycleEventRecorder`.
+每个实验页使用一个小型 state object 和一个 `LifecycleEventRecorder`。
 
-- State changes that only affect appearance update labels, alpha, text, or hidden state through `updateProperties()`.
-- Actions that mutate constraint constants explicitly request the relevant update with `setNeedsUpdateConstraints()` or `setNeedsLayout()`.
-- The log shows callback order, callback counts, and a short explanation of what the selected action was expected to invalidate.
+- 只影响外观的 state 变化通过 `updateProperties()` 更新 label、alpha、text 或 hidden state。
+- 修改 constraint constant 的操作需要显式调用 `setNeedsUpdateConstraints()` 或 `setNeedsLayout()` 来请求对应更新。
+- 日志展示 callback 顺序、callback 计数，以及当前操作预期会 invalidate 哪一类更新。
 
-The UI should include controls for:
+UI 需要包含这些操作：
 
-- toggling a detail view hidden state;
-- changing a height constraint with an explicit constraint update request;
-- changing a height constraint with only a layout request;
-- clearing the lifecycle log.
+- 切换 detail view 的 hidden state；
+- 修改高度约束，并显式请求 constraint update；
+- 修改高度约束，但只请求 layout update；
+- 清空 lifecycle 日志。
 
-## Message the demo should teach
+## Demo 要传达的结论
 
-The screen copy and README must state the core conclusion:
+界面文案和 README 必须写清楚核心结论：
 
-`@Observable` or observation tracking can cause UIKit to rerun `updateProperties()` for affected views or view controllers. That does not mean `updateConstraints()` automatically runs. Layout and constraint updates still depend on whether layout or constraints were invalidated by the changed properties, UIKit control behavior, or explicit calls such as `setNeedsLayout()` and `setNeedsUpdateConstraints()`.
+`@Observable` 或 observation tracking 可以让 UIKit 为受影响的 view 或 view controller 重新运行 `updateProperties()`。这并不意味着 `updateConstraints()` 会自动运行。layout 和 constraint update 仍然取决于属性变化本身、UIKit 控件行为，或显式调用 `setNeedsLayout()`、`setNeedsUpdateConstraints()` 是否让 layout / constraints 失效。
 
-## Tests
+## 测试
 
-Add focused unit tests for non-UI logic:
+为非 UI 逻辑添加聚焦的单元测试：
 
-- `LifecycleEventRecorder` records ordered events and per-callback counts.
-- State transition helpers describe whether an action expects property, layout, or constraint invalidation.
-- Explanation strings for the demo actions remain stable enough for the README and UI to match.
+- `LifecycleEventRecorder` 能记录有序事件和每种 callback 的调用次数。
+- State transition helper 能描述某个操作预期会触发 property、layout 还是 constraint invalidation。
+- Demo 操作文案保持稳定，README 和 UI 可以共享同一组解释文本。
 
-Full lifecycle callback ordering remains a runtime observation in the simulator rather than a brittle unit-test assertion.
+完整 lifecycle callback 顺序作为 simulator 运行时观察结果展示，不写成脆弱的单元测试断言。
 
-## Validation
+## 验证
 
-Generate the project with XcodeGen. Use XcodeBuildMCP to set project defaults, run simulator tests, and build/run the demo on its dedicated iPhone 17 Pro Max simulator.
+使用 XcodeGen 生成工程。使用 XcodeBuildMCP 设置项目默认值、运行 simulator tests，并在专用的 iPhone 17 Pro Max simulator 上 build/run 这个 demo。
