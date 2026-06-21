@@ -6,7 +6,7 @@ This demo explores lifecycle callbacks in UIKit, specifically demonstrating the 
 
 **`updateProperties()` does NOT automatically trigger `updateConstraints()`.**
 
-When you use observation properties or key-value observation (KVO) to update view properties, `updateProperties()` is called to notify the view of the changes. However, this does not automatically invoke `updateConstraints()`. You must explicitly call `setNeedsUpdateConstraints()` if constraint adjustments are needed in response to property changes.
+When you use Swift's Observation framework (`@Observable`) to update view properties, `updateProperties()` is called to notify the view of the changes. However, this does not automatically invoke `updateConstraints()`. You must explicitly call `setNeedsUpdateConstraints()` if constraint adjustments are needed in response to property changes.
 
 ## Features
 
