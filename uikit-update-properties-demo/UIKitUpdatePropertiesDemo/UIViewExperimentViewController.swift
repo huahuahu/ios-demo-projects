@@ -16,6 +16,11 @@ final class UIViewExperimentViewController: UIViewController {
     }
 
     private func configure() {
+        let scrollView = UIScrollView()
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+
         let buttonStack = UIStackView(arrangedSubviews: [
             makeButton(for: .toggleHidden),
             makeButton(for: .constraintUpdate),
@@ -29,13 +34,19 @@ final class UIViewExperimentViewController: UIViewController {
         rootStack.axis = .vertical
         rootStack.spacing = 16
         rootStack.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(rootStack)
+        scrollView.addSubview(rootStack)
 
         NSLayoutConstraint.activate([
-            rootStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            rootStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            rootStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            rootStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            rootStack.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            rootStack.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            rootStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            rootStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            rootStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
         ])
     }
 

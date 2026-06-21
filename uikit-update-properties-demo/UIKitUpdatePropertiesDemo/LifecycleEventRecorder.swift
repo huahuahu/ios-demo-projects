@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 
 enum LifecycleCallback: String, CaseIterable, Equatable {
     case updateProperties
@@ -15,16 +16,23 @@ struct LifecycleEvent: Equatable {
 }
 
 final class LifecycleEventRecorder {
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "com.huahuahu.demo.UIKitUpdatePropertiesDemo",
+        category: "LifecycleEventRecorder"
+    )
+
     private(set) var events: [LifecycleEvent] = []
 
     func record(_ callback: LifecycleCallback, note: String) {
-        events.append(
-            LifecycleEvent(
-                sequence: events.count + 1,
-                callback: callback,
-                note: note
-            )
+        let event = LifecycleEvent(
+            sequence: events.count + 1,
+            callback: callback,
+            note: note
         )
+        events.append(event)
+        let message = "#\(event.sequence) \(event.callback.rawValue) - \(event.note)"
+        Self.logger.info("\(message, privacy: .public)")
+        print("[LifecycleEventRecorder] \(message)")
     }
 
     func count(for callback: LifecycleCallback) -> Int {
