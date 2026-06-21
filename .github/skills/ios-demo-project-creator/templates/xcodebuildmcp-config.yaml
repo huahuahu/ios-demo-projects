@@ -8,7 +8,7 @@ enabledWorkflows:
 debug: true
 sentryDisabled: false
 sessionDefaults:
-  projectPath: {DemoName}.xcodeproj
+  projectPath: {DemoDirectory}/{DemoName}.xcodeproj
   scheme: {DemoName}
   simulatorName: {SimulatorName}
   simulatorId: {SimulatorId}
