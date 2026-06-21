@@ -9,7 +9,7 @@ struct ContentView: View {
                     Label("UIKit", systemImage: "hand.draw")
                 }
 
-            Text("SwiftUI comparison will be added in Task 3.")
+            SwiftUIInterruptibleDemoView()
                 .tabItem {
                     Label("SwiftUI", systemImage: "swift")
                 }
