@@ -5,6 +5,7 @@ enabledWorkflows:
   - logging
   - ui-automation
   - utilities
+  - xcode-ide
 debug: true
 sentryDisabled: false
 sessionDefaults:
