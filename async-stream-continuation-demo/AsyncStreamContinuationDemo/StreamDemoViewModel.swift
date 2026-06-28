@@ -93,8 +93,15 @@ final class StreamDemoViewModel {
         status = .finished
     }
 
-    func dropOwner() {
+    func dropOwner() async {
         logger.info("drop owner requested")
+        if let source {
+            logger.info("finishing source before owner release")
+            await source.finish()
+        }
+
+        consumerTask?.cancel()
+        consumerTask = nil
         source = nil
         status = .released
     }

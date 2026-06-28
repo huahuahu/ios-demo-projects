@@ -43,6 +43,11 @@ actor AsyncEventSource {
     }
 
     func startProducing(interval: Duration = .milliseconds(700)) {
+        guard finished == false && cleanedUp == false else {
+            logger.debug("producer task not started because stream is already finished")
+            return
+        }
+
         guard producerTask == nil else {
             logger.debug("producer task already running")
             return

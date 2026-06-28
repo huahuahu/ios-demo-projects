@@ -48,18 +48,25 @@ struct StreamDemoViewModelTests {
     }
 
     @Test
-    func dropOwnerMovesToReleased() {
+    func dropOwnerFinishesSourceAndCancelsConsumerBeforeRelease() async {
+        let source = AsyncEventSource(logger: SilentDemoLogger())
         let viewModel = StreamDemoViewModel(
             logger: SilentDemoLogger(),
-            sourceFactory: { AsyncEventSource(logger: SilentDemoLogger()) }
+            sourceFactory: { source }
         )
 
         viewModel.startStream()
-        viewModel.dropOwner()
+        await viewModel.dropOwner()
 
         #expect(viewModel.status == .released)
         #expect(viewModel.canDropOwner == false)
+        #expect(viewModel.canCancel == false)
 
-        viewModel.cancelConsumer()
+        let cleanedUp = await AsyncTestSupport.waitUntil {
+            let snapshot = await source.snapshot()
+            return snapshot.isFinished && snapshot.cleanupCount == 1 && snapshot.isProducing == false
+        }
+
+        #expect(cleanedUp)
     }
 }

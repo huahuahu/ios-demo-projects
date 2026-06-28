@@ -35,7 +35,7 @@ enum DemoStatus: Equatable, Sendable {
         case .finished:
             "The producer called finish(). The for-await loop can end normally."
         case .released:
-            "The view model released its source reference. Cleanup should still be explicit."
+            "The view model finished the stream before releasing its source reference."
         }
     }
 }

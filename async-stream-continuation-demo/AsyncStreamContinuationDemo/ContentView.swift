@@ -63,7 +63,9 @@ struct ContentView: View {
             .disabled(viewModel.canFinish == false)
 
             Button("Drop Owner", systemImage: "trash") {
-                viewModel.dropOwner()
+                Task {
+                    await viewModel.dropOwner()
+                }
             }
             .buttonStyle(.bordered)
             .disabled(viewModel.canDropOwner == false)
