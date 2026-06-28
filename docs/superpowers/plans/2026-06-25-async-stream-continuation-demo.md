@@ -8,6 +8,8 @@
 
 **Tech Stack:** SwiftUI, Swift 6.0, iOS 26.0, Swift Concurrency, AsyncStream, Observation, OSLog Logger, Swift Testing, XcodeGen, XcodeBuildMCP。
 
+**Post-review update:** 实现后已把 demo 源码重组到 `App/`、`Domain/`、`Features/StreamDemo/`、`Support/` 目录；`Drop Owner` 也从直接 `source = nil` 改为显式 `finish` → 取消 consumer task → 释放 owner。
+
 ## Global Constraints
 
 - Demo 目录必须是 `async-stream-continuation-demo/`。
@@ -31,18 +33,18 @@ Create:
 
 - `async-stream-continuation-demo/README.md` — demo 目标、讲解重点、生成/运行/测试/查看日志方式、关键文件说明。
 - `async-stream-continuation-demo/project.yml` — XcodeGen 项目定义。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemo/AsyncStreamContinuationDemoApp.swift` — app entry point。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemo/ContentView.swift` — SwiftUI 首屏和按钮。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemo/StreamDemoViewModel.swift` — UI action、consumer task、source ownership。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemo/DemoStatus.swift` — UI 状态枚举和展示文案。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemo/StreamEvent.swift` — stream event value type。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemo/EventSourceSnapshot.swift` — 测试可读取的 source 状态快照。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemo/DemoLogging.swift` — logging abstraction、`SystemDemoLogger`、`SilentDemoLogger`。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemo/AsyncEventSource.swift` — `AsyncStream`、continuation、producer、cleanup 核心实现。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemoTests/StreamEventTests.swift` — event/status 基础测试。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemoTests/AsyncEventSourceTests.swift` — stream lifecycle 测试。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemoTests/StreamDemoViewModelTests.swift` — view model action 状态测试。
-- `async-stream-continuation-demo/AsyncStreamContinuationDemoTests/AsyncTestSupport.swift` — async timeout/polling helper。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemo/App/AsyncStreamContinuationDemoApp.swift` — app entry point。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemo/Features/StreamDemo/ContentView.swift` — SwiftUI 首屏和按钮。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemo/Features/StreamDemo/StreamDemoViewModel.swift` — UI action、consumer task、source ownership。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemo/Features/StreamDemo/DemoStatus.swift` — UI 状态枚举和展示文案。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemo/Domain/StreamEvent.swift` — stream event value type。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemo/Domain/EventSourceSnapshot.swift` — 测试可读取的 source 状态快照。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemo/Support/DemoLogging.swift` — logging abstraction、`SystemDemoLogger`、`SilentDemoLogger`。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemo/Domain/AsyncEventSource.swift` — `AsyncStream`、continuation、producer、cleanup 核心实现。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemoTests/Domain/StreamEventTests.swift` — event/status 基础测试。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemoTests/Domain/AsyncEventSourceTests.swift` — stream lifecycle 测试。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemoTests/Features/StreamDemoViewModelTests.swift` — view model action 状态测试。
+- `async-stream-continuation-demo/AsyncStreamContinuationDemoTests/Support/AsyncTestSupport.swift` — async timeout/polling helper。
 
 Modify:
 
@@ -1135,23 +1137,32 @@ final class StreamDemoViewModel {
         status = .cancelled
     }
 
-    func finishProducer() {
+    func finishProducer() async {
         logger.info("finish requested")
         guard let source else {
+            consumerTask?.cancel()
+            consumerTask = nil
             status = .finished
             return
         }
 
-        Task {
-            await source.finish()
-        }
-
+        await source.finish()
+        consumerTask?.cancel()
+        consumerTask = nil
         status = .finished
     }
 
-    func dropOwner() {
+    func dropOwner() async {
         logger.info("drop owner requested")
+        if let source {
+            logger.info("finishing source before owner release")
+            await source.finish()
+        }
+
+        consumerTask?.cancel()
+        consumerTask = nil
         source = nil
+        logger.info("source owner released")
         status = .released
     }
 }

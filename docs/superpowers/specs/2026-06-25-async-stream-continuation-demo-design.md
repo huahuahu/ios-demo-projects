@@ -61,7 +61,7 @@ SwiftUI 入口视图，只负责：
 - 在 `Start Stream` 时创建 source 并启动 consumer task。
 - 在 `Cancel Consumer` 时取消 consumer task。
 - 在 `Finish Producer` 时调用 source 的 `finish()`。
-- 在 `Drop Owner` 时释放 source 引用，用来观察 owner release 与 stream termination 的关系。
+- 在 `Drop Owner` 时先显式 finish source、取消 consumer task，再释放 source 引用，用来观察 owner release 与 stream termination 的关系。
 - 在 `deinit` 中取消 consumer task 并记录日志。
 
 consumer task 中使用：
@@ -125,7 +125,7 @@ flowchart LR
 
 - `Finish Producer`：source 调用 `continuation.finish()`，consumer 的 `for await` 正常结束，`onTermination` 执行 cleanup。
 - `Cancel Consumer`：consumer task 被取消，`for await` 停止，continuation 收到 termination，cleanup 取消 producer。
-- `Drop Owner`：view model 释放 source 引用，用来观察仅释放 owner 并不等同于正确结束 stream；demo 会通过日志说明应主动 cancel 或 finish。
+- `Drop Owner`：view model 先 finish source、取消 consumer task，再释放 source 引用；demo 会通过日志说明仅释放 owner 并不等同于正确结束 stream。
 
 ## 需要重点打日志的位置
 

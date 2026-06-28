@@ -46,7 +46,9 @@ struct ContentView: View {
     private var controls: some View {
         VStack(spacing: 12) {
             Button("Start Stream", systemImage: "play.fill") {
-                viewModel.startStream()
+                Task {
+                    await viewModel.startStream()
+                }
             }
             .buttonStyle(.borderedProminent)
 
@@ -57,7 +59,9 @@ struct ContentView: View {
             .disabled(viewModel.canCancel == false)
 
             Button("Finish Producer", systemImage: "checkmark.circle") {
-                viewModel.finishProducer()
+                Task {
+                    await viewModel.finishProducer()
+                }
             }
             .buttonStyle(.bordered)
             .disabled(viewModel.canFinish == false)

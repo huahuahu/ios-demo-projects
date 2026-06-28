@@ -64,7 +64,7 @@ events = pair.stream
 continuation = pair.continuation
 ```
 
-在 demo 里，这段代码位于 `async-stream-continuation-demo/AsyncStreamContinuationDemo/AsyncEventSource.swift`。`AsyncEventSource` 自己保存 `continuation`，对外只暴露 `events: AsyncStream<StreamEvent>`。这样 view model 只能消费事件，不能随手 `yield`，读写职责是分开的。
+在 demo 里，这段代码位于 `async-stream-continuation-demo/AsyncStreamContinuationDemo/Domain/AsyncEventSource.swift`。`AsyncEventSource` 自己保存 `continuation`，对外只暴露 `events: AsyncStream<StreamEvent>`。这样 view model 只能消费事件，不能随手 `yield`，读写职责是分开的。
 
 ## Demo 的结构
 
@@ -77,10 +77,10 @@ continuation = pair.continuation
 
 阅读代码时可以按这个顺序走：
 
-1. `AsyncEventSource.swift`：先看 `AsyncStream`、`Continuation`、producer task 和 cleanup。
-2. `StreamDemoViewModel.swift`：再看按钮动作如何创建 source、启动 consumer、cancel 和 finish。
-3. `ContentView.swift`：最后看最小 SwiftUI 交互界面。
-4. `AsyncEventSourceTests.swift`：用测试确认 finish、cancel、cleanup 的行为没有靠猜。
+1. `Domain/AsyncEventSource.swift`：先看 `AsyncStream`、`Continuation`、producer task 和 cleanup。
+2. `Features/StreamDemo/StreamDemoViewModel.swift`：再看按钮动作如何创建 source、启动 consumer、cancel 和 finish。
+3. `Features/StreamDemo/ContentView.swift`：最后看最小 SwiftUI 交互界面。
+4. `AsyncStreamContinuationDemoTests/Domain/AsyncEventSourceTests.swift`：用测试确认 finish、cancel、cleanup 的行为没有靠猜。
 
 ## Start Stream：建立 producer 和 consumer 的关系
 
@@ -264,6 +264,7 @@ func dropOwner() async {
     consumerTask?.cancel()
     consumerTask = nil
     source = nil
+    logger.info("source owner released")
     status = .released
 }
 ```
@@ -320,6 +321,7 @@ com.huahuahu.demo.AsyncStreamContinuationDemo
 - `cancel requested`
 - `drop owner requested`
 - `finishing source before owner release`
+- `source owner released`
 - `for-await loop ended`
 - `continuation onTermination reason`
 - `cleanup started`

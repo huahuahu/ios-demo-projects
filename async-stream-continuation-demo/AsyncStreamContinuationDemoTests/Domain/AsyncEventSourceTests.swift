@@ -91,4 +91,17 @@ struct AsyncEventSourceTests {
 
         #expect(stopped)
     }
+
+    @Test(.timeLimit(.minutes(1)))
+    func startProducingDoesNotRestartAfterFinish() async {
+        let source = AsyncEventSource(logger: SilentDemoLogger())
+
+        await source.finish()
+        await source.startProducing(interval: .milliseconds(10))
+
+        let snapshot = await source.snapshot()
+        #expect(snapshot.isFinished)
+        #expect(snapshot.cleanupCount == 1)
+        #expect(snapshot.isProducing == false)
+    }
 }

@@ -17,6 +17,7 @@ Explaining `AsyncStream`, continuation lifecycle, `yield`, `finish`, cancellatio
 ## Generate
 
 ```bash
+cd async-stream-continuation-demo
 xcodegen generate
 ```
 
@@ -40,11 +41,19 @@ Important log points include stream creation, continuation storage, `yield` resu
 
 ## Test
 
-Use XcodeBuildMCP with the checked-in `.xcodebuildmcp/config.yaml` defaults, or run the equivalent Xcode test action for the `AsyncStreamContinuationDemo` scheme.
+Use XcodeBuildMCP with the checked-in `.xcodebuildmcp/config.yaml` defaults:
+
+1. `session_show_defaults`
+2. `session_set_defaults` if the active defaults do not match the repository root config
+3. `test_sim`
+
+You can also run the equivalent Xcode test action for the `AsyncStreamContinuationDemo` scheme.
 
 ## Key Files
 
-- `AsyncStreamContinuationDemo/AsyncEventSource.swift` owns `AsyncStream`, continuation, producer task, and cleanup.
-- `AsyncStreamContinuationDemo/StreamDemoViewModel.swift` owns user actions and the consumer task.
-- `AsyncStreamContinuationDemo/ContentView.swift` provides the focused SwiftUI controls.
-- `AsyncStreamContinuationDemoTests/` verifies lifecycle behavior with Swift Testing.
+- `AsyncStreamContinuationDemo/Domain/AsyncEventSource.swift` owns `AsyncStream`, continuation, producer task, and cleanup.
+- `AsyncStreamContinuationDemo/Domain/StreamEvent.swift` defines the values sent through the stream.
+- `AsyncStreamContinuationDemo/Features/StreamDemo/StreamDemoViewModel.swift` owns user actions and the consumer task.
+- `AsyncStreamContinuationDemo/Features/StreamDemo/ContentView.swift` provides the focused SwiftUI controls.
+- `AsyncStreamContinuationDemo/Support/DemoLogging.swift` centralizes console logging.
+- `AsyncStreamContinuationDemoTests/Domain/` and `AsyncStreamContinuationDemoTests/Features/` verify lifecycle behavior with Swift Testing.

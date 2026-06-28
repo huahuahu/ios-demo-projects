@@ -50,7 +50,8 @@ Keep source files grouped by responsibility by default. Do not place all app or 
 8. Run `xcodegen generate` from the demo directory.
 9. Create a dedicated iPhone 17 Pro Max simulator for the demo before writing the XcodeBuildMCP config:
    - Set `{SimulatorName}` to `{DemoName} iPhone 17 Pro Max`.
-   - Use `xcrun simctl create "{SimulatorName}"` with the iPhone 17 Pro Max device type and the latest available iOS runtime.
+   - Prefer XcodeBuildMCP CLI/MCP simulator creation if that workflow is available in the current environment.
+   - If XcodeBuildMCP cannot create simulators, use `xcrun simctl create "{SimulatorName}"` as a fallback with the iPhone 17 Pro Max device type and the latest available iOS runtime.
    - Capture the returned UUID as `{SimulatorId}`.
 10. Update the repository root `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml` by copying the template to the root config path and using plain string replacement for `{DemoDirectory}`, `{DemoName}`, `{SimulatorName}`, and `{SimulatorId}`. Use the kebab-case demo directory name for `{DemoDirectory}`. Do not create `demo-name/.xcodebuildmcp/config.yaml`.
 11. Use XcodeBuildMCP where available to discover schemes, build, test, run, launch, capture logs, or inspect simulator state. Before using MCP tools in the same session, call `session_set_defaults` with the same root-relative values from the root config when current defaults do not already match.
@@ -129,9 +130,9 @@ Every newly created demo gets its own simulator.
 - `{SimulatorName}`: `{DemoName} iPhone 17 Pro Max`
 - Device type: iPhone 17 Pro Max
 - Runtime: latest available iOS runtime
-- `{SimulatorId}`: the UUID returned by `xcrun simctl create`
+- `{SimulatorId}`: the UUID returned by the simulator creation command
 
-Use `xcrun simctl list devicetypes` and `xcrun simctl list runtimes` to confirm the exact local identifiers. On this machine, use `com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max` and `com.apple.CoreSimulator.SimRuntime.iOS-26-5`. Create the simulator with the derived name:
+Prefer XcodeBuildMCP CLI/MCP simulator creation when the current environment exposes it. If not, fall back to `xcrun simctl` only for simulator creation/discovery. Use `xcrun simctl list devicetypes` and `xcrun simctl list runtimes` to confirm the exact local identifiers. On this machine, use `com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max` and `com.apple.CoreSimulator.SimRuntime.iOS-26-5`. Create the simulator with the derived name:
 
 ```bash
 xcrun simctl create "{DemoName} iPhone 17 Pro Max" "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max" "com.apple.CoreSimulator.SimRuntime.iOS-26-5"
@@ -141,7 +142,7 @@ Copy the returned UUID into the repository root `.xcodebuildmcp/config.yaml` as 
 
 ## XcodeBuildMCP Config
 
-After generating the Xcode project and creating the dedicated simulator, update the repository root `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml`. Replace `{DemoDirectory}` with the kebab-case demo directory name, `{DemoName}` with the inferred PascalCase demo name, `{SimulatorName}` with `{DemoName} iPhone 17 Pro Max`, and `{SimulatorId}` with the UUID returned by `xcrun simctl create`.
+After generating the Xcode project and creating the dedicated simulator, update the repository root `.xcodebuildmcp/config.yaml` from `templates/xcodebuildmcp-config.yaml`. Replace `{DemoDirectory}` with the kebab-case demo directory name, `{DemoName}` with the inferred PascalCase demo name, `{SimulatorName}` with `{DemoName} iPhone 17 Pro Max`, and `{SimulatorId}` with the UUID returned by the simulator creation command.
 
 The persisted `projectPath` must be relative to the repository root, for example `demo-name/DemoName.xcodeproj`. Do not write or create `demo-name/.xcodebuildmcp/config.yaml`. If an older demo-local config already exists, leave it untouched unless the user explicitly asks to migrate or remove it.
 

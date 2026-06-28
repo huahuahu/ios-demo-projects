@@ -16,12 +16,12 @@ AsyncStreamContinuationDemo/
     AsyncStreamContinuationDemoApp.swift
   Domain/
     AsyncEventSource.swift
-    DemoStatus.swift
     EventSourceSnapshot.swift
     StreamEvent.swift
   Features/
     StreamDemo/
       ContentView.swift
+      DemoStatus.swift
       StreamDemoViewModel.swift
   Support/
     DemoLogging.swift
@@ -60,6 +60,7 @@ sources:
 放这个 demo 的交互界面和 presentation state：
 
 - `ContentView`：展示说明、状态和按钮。
+- `DemoStatus`：demo 状态枚举和说明文案。
 - `StreamDemoViewModel`：响应用户动作，管理 source owner 和 consumer task。
 
 这个目录回答“用户如何操作 demo、UI 如何反映生命周期”。
@@ -70,7 +71,6 @@ sources:
 
 - `AsyncEventSource`：封装 continuation、producer task、`yield`、`finish`、`onTermination` cleanup。
 - `StreamEvent`：stream 中传递的事件值。
-- `DemoStatus`：demo 状态枚举和说明文案。
 - `EventSourceSnapshot`：测试可读的 source 内部状态快照。
 
 这个目录回答“AsyncStream 和 continuation 是如何工作的”。
@@ -103,7 +103,7 @@ README 增加一个简短“代码导览”小节，建议读者按以下顺序�
 2. 运行 `xcodegen generate` 更新 `.xcodeproj`。
 3. 使用 XcodeBuildMCP 跑 `AsyncStreamContinuationDemo` test suite。
 
-通过标准是原有 11 个 Swift Testing tests 继续全部通过。由于行为不变，不新增测试；现有 tests 已覆盖 domain lifecycle、view model action 和 value primitives，足以证明移动文件没有破坏 target membership 或 imports。
+通过标准是 Swift Testing suite 继续全部通过。现有 tests 覆盖 domain lifecycle、view model action 和 value primitives，足以证明移动文件没有破坏 target membership 或 imports。
 
 ## 非目标
 
