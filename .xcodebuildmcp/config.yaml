@@ -9,7 +9,7 @@ enabledWorkflows:
 debug: true
 sentryDisabled: false
 sessionDefaults:
-  projectPath: swiftui-list-grid-large-data/SwiftUIListGridLargeData.xcodeproj
-  scheme: SwiftUIListGridLargeData
-  simulatorName: SwiftUIListGridLargeData iPhone 17 Pro Max
-  simulatorId: 380F9D8F-3578-4049-9C62-EC1F1A5ED8C2
+  projectPath: async-stream-continuation-demo/AsyncStreamContinuationDemo.xcodeproj
+  scheme: AsyncStreamContinuationDemo
+  simulatorName: AsyncStreamContinuationDemo iPhone 17 Pro Max
+  simulatorId: 1B15591D-3AA6-444E-A025-F3CF34308855

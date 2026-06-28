@@ -30,3 +30,13 @@ args = ["mcp"]
 When working on an iOS demo in this repository, prefer XcodeBuildMCP tools for project discovery, simulator management, builds, tests, app launching, and log capture when those tools are available in the current Codex session.
 
 If the MCP tools are not available in a session, use `xcodebuild` directly as a fallback and keep commands scoped to the specific demo project directory.
+
+The `xcodebuildmcp` command is installed as a CLI. Prefer it over `xcrun simctl`.
+
+Project defaults live in `.xcodebuildmcp/config.yaml`.
+
+At the start of each new agent session, before the first XcodeBuildMCP build, run, or test call, show active defaults with `session_show_defaults`.
+
+If active defaults are missing or differ from `.xcodebuildmcp/config.yaml`, read that file and apply its `sessionDefaults` with `session_set_defaults` before building, running, or testing.
+
+Do not assume the MCP server automatically loads this repository's config file. It only reads `.xcodebuildmcp/config.yaml` from the MCP process current working directory, which may not be the repository root. If configuring the MCP server startup, set `XCODEBUILDMCP_CWD` to the repository root.
