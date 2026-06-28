@@ -347,6 +347,32 @@ pre {
   color: var(--text-muted);
 }
 
+.article-body table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 16px;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.article-body th,
+.article-body td {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.article-body th {
+  background: var(--surface-muted);
+  color: var(--text);
+  text-align: left;
+}
+
+.article-body td {
+  color: var(--text-muted);
+}
+
 .article-body ul,
 .article-body ol {
   padding-left: 22px;
