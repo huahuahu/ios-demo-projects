@@ -5,11 +5,10 @@ enabledWorkflows:
   - logging
   - ui-automation
   - utilities
-  - xcode-ide
 debug: true
 sentryDisabled: false
 sessionDefaults:
-  projectPath: async-stream-continuation-demo/AsyncStreamContinuationDemo.xcodeproj
-  scheme: AsyncStreamContinuationDemo
-  simulatorName: AsyncStreamContinuationDemo iPhone 17 Pro Max
-  simulatorId: 1B15591D-3AA6-444E-A025-F3CF34308855
+  projectPath: collectionview-animated-updates-demo/CollectionViewAnimatedUpdatesDemo.xcodeproj
+  scheme: CollectionViewAnimatedUpdatesDemo
+  simulatorName: CollectionViewAnimatedUpdatesDemo iPhone 17 Pro Max
+  simulatorId: 989B8721-5992-43B0-8496-F3A5CCB18557
