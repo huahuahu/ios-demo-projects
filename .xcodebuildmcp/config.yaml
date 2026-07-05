@@ -8,7 +8,7 @@ enabledWorkflows:
 debug: true
 sentryDisabled: false
 sessionDefaults:
-  projectPath: collectionview-animated-updates-demo/CollectionViewAnimatedUpdatesDemo.xcodeproj
-  scheme: CollectionViewAnimatedUpdatesDemo
-  simulatorName: CollectionViewAnimatedUpdatesDemo iPhone 17 Pro Max
-  simulatorId: 989B8721-5992-43B0-8496-F3A5CCB18557
+  projectPath: swiftdata-delete-handling/SwiftDataDeleteHandling.xcodeproj
+  scheme: SwiftDataDeleteHandling
+  simulatorName: SwiftDataDeleteHandling iPhone 17 Pro Max
+  simulatorId: 76566A74-6201-4A0A-807C-7CF9DFE99C1D
