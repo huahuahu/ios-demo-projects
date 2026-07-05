@@ -1,0 +1,481 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		25C0A85D8A58BA1578AF872D /* SwiftDataDeleteHandlingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA95B25AB4F973F81139098B /* SwiftDataDeleteHandlingApp.swift */; };
+		3E6BF1CAAB634B12E8113C5C /* BindableProblemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695CA9BC8E291D78BA71487D /* BindableProblemDetailView.swift */; };
+		4F8AE9F16D245B29E9FE3590 /* DemoLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E945CB006F16FFDE20B7FB11 /* DemoLog.swift */; };
+		A23780812E9535E5B5B6ED10 /* BookStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1A5713124ED75831A87EA6 /* BookStoreTests.swift */; };
+		B1FB60254223BCC0FD77097E /* PersistentIDQueryFixDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F29113EE456C0219EABD0EB /* PersistentIDQueryFixDetailView.swift */; };
+		B595DA4D765865C3F04BE417 /* BookCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A673D9FA50A47077FFAA78A /* BookCover.swift */; };
+		B709FF41B6C3736A8156BD81 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6094DE26DA85CE1114A6AAC8 /* Book.swift */; };
+		DC7B3B41FECAE5B6536D2B71 /* DeleteDemoScenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5C0AE5C979D38A4DA7BBFE /* DeleteDemoScenario.swift */; };
+		E58AD881E8C7BEB4BE3A7887 /* BookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BFE3D1B8B5DE3D23884D56 /* BookStore.swift */; };
+		F12B98B42334B29B0BC249DB /* ScenarioListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76778EFC25B461EEFC88971C /* ScenarioListView.swift */; };
+		F2B6C933F4C696ED084E86D3 /* BackgroundBookDeleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974857F29F2F43B9DBD0D57C /* BackgroundBookDeleter.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C4850184F5D1D10D55F71273 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2ABB0C4BE95E01FE67CD3E37 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FE7204318C87857F72F570;
+			remoteInfo = SwiftDataDeleteHandling;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5A673D9FA50A47077FFAA78A /* BookCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCover.swift; sourceTree = "<group>"; };
+		6094DE26DA85CE1114A6AAC8 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		669F2C98AF549B1F111A49CC /* SwiftDataDeleteHandling.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SwiftDataDeleteHandling.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		68BFE3D1B8B5DE3D23884D56 /* BookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStore.swift; sourceTree = "<group>"; };
+		695CA9BC8E291D78BA71487D /* BindableProblemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindableProblemDetailView.swift; sourceTree = "<group>"; };
+		76778EFC25B461EEFC88971C /* ScenarioListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioListView.swift; sourceTree = "<group>"; };
+		974857F29F2F43B9DBD0D57C /* BackgroundBookDeleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBookDeleter.swift; sourceTree = "<group>"; };
+		9D5C0AE5C979D38A4DA7BBFE /* DeleteDemoScenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDemoScenario.swift; sourceTree = "<group>"; };
+		9F29113EE456C0219EABD0EB /* PersistentIDQueryFixDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentIDQueryFixDetailView.swift; sourceTree = "<group>"; };
+		DF950CD65F0C5F5F1A256781 /* SwiftDataDeleteHandlingTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SwiftDataDeleteHandlingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E945CB006F16FFDE20B7FB11 /* DemoLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLog.swift; sourceTree = "<group>"; };
+		EA95B25AB4F973F81139098B /* SwiftDataDeleteHandlingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataDeleteHandlingApp.swift; sourceTree = "<group>"; };
+		EE1A5713124ED75831A87EA6 /* BookStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStoreTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0CC0DECEF3DF11FB51B7133F /* App */ = {
+			isa = PBXGroup;
+			children = (
+				EA95B25AB4F973F81139098B /* SwiftDataDeleteHandlingApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		0DC29F00487FDE0EAD2D87A2 /* SwiftDataDeleteHandling */ = {
+			isa = PBXGroup;
+			children = (
+				0CC0DECEF3DF11FB51B7133F /* App */,
+				DB231EFA68DE000CDD5BF15C /* Domain */,
+				6A4E2995C699F809A3DA324B /* Features */,
+				8BEB437900797779006273C6 /* Support */,
+			);
+			path = SwiftDataDeleteHandling;
+			sourceTree = "<group>";
+		};
+		3A64F77C4873227113462AFD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				669F2C98AF549B1F111A49CC /* SwiftDataDeleteHandling.app */,
+				DF950CD65F0C5F5F1A256781 /* SwiftDataDeleteHandlingTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6A4E2995C699F809A3DA324B /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				7E551CCAD1BF95CEFB05193E /* DeleteHandling */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		7E551CCAD1BF95CEFB05193E /* DeleteHandling */ = {
+			isa = PBXGroup;
+			children = (
+				695CA9BC8E291D78BA71487D /* BindableProblemDetailView.swift */,
+				9F29113EE456C0219EABD0EB /* PersistentIDQueryFixDetailView.swift */,
+				76778EFC25B461EEFC88971C /* ScenarioListView.swift */,
+			);
+			path = DeleteHandling;
+			sourceTree = "<group>";
+		};
+		8BEB437900797779006273C6 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				E945CB006F16FFDE20B7FB11 /* DemoLog.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		BF169E7C193D80A0BACC2A43 /* SwiftDataDeleteHandlingTests */ = {
+			isa = PBXGroup;
+			children = (
+				CDA143BF385B8BC71069DF53 /* Domain */,
+			);
+			path = SwiftDataDeleteHandlingTests;
+			sourceTree = "<group>";
+		};
+		CDA143BF385B8BC71069DF53 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				EE1A5713124ED75831A87EA6 /* BookStoreTests.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		DB231EFA68DE000CDD5BF15C /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				974857F29F2F43B9DBD0D57C /* BackgroundBookDeleter.swift */,
+				6094DE26DA85CE1114A6AAC8 /* Book.swift */,
+				5A673D9FA50A47077FFAA78A /* BookCover.swift */,
+				68BFE3D1B8B5DE3D23884D56 /* BookStore.swift */,
+				9D5C0AE5C979D38A4DA7BBFE /* DeleteDemoScenario.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		E978CC927D71FF4EF5462EEA = {
+			isa = PBXGroup;
+			children = (
+				0DC29F00487FDE0EAD2D87A2 /* SwiftDataDeleteHandling */,
+				BF169E7C193D80A0BACC2A43 /* SwiftDataDeleteHandlingTests */,
+				3A64F77C4873227113462AFD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		04FE7204318C87857F72F570 /* SwiftDataDeleteHandling */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E7AE254406120C42A8AA3CB3 /* Build configuration list for PBXNativeTarget "SwiftDataDeleteHandling" */;
+			buildPhases = (
+				6EFEF2BE4E980295F635B195 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftDataDeleteHandling;
+			packageProductDependencies = (
+			);
+			productName = SwiftDataDeleteHandling;
+			productReference = 669F2C98AF549B1F111A49CC /* SwiftDataDeleteHandling.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3216CF9130BC2B932B23825E /* SwiftDataDeleteHandlingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 358991816D1EB424D0F5C4CD /* Build configuration list for PBXNativeTarget "SwiftDataDeleteHandlingTests" */;
+			buildPhases = (
+				E9A5213E7A4D0EBDB57DE2C6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				33846BA68AF8694660EA77B9 /* PBXTargetDependency */,
+			);
+			name = SwiftDataDeleteHandlingTests;
+			packageProductDependencies = (
+			);
+			productName = SwiftDataDeleteHandlingTests;
+			productReference = DF950CD65F0C5F5F1A256781 /* SwiftDataDeleteHandlingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2ABB0C4BE95E01FE67CD3E37 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					04FE7204318C87857F72F570 = {
+						DevelopmentTeam = "";
+					};
+					3216CF9130BC2B932B23825E = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = 922FF934AE7A6DFDE30C1BDA /* Build configuration list for PBXProject "SwiftDataDeleteHandling" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = E978CC927D71FF4EF5462EEA;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3A64F77C4873227113462AFD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				04FE7204318C87857F72F570 /* SwiftDataDeleteHandling */,
+				3216CF9130BC2B932B23825E /* SwiftDataDeleteHandlingTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6EFEF2BE4E980295F635B195 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2B6C933F4C696ED084E86D3 /* BackgroundBookDeleter.swift in Sources */,
+				3E6BF1CAAB634B12E8113C5C /* BindableProblemDetailView.swift in Sources */,
+				B709FF41B6C3736A8156BD81 /* Book.swift in Sources */,
+				B595DA4D765865C3F04BE417 /* BookCover.swift in Sources */,
+				E58AD881E8C7BEB4BE3A7887 /* BookStore.swift in Sources */,
+				DC7B3B41FECAE5B6536D2B71 /* DeleteDemoScenario.swift in Sources */,
+				4F8AE9F16D245B29E9FE3590 /* DemoLog.swift in Sources */,
+				B1FB60254223BCC0FD77097E /* PersistentIDQueryFixDetailView.swift in Sources */,
+				F12B98B42334B29B0BC249DB /* ScenarioListView.swift in Sources */,
+				25C0A85D8A58BA1578AF872D /* SwiftDataDeleteHandlingApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9A5213E7A4D0EBDB57DE2C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A23780812E9535E5B5B6ED10 /* BookStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		33846BA68AF8694660EA77B9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FE7204318C87857F72F570 /* SwiftDataDeleteHandling */;
+			targetProxy = C4850184F5D1D10D55F71273 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		092D028F3171D9A951B71D04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		154BA0D53B6D092243187686 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SwiftDataDeleteHandling;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		439839C5F8E890126C520D57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SwiftDataDeleteHandling;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8748B43A0F5B1649F1BC0940 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		B4F0A92E69E94C1F9FEA3DC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SwiftDataDeleteHandlingTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftDataDeleteHandling.app/SwiftDataDeleteHandling";
+			};
+			name = Release;
+		};
+		B6B103C31C6D9B8066D7FBD4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SwiftDataDeleteHandlingTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftDataDeleteHandling.app/SwiftDataDeleteHandling";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		358991816D1EB424D0F5C4CD /* Build configuration list for PBXNativeTarget "SwiftDataDeleteHandlingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6B103C31C6D9B8066D7FBD4 /* Debug */,
+				B4F0A92E69E94C1F9FEA3DC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		922FF934AE7A6DFDE30C1BDA /* Build configuration list for PBXProject "SwiftDataDeleteHandling" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				092D028F3171D9A951B71D04 /* Debug */,
+				8748B43A0F5B1649F1BC0940 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E7AE254406120C42A8AA3CB3 /* Build configuration list for PBXNativeTarget "SwiftDataDeleteHandling" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				154BA0D53B6D092243187686 /* Debug */,
+				439839C5F8E890126C520D57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2ABB0C4BE95E01FE67CD3E37 /* Project object */;
+}
