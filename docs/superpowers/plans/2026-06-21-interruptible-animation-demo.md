@@ -28,7 +28,7 @@
 ## File Structure
 
 - Create `interruptible-animation-demo/README.md`: blog-friendly overview, setup, run/test instructions, and key files.
-- Create `interruptible-animation-demo/project.yml`: XcodeGen project generated from `.github/skills/ios-demo-project-creator/templates/project.yml`.
+- Create `interruptible-animation-demo/project.yml`: XcodeGen project generated from `.agents/skills/ios-demo-project-creator/templates/project.yml`.
 - Create `interruptible-animation-demo/.xcodebuildmcp/config.yaml`: XcodeBuildMCP defaults generated after the dedicated simulator exists.
 - Create `interruptible-animation-demo/InterruptibleAnimationDemo/InterruptibleAnimationDemoApp.swift`: SwiftUI app entry point.
 - Create `interruptible-animation-demo/InterruptibleAnimationDemo/ContentView.swift`: two-tab shell for UIKit and SwiftUI demos.

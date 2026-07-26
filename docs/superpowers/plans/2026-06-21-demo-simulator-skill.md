@@ -22,7 +22,7 @@
 ### Task 1: 更新模拟器配置模板
 
 **Files:**
-- Modify: `.github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml`
+- Modify: `.agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml`
 
 **Interfaces:**
 - Consumes: `DemoName` from the skill's existing project-name inference flow.
@@ -33,16 +33,16 @@
 Run:
 
 ```bash
-grep -n "simulatorName: {SimulatorName}" .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
-grep -n "simulatorId: {SimulatorId}" .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
-! grep -n "62706291-A205-4E42-AD8C-3056825895D4" .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
+grep -n "simulatorName: {SimulatorName}" .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
+grep -n "simulatorId: {SimulatorId}" .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
+! grep -n "62706291-A205-4E42-AD8C-3056825895D4" .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
 ```
 
 Expected: FAIL because the template still has `simulatorName: iPhone 17 Pro Max` and the hardcoded UUID.
 
 - [ ] **Step 2: Replace the simulator defaults with placeholders**
 
-Edit `.github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml` so the `sessionDefaults` block is exactly:
+Edit `.agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml` so the `sessionDefaults` block is exactly:
 
 ```yaml
 sessionDefaults:
@@ -57,9 +57,9 @@ sessionDefaults:
 Run:
 
 ```bash
-grep -n "simulatorName: {SimulatorName}" .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
-grep -n "simulatorId: {SimulatorId}" .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
-! grep -n "62706291-A205-4E42-AD8C-3056825895D4" .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
+grep -n "simulatorName: {SimulatorName}" .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
+grep -n "simulatorId: {SimulatorId}" .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
+! grep -n "62706291-A205-4E42-AD8C-3056825895D4" .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
 ```
 
 Expected: PASS and print the two placeholder lines.
@@ -67,14 +67,14 @@ Expected: PASS and print the two placeholder lines.
 - [ ] **Step 4: Commit**
 
 ```bash
-git add .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
+git add .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
 git commit -m "chore: parameterize demo simulator config" -m "Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 ```
 
 ### Task 2: 更新 skill 创建流程
 
 **Files:**
-- Modify: `.github/skills/ios-demo-project-creator/SKILL.md`
+- Modify: `.agents/skills/ios-demo-project-creator/SKILL.md`
 
 **Interfaces:**
 - Consumes: template placeholders `{DemoName}`, `{SimulatorName}`, and `{SimulatorId}` from Task 1.
@@ -85,17 +85,17 @@ git commit -m "chore: parameterize demo simulator config" -m "Co-authored-by: Co
 Run:
 
 ```bash
-grep -n "SimulatorName.*{DemoName} iPhone 17 Pro Max" .github/skills/ios-demo-project-creator/SKILL.md && \
-grep -n "xcrun simctl create" .github/skills/ios-demo-project-creator/SKILL.md && \
-grep -n "{SimulatorId}" .github/skills/ios-demo-project-creator/SKILL.md && \
-grep -n "latest available iOS runtime" .github/skills/ios-demo-project-creator/SKILL.md
+grep -n "SimulatorName.*{DemoName} iPhone 17 Pro Max" .agents/skills/ios-demo-project-creator/SKILL.md && \
+grep -n "xcrun simctl create" .agents/skills/ios-demo-project-creator/SKILL.md && \
+grep -n "{SimulatorId}" .agents/skills/ios-demo-project-creator/SKILL.md && \
+grep -n "latest available iOS runtime" .agents/skills/ios-demo-project-creator/SKILL.md
 ```
 
 Expected: FAIL because the current skill does not describe dedicated simulator provisioning or the new placeholders.
 
 - [ ] **Step 2: Update the Creation Workflow section**
 
-In `.github/skills/ios-demo-project-creator/SKILL.md`, replace the existing workflow items 9-11 with these items:
+In `.agents/skills/ios-demo-project-creator/SKILL.md`, replace the existing workflow items 9-11 with these items:
 
 ```markdown
 9. Create a dedicated iPhone 17 Pro Max simulator for the demo before writing the XcodeBuildMCP config:
@@ -151,10 +151,10 @@ platform=iOS Simulator,name={DemoName} iPhone 17 Pro Max,OS=latest
 Run:
 
 ```bash
-grep -n "SimulatorName.*{DemoName} iPhone 17 Pro Max" .github/skills/ios-demo-project-creator/SKILL.md && \
-grep -n "xcrun simctl create" .github/skills/ios-demo-project-creator/SKILL.md && \
-grep -n "{SimulatorId}" .github/skills/ios-demo-project-creator/SKILL.md && \
-grep -n "latest available iOS runtime" .github/skills/ios-demo-project-creator/SKILL.md
+grep -n "SimulatorName.*{DemoName} iPhone 17 Pro Max" .agents/skills/ios-demo-project-creator/SKILL.md && \
+grep -n "xcrun simctl create" .agents/skills/ios-demo-project-creator/SKILL.md && \
+grep -n "{SimulatorId}" .agents/skills/ios-demo-project-creator/SKILL.md && \
+grep -n "latest available iOS runtime" .agents/skills/ios-demo-project-creator/SKILL.md
 ```
 
 Expected: PASS and print matching lines from the updated skill.
@@ -162,15 +162,15 @@ Expected: PASS and print matching lines from the updated skill.
 - [ ] **Step 7: Commit**
 
 ```bash
-git add .github/skills/ios-demo-project-creator/SKILL.md
+git add .agents/skills/ios-demo-project-creator/SKILL.md
 git commit -m "docs: require dedicated demo simulators" -m "Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 ```
 
 ### Task 3: 验证 skill 和模板一致性
 
 **Files:**
-- Verify: `.github/skills/ios-demo-project-creator/SKILL.md`
-- Verify: `.github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml`
+- Verify: `.agents/skills/ios-demo-project-creator/SKILL.md`
+- Verify: `.agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml`
 
 **Interfaces:**
 - Consumes: completed Task 1 and Task 2 changes.
@@ -181,9 +181,9 @@ git commit -m "docs: require dedicated demo simulators" -m "Co-authored-by: Copi
 Run:
 
 ```bash
-grep -n "{SimulatorName}" .github/skills/ios-demo-project-creator/SKILL.md .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
-grep -n "{SimulatorId}" .github/skills/ios-demo-project-creator/SKILL.md .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
-! grep -R "62706291-A205-4E42-AD8C-3056825895D4" .github/skills/ios-demo-project-creator
+grep -n "{SimulatorName}" .agents/skills/ios-demo-project-creator/SKILL.md .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
+grep -n "{SimulatorId}" .agents/skills/ios-demo-project-creator/SKILL.md .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml && \
+! grep -R "62706291-A205-4E42-AD8C-3056825895D4" .agents/skills/ios-demo-project-creator
 ```
 
 Expected: PASS. The first two commands print matches in both the skill and template, and the final command prints nothing.
@@ -193,7 +193,7 @@ Expected: PASS. The first two commands print matches in both the skill and templ
 Run:
 
 ```bash
-git --no-pager diff HEAD~2..HEAD -- .github/skills/ios-demo-project-creator/SKILL.md .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
+git --no-pager diff HEAD~2..HEAD -- .agents/skills/ios-demo-project-creator/SKILL.md .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
 ```
 
 Expected: Diff shows only the dedicated simulator instructions and template placeholder changes.
@@ -203,6 +203,6 @@ Expected: Diff shows only the dedicated simulator instructions and template plac
 If Step 1 or Step 2 required an additional correction, commit that correction:
 
 ```bash
-git add .github/skills/ios-demo-project-creator/SKILL.md .github/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
+git add .agents/skills/ios-demo-project-creator/SKILL.md .agents/skills/ios-demo-project-creator/templates/xcodebuildmcp-config.yaml
 git commit -m "fix: align demo simulator skill placeholders" -m "Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 ```
