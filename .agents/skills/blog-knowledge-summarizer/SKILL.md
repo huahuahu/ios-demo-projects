@@ -1,6 +1,6 @@
 ---
 name: blog-knowledge-summarizer
-description: Use this project-local skill when the user asks Copilot to write, outline, expand, polish, or summarize a blog post from learning notes, demo projects, source code, experiments, screenshots, transcripts, or rough Chinese/English thoughts. Prefer a blog-length technical summary that extracts what was learned, explains why it matters, and connects the content to this repository's demos or blog workflow.
+description: Use this project-local skill when the user asks an AI assistant to write, outline, expand, polish, or summarize a blog post from learning notes, demo projects, source code, experiments, screenshots, transcripts, or rough Chinese/English thoughts. Prefer a blog-length technical summary that extracts what was learned, explains why it matters, and connects the content to this repository's demos or blog workflow.
 ---
 
 # Blog Knowledge Summarizer
@@ -98,7 +98,7 @@ Choose the mode from the user's request:
 - **Long blog draft**: default. Full article with publishable structure.
 - **Outline first**: use when the user asks for a plan, framework, or table of contents.
 - **Polish existing draft**: preserve the user's core argument and improve structure, clarity, and flow.
-- **Skill or prompt summary**: when the user asks to summarize a reusable writing skill, produce concise instructions that can become or update a Copilot skill.
+- **Skill or prompt summary**: when the user asks to summarize a reusable writing skill, produce concise instructions that can become or update an AI skill.
 
 ## Quality Bar
 

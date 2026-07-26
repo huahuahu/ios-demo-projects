@@ -1,0 +1,4 @@
+interface:
+  display_name: "iOS Simulator Log Stream"
+  short_description: "Captures and diagnoses iOS Simulator unified logs."
+  default_prompt: "Use $ios-simulator-log-stream to capture and diagnose the relevant logs from my iOS Simulator app."

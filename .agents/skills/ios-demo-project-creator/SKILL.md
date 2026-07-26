@@ -1,6 +1,6 @@
 ---
 name: ios-demo-project-creator
-description: Use this project-local skill when creating or extending any iOS demo project in this repository. Trigger for tasks that ask Copilot to add a new demo, scaffold an iOS/Xcode sample, create a SwiftUI/UIKit experiment, make a blog-referenced demo project, configure XcodeGen, use XcodeBuildMCP to discover/build/test/run a demo, or add focused docs/scripts/prompts for a demo.
+description: Use this project-local skill when creating or extending any iOS demo project in this repository. Trigger for tasks that ask an AI assistant to add a new demo, scaffold an iOS/Xcode sample, create a SwiftUI/UIKit experiment, make a blog-referenced demo project, configure XcodeGen, use XcodeBuildMCP to discover/build/test/run a demo, or add focused docs/scripts/prompts for a demo.
 ---
 
 # iOS Demo Project Creator

@@ -1,0 +1,4 @@
+interface:
+  display_name: "iOS Demo Project Creator"
+  short_description: "Creates focused, reproducible iOS demo projects."
+  default_prompt: "Use $ios-demo-project-creator to scaffold and verify a focused iOS demo for this repository."

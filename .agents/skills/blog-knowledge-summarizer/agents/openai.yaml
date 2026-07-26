@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blog Knowledge Summarizer"
+  short_description: "Turns technical learning notes into publishable blog drafts."
+  default_prompt: "Use $blog-knowledge-summarizer to turn my learning notes into a grounded technical blog draft."
