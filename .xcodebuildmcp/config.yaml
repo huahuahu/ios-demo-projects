@@ -8,7 +8,7 @@ enabledWorkflows:
 debug: true
 sentryDisabled: false
 sessionDefaults:
-  projectPath: telegram-mini-dock-demo/TelegramMiniDockDemo.xcodeproj
-  scheme: TelegramMiniDockDemo
-  simulatorName: TelegramMiniDockDemo iPhone 17 Pro Max
-  simulatorId: B89A1795-3C6F-440A-B05A-2BB02BA04288
+  projectPath: observation-view-invalidation-demo/ObservationViewInvalidationDemo.xcodeproj
+  scheme: ObservationViewInvalidationDemo
+  simulatorName: ObservationViewInvalidationDemo iPhone 17 Pro Max
+  simulatorId: 556D385A-ED12-4319-A7E5-A57368E024A7
