@@ -1,0 +1,7 @@
+OBS-DEMO MODEL age: 18 -> 19
+OBS-DEMO BODY  DirectPropertyView[age]
+OBS-DEMO BODY  ParentReadObservationSection
+OBS-DEMO INIT  SnapshotPropertyView[name]
+OBS-DEMO INIT  SnapshotPropertyView[age]
+OBS-DEMO INIT  SnapshotPropertyView[score]
+OBS-DEMO BODY  SnapshotPropertyView[age]
