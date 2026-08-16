@@ -1,0 +1,37 @@
+name: "TelegramMiniDockDemo"
+options:
+  bundleIdPrefix: "com.huahuahu.demo"
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: ""
+targets:
+  "TelegramMiniDockDemo":
+    type: application
+    platform: iOS
+    sources:
+      - "TelegramMiniDockDemo"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "com.huahuahu.demo.TelegramMiniDockDemo"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
+    scheme:
+      testTargets:
+        - "TelegramMiniDockDemoTests"
+  "TelegramMiniDockDemoTests":
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - "TelegramMiniDockDemoTests"
+    dependencies:
+      - target: "TelegramMiniDockDemo"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "com.huahuahu.demo.TelegramMiniDockDemoTests"

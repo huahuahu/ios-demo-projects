@@ -8,7 +8,7 @@ enabledWorkflows:
 debug: true
 sentryDisabled: false
 sessionDefaults:
-  projectPath: app-store-apps-landing-demo/AppStoreAppsLandingDemo.xcodeproj
-  scheme: AppStoreAppsLandingDemo
-  simulatorName: AppStoreAppsLandingDemo iPhone 17 Pro Max
-  simulatorId: 1255A393-4C8E-4075-8ABF-9489AC5AC1C3
+  projectPath: telegram-mini-dock-demo/TelegramMiniDockDemo.xcodeproj
+  scheme: TelegramMiniDockDemo
+  simulatorName: TelegramMiniDockDemo iPhone 17 Pro Max
+  simulatorId: B89A1795-3C6F-440A-B05A-2BB02BA04288
