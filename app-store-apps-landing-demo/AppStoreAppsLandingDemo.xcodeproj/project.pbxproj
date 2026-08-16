@@ -25,6 +25,7 @@
 		52ADE8C8867FF51813B9ADF0 /* FeaturedAppCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D2BAF31E688B142F893AC8 /* FeaturedAppCardView.swift */; };
 		542DB7606D76CEF88E67BF92 /* AppsLandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A4131F5B9D37EF4A71807 /* AppsLandingPageView.swift */; };
 		55401C1D614DCD1ACF90567D /* AppPalette+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3673C7DBA9027A87CC699719 /* AppPalette+Color.swift */; };
+		6396133ECC4614BA07878EF8 /* OneColumnScrollTargetBehaviorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E362AB98BB3F5FCC94453BA /* OneColumnScrollTargetBehaviorTests.swift */; };
 		64C560F42AA5F8AA878BD94B /* CategoryGroupingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636003FC329A6311915938B0 /* CategoryGroupingStrategyTests.swift */; };
 		65C63D9BDED42E9B9DC0C6F7 /* AppsLandingRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805F188AB6D27F340B7441B7 /* AppsLandingRootView.swift */; };
 		7C9E7E4DBF86BC820148CAF1 /* EditorialGroupPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2718F1A512A576557FCAF6 /* EditorialGroupPageView.swift */; };
@@ -81,6 +82,7 @@
 		805F188AB6D27F340B7441B7 /* AppsLandingRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsLandingRootView.swift; sourceTree = "<group>"; };
 		8B44B6F5D5279E57681B1BEB /* CatalogSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSectionView.swift; sourceTree = "<group>"; };
 		8CBC29F05A061C2E81CE2B93 /* StoreTabContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTabContainerView.swift; sourceTree = "<group>"; };
+		8E362AB98BB3F5FCC94453BA /* OneColumnScrollTargetBehaviorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneColumnScrollTargetBehaviorTests.swift; sourceTree = "<group>"; };
 		8FC7C62EDFC9F87D2248DBA7 /* CategoryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCardView.swift; sourceTree = "<group>"; };
 		9C1B355EB965E297A187C532 /* CategoryColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryColumn.swift; sourceTree = "<group>"; };
 		9F3D7CD9DA8CA1E76A2ECC86 /* AppGroupPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupPage.swift; sourceTree = "<group>"; };
@@ -109,6 +111,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		34DE48896232A20A673C0958 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				EE69DFB249B271B9FD4C54C2 /* AppsLanding */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
 		49C84AC1A65D28417BA36614 /* AppStoreAppsLandingDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				7FAA386CB508BA800E330AB8 /* Domain */,
+				34DE48896232A20A673C0958 /* Features */,
 			);
 			path = AppStoreAppsLandingDemoTests;
 			sourceTree = "<group>";
@@ -229,6 +240,14 @@
 				DBF1760B8336EBACDD5B6A2F /* AppsLanding */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		EE69DFB249B271B9FD4C54C2 /* AppsLanding */ = {
+			isa = PBXGroup;
+			children = (
+				8E362AB98BB3F5FCC94453BA /* OneColumnScrollTargetBehaviorTests.swift */,
+			);
+			path = AppsLanding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,6 +332,7 @@
 			files = (
 				64C560F42AA5F8AA878BD94B /* CategoryGroupingStrategyTests.swift in Sources */,
 				35FE70D15D1E1F3C4CC1CBCB /* GroupingStrategyTests.swift in Sources */,
+				6396133ECC4614BA07878EF8 /* OneColumnScrollTargetBehaviorTests.swift in Sources */,
 				EAFDF3C5CC57279E0A7E9BA9 /* SampleCatalogTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

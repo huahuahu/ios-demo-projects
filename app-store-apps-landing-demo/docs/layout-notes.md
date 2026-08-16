@@ -40,22 +40,38 @@ LazyHStack(spacing: pageSpacing) {
 .scrollTargetLayout()
 ```
 
-Apple 提供的 `alwaysByOne` 表达了“一次交互最多一个 view”的意图。Demo 的自定义 behavior 先让它完成 view-aligned 计算，再把最终 target 相对手势起点的位移硬限制为一列宽度：
+`alwaysByOne` 的文档语义是一次交互最多滚动一个 target view；但公开的
+[FB16443192](https://openradar.appspot.com/FB16443192) 和
+[Fatbobman 的实测](https://fatbobman.com/zh/posts/mastering-swiftui-scrolling-implementing-custom-paging/)
+都表明，子视图窄于容器时，快速甩动仍可能跨过多个 target。因此这里不把
+`alwaysByOne` 当作严格的业务保证，而是使用自定义 `ScrollTargetBehavior`。
 
 ```swift
-ViewAlignedScrollTargetBehavior(
-    limitBehavior: .alwaysByOne,
-    anchor: .leading
-)
-.updateTarget(&target, context: context)
-
 let columnWidth =
     (context.containerSize.width - totalGapWidth) / CGFloat(visibleColumnCount)
 let oneColumnDistance = columnWidth + spacing
-target.rect.origin.x = startingX + min(abs(proposedDelta), oneColumnDistance) * direction
+
+let finalTargetX = destination(
+    originalOffset: context.originalTarget.rect.minX,
+    proposedOffset: target.rect.minX,
+    columnDistance: oneColumnDistance,
+    maximumOffset: context.contentSize.width - context.containerSize.width
+)
+
+target.rect.origin.x = finalTargetX
+target.anchor = .leading
 ```
 
-这里的一列宽度由 `context.containerSize`、当前可见列数和间距推导，不需要读取 `UIScreen` 或使用 `GeometryReader`。因此快速甩动也只能从当前列移动到相邻一列。这里的 view 是 `CategoryColumnView`，不是单张卡，也不是两列合成的整页。Apple 文档：[ViewAlignedScrollTargetBehavior.LimitBehavior.alwaysByOne](https://developer.apple.com/documentation/swiftui/viewalignedscrolltargetbehavior/limitbehavior/alwaysbyone)。
+实现沿用文章逐步完善自定义分页的三个关键点：
+
+1. 使用 `context.originalTarget` 作为本次手势起点，不能从可能跨越多列的惯性终点继续计算。
+2. 使用系统预测终点与起点的距离判断方向，并以一列距离的 `1/3` 作为翻列阈值；短拖动回到当前列。
+3. 使用 `contentSize - containerSize` 计算最大偏移量，首尾位置始终限制在有效范围内。
+
+文章按整个容器宽度翻一页；这个 Demo 把“页面宽度”替换为动态计算的
+`oneColumnDistance`，所以同一算法适用于 compact 的两列和 regular 的四列。
+宽度仍由 `containerRelativeFrame` 负责，`scrollTargetLayout()` 则明确每个逻辑 target
+都是 `CategoryColumnView`，不是单张卡，也不是两列合成的整页。
 
 ## 如何从日志读懂这两个机制
 
@@ -70,18 +86,17 @@ target.rect.origin.x = startingX + min(abs(proposedDelta), oneColumnDistance) * 
 一次横向手势结束时，会输出：
 
 ```text
-[横向对齐] startingX=..., naturalTargetX=..., viewAlignedTargetX=..., \
-columnWidth=(containerWidth-(visibleColumnCount-1)*spacing)/visibleColumnCount=..., \
-oneColumnDistance=columnWidth+spacing=..., finalTargetX=..., didClamp=true
+[横向对齐] startingX=..., naturalTargetX=..., finalTargetX=..., \
+naturalDistance=..., finalDistance=..., didLimitToOneColumn=...
 ```
 
 其中：
 
 - `naturalTargetX` 是系统根据手势速度和减速率预估的自然停止位置，快速甩动可能很远。
-- `viewAlignedTargetX` 是 `ViewAlignedScrollTargetBehavior` 选择的最近一列，并按 `.leading` 对齐后的目标。
-- `columnWidth` 使用 `TargetContext.containerSize` 反推当前设备上的真实列宽。
-- `oneColumnDistance` 是一次允许前进的最大距离，即一列宽加一个列间距。
-- `finalTargetX` 是最终交还给 `ScrollView` 的位置；`didClamp=true` 表示原目标超过一列，已被收紧为只移动一列。
+- `finalTargetX` 是自定义行为从 `originalTarget` 出发计算的最终位置。
+- `oneColumnDistance` 是当前宽度下的 `columnWidth + spacing`；`finalDistance` 的绝对值不会超过它。
+- `didLimitToOneColumn` 表示系统自然目标是否被截断为最多一列。
+- `velocityX` 只用于观察手势强度；方向和是否翻列主要由预测距离决定，避免手势结束速度为零时无法翻列。
 
 ## 不同屏幕宽度
 

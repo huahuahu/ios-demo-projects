@@ -25,8 +25,8 @@ open AppStoreAppsLandingDemo.xcodeproj
 - `Features/AppsLanding/AppsLandingPageView.swift`：外层纵向 `ScrollView` 与 `LazyVStack`。
 - `Features/AppsLanding/GroupedAppListSectionView.swift`：横向列表的整组吸附。
 - `Features/AppsLanding/BrowseCategoriesSectionView.swift`：一屏展示两列类别卡，同时把单列设为吸附目标。
-- `Features/AppsLanding/OneColumnScrollTargetBehavior.swift`：把一次交互的最终位移硬限制为相邻一列。
-- `Support/BrowseCategoriesLog.swift`：输出宽度分栏公式和横向 target 对齐、限位过程。
+- `Features/AppsLanding/OneColumnScrollTargetBehavior.swift`：从 `originalTarget` 出发，根据自适应列宽、拖动阈值和内容边界，把一次手势严格限制为最多移动一列。
+- `Support/BrowseCategoriesLog.swift`：分别输出宽度分栏决策，以及系统自然目标、自定义最终目标和单列步长。
 - `Features/AppsLanding/FeaturedSectionView.swift`：一张大卡片作为一个吸附单位。
 - `Support/StoreDesign.swift`：根据 compact／regular 宽度调整一屏可见 page 数量。
 
@@ -43,7 +43,7 @@ xcrun simctl spawn 1255A393-4C8E-4075-8ABF-9489AC5AC1C3 log stream \
   --style compact
 ```
 
-进入“浏览类别”会输出 `[宽度自适应]`，横向滑动会输出 `[横向对齐]`。后者包含系统惯性目标、每列宽度、单列步长、最终 target，以及快速甩动是否触发 `didClamp=true`。
+进入“浏览类别”会输出 `[宽度自适应]`，横向滑动会输出 `[横向对齐]`。后者包含手势起点、系统惯性目标、自定义最终目标和由当前容器宽度计算出的一列距离。
 
 ## 视觉参考与验证
 
