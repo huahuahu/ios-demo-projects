@@ -8,7 +8,7 @@ enabledWorkflows:
 debug: true
 sentryDisabled: false
 sessionDefaults:
-  projectPath: swiftdata-delete-handling/SwiftDataDeleteHandling.xcodeproj
-  scheme: SwiftDataDeleteHandling
-  simulatorName: SwiftDataDeleteHandling iPhone 17 Pro Max
-  simulatorId: 76566A74-6201-4A0A-807C-7CF9DFE99C1D
+  projectPath: app-store-apps-landing-demo/AppStoreAppsLandingDemo.xcodeproj
+  scheme: AppStoreAppsLandingDemo
+  simulatorName: AppStoreAppsLandingDemo iPhone 17 Pro Max
+  simulatorId: 1255A393-4C8E-4075-8ABF-9489AC5AC1C3
