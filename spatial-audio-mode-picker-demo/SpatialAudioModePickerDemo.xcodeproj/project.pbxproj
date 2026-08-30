@@ -1,0 +1,517 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1108BB14BF45FE7006E3FA5C /* DemoBackdropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE933B4CD8BAB719244FFAF7 /* DemoBackdropView.swift */; };
+		191667FC965D522D151E6560 /* SpatialAudioModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6582460540275C84CC7E2F0B /* SpatialAudioModeTests.swift */; };
+		215F9E80679D44A069B977A4 /* SpatialAudioPickerControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC748CD7114A20953E0F273 /* SpatialAudioPickerControl.swift */; };
+		22A47E3A9154B998544D49F9 /* SpatialAudioPickerLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00848EC7834911D762CE6570 /* SpatialAudioPickerLabels.swift */; };
+		287889162A68389A7D904213 /* AirPodsVolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D29C3DA9D9272B4597BFA2 /* AirPodsVolumeView.swift */; };
+		383ECBE4F6DCA81FAA086B69 /* SpatialAudioModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F000EA1407503FE206284E9 /* SpatialAudioModeButton.swift */; };
+		4E7776EE1AD04D35C60CAD75 /* AirPodsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF0AFADB71E1725B9030B17 /* AirPodsHeaderView.swift */; };
+		6E6C02FC4E66BF8D148DA36C /* SpatialAudioMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982DEB55E60E367118882D29 /* SpatialAudioMode.swift */; };
+		83B958A954F2907D1E484B04 /* SpatialAudioModePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955C9877DC7364F1564993F4 /* SpatialAudioModePicker.swift */; };
+		8A4CA48BE278B90C2C7881D5 /* SpatialAudioDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB1BC99995B4ECADC3E58C6 /* SpatialAudioDemoScreen.swift */; };
+		8D8483BE186839DAE205AFEF /* SpatialAudioModePickerDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E96907E5BAA9F5F1B38F5C /* SpatialAudioModePickerDemoApp.swift */; };
+		B6E5C7B0DC48FC8DB47C5B7D /* SpatialAudioDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F778EB1EC0DCE89260157D9 /* SpatialAudioDesign.swift */; };
+		CBE5B00FE2D43DCEB3AB8DF7 /* ModeOptionButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0666A9D14DD8F6118601E3 /* ModeOptionButtonStyle.swift */; };
+		E0D74AAB5BA47F4BFCD1A5F8 /* SpatialAudioSelectionIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238785C91287D82E5CC7F832 /* SpatialAudioSelectionIndicator.swift */; };
+		EE08CCD537BFE4315569C8FC /* SpatialAudioPickerModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D62DDC0C399AFB21C3EFBD /* SpatialAudioPickerModelTests.swift */; };
+		EF6E413F425019CCA79F0291 /* SpatialAudioPickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173A750E16AE0CBA9A0DAEFC /* SpatialAudioPickerModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2BF21DD5AEC6D363BA02E989 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7F585B5D65B510F323B2259C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6FBB84365FB55C75A0DAEE3F;
+			remoteInfo = SpatialAudioModePickerDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00848EC7834911D762CE6570 /* SpatialAudioPickerLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioPickerLabels.swift; sourceTree = "<group>"; };
+		08D29C3DA9D9272B4597BFA2 /* AirPodsVolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirPodsVolumeView.swift; sourceTree = "<group>"; };
+		09D62DDC0C399AFB21C3EFBD /* SpatialAudioPickerModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioPickerModelTests.swift; sourceTree = "<group>"; };
+		0F778EB1EC0DCE89260157D9 /* SpatialAudioDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioDesign.swift; sourceTree = "<group>"; };
+		12216DEE8A1BA076D6231177 /* SpatialAudioModePickerDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SpatialAudioModePickerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		147A782837AD883CDEDECCA6 /* SpatialAudioModePickerDemoTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SpatialAudioModePickerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		173A750E16AE0CBA9A0DAEFC /* SpatialAudioPickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioPickerModel.swift; sourceTree = "<group>"; };
+		238785C91287D82E5CC7F832 /* SpatialAudioSelectionIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioSelectionIndicator.swift; sourceTree = "<group>"; };
+		2F000EA1407503FE206284E9 /* SpatialAudioModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioModeButton.swift; sourceTree = "<group>"; };
+		6582460540275C84CC7E2F0B /* SpatialAudioModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioModeTests.swift; sourceTree = "<group>"; };
+		7BF0AFADB71E1725B9030B17 /* AirPodsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirPodsHeaderView.swift; sourceTree = "<group>"; };
+		7FB1BC99995B4ECADC3E58C6 /* SpatialAudioDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioDemoScreen.swift; sourceTree = "<group>"; };
+		955C9877DC7364F1564993F4 /* SpatialAudioModePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioModePicker.swift; sourceTree = "<group>"; };
+		982DEB55E60E367118882D29 /* SpatialAudioMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioMode.swift; sourceTree = "<group>"; };
+		CC0666A9D14DD8F6118601E3 /* ModeOptionButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeOptionButtonStyle.swift; sourceTree = "<group>"; };
+		CEC748CD7114A20953E0F273 /* SpatialAudioPickerControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioPickerControl.swift; sourceTree = "<group>"; };
+		D3E96907E5BAA9F5F1B38F5C /* SpatialAudioModePickerDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialAudioModePickerDemoApp.swift; sourceTree = "<group>"; };
+		DE933B4CD8BAB719244FFAF7 /* DemoBackdropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBackdropView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		03EC6F6AE947EADF57B3B536 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				0F778EB1EC0DCE89260157D9 /* SpatialAudioDesign.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		1ACC157F9ADD6DC0485DEC6E = {
+			isa = PBXGroup;
+			children = (
+				C0A6F4753A5339EE9E5A7098 /* SpatialAudioModePickerDemo */,
+				A99945B2258643E6A3C71CA9 /* SpatialAudioModePickerDemoTests */,
+				D03BCE77A557A3B198FE56A2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6920B605F8736957996138E7 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D3E96907E5BAA9F5F1B38F5C /* SpatialAudioModePickerDemoApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		8CEA40263AB05F718EA95E1D /* SpatialAudioPicker */ = {
+			isa = PBXGroup;
+			children = (
+				09D62DDC0C399AFB21C3EFBD /* SpatialAudioPickerModelTests.swift */,
+			);
+			path = SpatialAudioPicker;
+			sourceTree = "<group>";
+		};
+		92B9008F3F1E65449F6E6C92 /* SpatialAudioPicker */ = {
+			isa = PBXGroup;
+			children = (
+				7BF0AFADB71E1725B9030B17 /* AirPodsHeaderView.swift */,
+				08D29C3DA9D9272B4597BFA2 /* AirPodsVolumeView.swift */,
+				DE933B4CD8BAB719244FFAF7 /* DemoBackdropView.swift */,
+				CC0666A9D14DD8F6118601E3 /* ModeOptionButtonStyle.swift */,
+				7FB1BC99995B4ECADC3E58C6 /* SpatialAudioDemoScreen.swift */,
+				2F000EA1407503FE206284E9 /* SpatialAudioModeButton.swift */,
+				955C9877DC7364F1564993F4 /* SpatialAudioModePicker.swift */,
+				CEC748CD7114A20953E0F273 /* SpatialAudioPickerControl.swift */,
+				00848EC7834911D762CE6570 /* SpatialAudioPickerLabels.swift */,
+				173A750E16AE0CBA9A0DAEFC /* SpatialAudioPickerModel.swift */,
+				238785C91287D82E5CC7F832 /* SpatialAudioSelectionIndicator.swift */,
+			);
+			path = SpatialAudioPicker;
+			sourceTree = "<group>";
+		};
+		A470ECA3C499947ECBCE9829 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				92B9008F3F1E65449F6E6C92 /* SpatialAudioPicker */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		A6E046A3E0932ECA23EB2123 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				6582460540275C84CC7E2F0B /* SpatialAudioModeTests.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A99945B2258643E6A3C71CA9 /* SpatialAudioModePickerDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				A6E046A3E0932ECA23EB2123 /* Domain */,
+				C7DF303294279F227AE4B96B /* Features */,
+			);
+			path = SpatialAudioModePickerDemoTests;
+			sourceTree = "<group>";
+		};
+		C0A6F4753A5339EE9E5A7098 /* SpatialAudioModePickerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6920B605F8736957996138E7 /* App */,
+				E34B6FF4B109BC7F9EDC7933 /* Domain */,
+				A470ECA3C499947ECBCE9829 /* Features */,
+				03EC6F6AE947EADF57B3B536 /* Support */,
+			);
+			path = SpatialAudioModePickerDemo;
+			sourceTree = "<group>";
+		};
+		C7DF303294279F227AE4B96B /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				8CEA40263AB05F718EA95E1D /* SpatialAudioPicker */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		D03BCE77A557A3B198FE56A2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				12216DEE8A1BA076D6231177 /* SpatialAudioModePickerDemo.app */,
+				147A782837AD883CDEDECCA6 /* SpatialAudioModePickerDemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E34B6FF4B109BC7F9EDC7933 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				982DEB55E60E367118882D29 /* SpatialAudioMode.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FBB84365FB55C75A0DAEE3F /* SpatialAudioModePickerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D423F81E9390082A820FC47E /* Build configuration list for PBXNativeTarget "SpatialAudioModePickerDemo" */;
+			buildPhases = (
+				2D703AB0597DAA7A0F519D9B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpatialAudioModePickerDemo;
+			packageProductDependencies = (
+			);
+			productName = SpatialAudioModePickerDemo;
+			productReference = 12216DEE8A1BA076D6231177 /* SpatialAudioModePickerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8EE7CF8C0379F8C4127100D3 /* SpatialAudioModePickerDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 56FF617D7B193B8D47386F65 /* Build configuration list for PBXNativeTarget "SpatialAudioModePickerDemoTests" */;
+			buildPhases = (
+				7E4AE906DE7A43D8F59EE8CE /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE722A0C920A149765478797 /* PBXTargetDependency */,
+			);
+			name = SpatialAudioModePickerDemoTests;
+			packageProductDependencies = (
+			);
+			productName = SpatialAudioModePickerDemoTests;
+			productReference = 147A782837AD883CDEDECCA6 /* SpatialAudioModePickerDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7F585B5D65B510F323B2259C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					6FBB84365FB55C75A0DAEE3F = {
+						DevelopmentTeam = "";
+					};
+					8EE7CF8C0379F8C4127100D3 = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = 64E4329A4F5177BC4FE769B4 /* Build configuration list for PBXProject "SpatialAudioModePickerDemo" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1ACC157F9ADD6DC0485DEC6E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D03BCE77A557A3B198FE56A2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FBB84365FB55C75A0DAEE3F /* SpatialAudioModePickerDemo */,
+				8EE7CF8C0379F8C4127100D3 /* SpatialAudioModePickerDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2D703AB0597DAA7A0F519D9B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4E7776EE1AD04D35C60CAD75 /* AirPodsHeaderView.swift in Sources */,
+				287889162A68389A7D904213 /* AirPodsVolumeView.swift in Sources */,
+				1108BB14BF45FE7006E3FA5C /* DemoBackdropView.swift in Sources */,
+				CBE5B00FE2D43DCEB3AB8DF7 /* ModeOptionButtonStyle.swift in Sources */,
+				8A4CA48BE278B90C2C7881D5 /* SpatialAudioDemoScreen.swift in Sources */,
+				B6E5C7B0DC48FC8DB47C5B7D /* SpatialAudioDesign.swift in Sources */,
+				6E6C02FC4E66BF8D148DA36C /* SpatialAudioMode.swift in Sources */,
+				383ECBE4F6DCA81FAA086B69 /* SpatialAudioModeButton.swift in Sources */,
+				83B958A954F2907D1E484B04 /* SpatialAudioModePicker.swift in Sources */,
+				8D8483BE186839DAE205AFEF /* SpatialAudioModePickerDemoApp.swift in Sources */,
+				215F9E80679D44A069B977A4 /* SpatialAudioPickerControl.swift in Sources */,
+				22A47E3A9154B998544D49F9 /* SpatialAudioPickerLabels.swift in Sources */,
+				EF6E413F425019CCA79F0291 /* SpatialAudioPickerModel.swift in Sources */,
+				E0D74AAB5BA47F4BFCD1A5F8 /* SpatialAudioSelectionIndicator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E4AE906DE7A43D8F59EE8CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				191667FC965D522D151E6560 /* SpatialAudioModeTests.swift in Sources */,
+				EE08CCD537BFE4315569C8FC /* SpatialAudioPickerModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE722A0C920A149765478797 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6FBB84365FB55C75A0DAEE3F /* SpatialAudioModePickerDemo */;
+			targetProxy = 2BF21DD5AEC6D363BA02E989 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0CEBE27943CD4F90744A43AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SpatialAudioModePickerDemoTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SpatialAudioModePickerDemo.app/SpatialAudioModePickerDemo";
+			};
+			name = Debug;
+		};
+		3DF2310FF011284F1C8BB9C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		678BC78A88E92F4FBA3D5AB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SpatialAudioModePickerDemo;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		86E467E1FA9F9C23036C4D71 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		913229BAF9A3BE3000FC2694 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SpatialAudioModePickerDemoTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SpatialAudioModePickerDemo.app/SpatialAudioModePickerDemo";
+			};
+			name = Release;
+		};
+		A032AD6B6D2BDE82D9D8717B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.huahuahu.demo.SpatialAudioModePickerDemo;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		56FF617D7B193B8D47386F65 /* Build configuration list for PBXNativeTarget "SpatialAudioModePickerDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CEBE27943CD4F90744A43AA /* Debug */,
+				913229BAF9A3BE3000FC2694 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		64E4329A4F5177BC4FE769B4 /* Build configuration list for PBXProject "SpatialAudioModePickerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DF2310FF011284F1C8BB9C4 /* Debug */,
+				86E467E1FA9F9C23036C4D71 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D423F81E9390082A820FC47E /* Build configuration list for PBXNativeTarget "SpatialAudioModePickerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				678BC78A88E92F4FBA3D5AB6 /* Debug */,
+				A032AD6B6D2BDE82D9D8717B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7F585B5D65B510F323B2259C /* Project object */;
+}
