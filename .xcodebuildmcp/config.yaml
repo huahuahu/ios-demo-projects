@@ -8,7 +8,7 @@ enabledWorkflows:
 debug: true
 sentryDisabled: false
 sessionDefaults:
-  projectPath: today-story-zoom-transition-demos/uikit-today-story-demo/UIKitTodayStoryDemo.xcodeproj
-  scheme: UIKitTodayStoryDemo
-  simulatorName: UIKitTodayStoryDemo iPhone 17 Pro Max
-  simulatorId: 0A64C4E6-27B3-4C1D-A392-560E2664B56D
+  projectPath: spatial-audio-mode-picker-demo/SpatialAudioModePickerDemo.xcodeproj
+  scheme: SpatialAudioModePickerDemo
+  simulatorName: SpatialAudioModePickerDemo iPhone 17 Pro Max
+  simulatorId: 0CC66A5B-B045-4CA2-B751-23E1EDF01198
